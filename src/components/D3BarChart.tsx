@@ -1,4 +1,3 @@
-// src/D3BarChart.tsx
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import { DataEntry } from '../types/types'; // Import your DataEntry interface
@@ -12,6 +11,9 @@ const D3BarChart: React.FC<D3BarChartProps> = ({ data }) => {
 
     useEffect(() => {
         if (data && d3Container.current) {
+            // Sort data by 'Anyo' in ascending order
+            const sortedData = [...data].sort((a, b) => a.Anyo - b.Anyo);
+
             const svg = d3.select(d3Container.current);
 
             // Set dimensions
@@ -24,23 +26,23 @@ const D3BarChart: React.FC<D3BarChartProps> = ({ data }) => {
 
             // Set up scales
             const xScale = d3.scaleBand()
-                .domain(data.map(d => d.Anyo.toString()))
+                .domain(sortedData.map(d => d.Anyo.toString()))
                 .rangeRound([margin.left, width - margin.right])
                 .padding(0.1);
 
             const yScale = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.Valor) ?? 0])
+                .domain([0, d3.max(sortedData, d => d.Valor) ?? 0])
                 .range([height - margin.bottom, margin.top]);
 
             // Append bars
             svg.append('g')
                 .attr('fill', 'steelblue')
                 .selectAll('rect')
-                .data(data)
+                .data(sortedData)
                 .join('rect')
-                .attr('x', d => xScale(d.Anyo.toString()) ?? 0) // Using '?? 0' to ensure a number is returned
-                .attr('y', d => yScale(d.Valor) ?? 0) // Using '?? 0' here as well
-                .attr('height', d => yScale(0) - (yScale(d.Valor) ?? 0)) // Adjusted for 'yScale(d.Valor)'
+                .attr('x', d => xScale(d.Anyo.toString()) ?? 0)
+                .attr('y', d => yScale(d.Valor) ?? 0)
+                .attr('height', d => yScale(0) - (yScale(d.Valor) ?? 0))
                 .attr('width', xScale.bandwidth());
 
             // Add X axis
