@@ -1,7 +1,7 @@
 // src/DataDisplay.tsx
 import React, { useState, useEffect } from 'react';
 import { fetchData } from './DataFetcher';
-import { MyObject, DataEntry } from '../types/types';
+import { MyObject } from '../types/types';
 import D3BarChart from './D3BarChart';
 
 interface DataDisplayProps {
