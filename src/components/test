@@ -1,0 +1,16 @@
+<div>
+            {data ? (
+                <div>
+                    <h2>Data for COD: {data.COD}</h2>
+                    <ul>
+                        {data.Data.map((entry, index) => (
+                            <li key={index}>
+                                Fecha: {new Date(entry.Fecha).toLocaleDateString()}, Año: {entry.Anyo}, Valor: {entry.Valor}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ) : (
+                <p>No data found for COD: {cod}</p>
+            )}
+        </div>
