@@ -31,20 +31,20 @@ const DataDisplay: React.FC<DataDisplayProps> = ({ url }) => {
     return (
         <div>
             <div>
-                <label htmlFor="cod-select">Choose a COD: </label>
+                <label htmlFor="cod-select">Datos disponibles: </label>
                 <select
                     id="cod-select"
                     value={selectedCod}
                     onChange={(e) => setSelectedCod(e.target.value)}
                 >
                     {allData.map((obj, index) => (
-                        <option key={index} value={obj.COD}>{obj.COD}</option>
+                        <option key={index} value={obj.COD}>{obj.Nombre}</option>
                     ))}
                 </select>
             </div>
             {data ? (
                 <div>
-                    <h2>Data for: {data.Nombre}</h2>
+                    <h2>{data.Nombre}</h2>
                     <div>
                         <ul>
                             {data.Data.map((entry, index) => (
