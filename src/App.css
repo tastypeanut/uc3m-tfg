@@ -10,6 +10,18 @@ body {
   font-size: calc(10px + 2vmin);
   color: white;*/
 }
+
+.on-hover-highlight {
+  /*fill: none;*/
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.on-hover-highlight:hover {
+  stroke: darkorange;
+  stroke-width: 3px;
+}
+
 /*
 .table-select * {
   color: #282c34;

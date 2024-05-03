@@ -7,7 +7,7 @@ import LineGraph from "./components/display/LineGraph";
 function App() {
     // Initialize with one DataLookup by default
     const [dataLookups, setDataLookups] = useState([{ id: 0 }]);
-    const [retrievedData, setRetrievedData] = useState([null]);
+    const [retrievedData, setRetrievedData] = useState([]);
     const [normalizedData, setNormalizedData] = useState([]);
 
     // Function to handle data retrieved from any DataLookup
@@ -49,14 +49,8 @@ function App() {
                 />
             ))}
             <button onClick={addDataLookup}>Add Data Lookup</button>
-            <div>
-                <h2>Aggregated Data:</h2>
-                {JSON.stringify(retrievedData)}
-                <h2>Normalized Data:</h2>
-                {JSON.stringify(normalizedData)}
-            </div>
-            <TableDisplay data={normalizedData}/>
-            <LineGraph records={normalizedData}/>
+            {normalizedData.length > 0 && <TableDisplay data={normalizedData}/>}
+            {normalizedData.length > 0 && <LineGraph data={normalizedData}/>}
         </div>
     );
 }

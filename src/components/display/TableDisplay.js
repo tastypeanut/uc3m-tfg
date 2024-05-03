@@ -2,26 +2,30 @@ import React, { useMemo } from 'react';
 
 // Helper function to convert Unix timestamp to a readable date
 const formatDate = (unixTimestamp) => {
-    return new Date(unixTimestamp * 1000).toLocaleDateString("en-US");
+    return new Date(unixTimestamp).toLocaleDateString("es-ES");
 };
 
 const DataTable = ({ data }) => {
-    const years = useMemo(() => {
-        const yearSet = new Set();
+
+    //Create a set of dates from the data
+    const dates = useMemo(() => {
+        const dateSet = new Set();
         data.forEach(record => {
             record.data.forEach(dp => {
-                yearSet.add(dp.anyo);
+                dateSet.add(formatDate(dp.fecha));
+                console.log(formatDate(dp.fecha));
             });
         });
-        return Array.from(yearSet).sort();
+        return Array.from(dateSet).sort();
     }, [data]);
 
+    //Map data to the set of dates, so we can render it easily
     const dataMap = useMemo(() => {
-        const map = new Map(); // Maps nombre to a Map of anyo to valor
+        const map = new Map();
         data.forEach(record => {
             let innerMap = map.get(record.nombre) || new Map();
             record.data.forEach(dp => {
-                innerMap.set(dp.anyo, dp.valor);
+                innerMap.set(formatDate(dp.fecha), dp.valor);
             });
             map.set(record.nombre, innerMap);
         });
@@ -31,7 +35,7 @@ const DataTable = ({ data }) => {
     const renderTableHeader = () => (
         <tr>
             <th>Nombre</th>
-            {years.map(year => (
+            {dates.map(year => (
                 <th key={year}>{year}</th>
             ))}
         </tr>
@@ -41,7 +45,7 @@ const DataTable = ({ data }) => {
         Array.from(dataMap, ([nombre, yearMap]) => (
             <tr key={nombre}>
                 <td>{nombre}</td>
-                {years.map(year => (
+                {dates.map(year => (
                     <td key={`${nombre}-${year}`}>{yearMap.get(year) || '-'}</td>
                 ))}
             </tr>
