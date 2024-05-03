@@ -1,0 +1,591 @@
+
+
+Definición de URLs
+
+A continuación se describe la construcción de peticiones URL:
+
+https://servicios.ine.es/wstempus/js/{idioma}/{función}/{input}[?parámetros]
+
+Los campos que aparecen entre llaves, { }, son obligatorios.
+
+Los campos que aparecen entre corchetes, [ ], son opcionales y cambian en relación a la función considerada.
+
+Descripción de cada uno de ellos.
+
+{idioma}
+
+    Puede tomar los siguientes valores:
+
+        ES: español
+        EN: inglés
+
+{función}
+
+    Funciones implementadas en el sistema para poder realizar diferentes tipos de consulta en función del tipo de fuente, Tempus3 o PcAxis, y del elemento que se quiere obtener. Para más información, consultar las secciones "Petición de metadatos" y "Petición de datos".
+
+    Funciones para la obtención de datos de Tempus3
+
+        Operaciones: OPERACIONES_DISPONIBLES, OPERACIÓN...
+        Variables: VARIABLES, VARIABLES_OPERACION...
+        Valores: VALORES_VARIABLES, VALORES_VARIABLEOPERACION...
+        Tablas: TABLAS_OPERACION, GRUPOS_TABLA...
+        Series: SERIE, SERIES_OPERACION...
+        Publicaciones: PUBLICACIONES, PUBLICACIONES_OPERACION...
+        Datos: DATOS_SERIE, DATOS_TABLA...
+
+    Función para la obtención de datos del repositorio de ficheros PcAxis: Al ser Pc-Axis un formato para difundir tablas estadísticas, la única función implementada es la siguiente:
+
+        Datos: DATOS_TABLA
+
+{inputs}
+
+    Identificadores de los elementos de entrada de las funciones. Estos inputs varían en base a la función utilizada. Algunos ejemplos:
+
+        Funciones: OPERACION, VARIABLES_OPERACION,TABLAS_OPERACION... Parámetro: código de identificación de una operación estadística.
+        Funciones: SERIE, DATOS_SERIE. Parámetro: identificador de la serie.
+        Función: DATOS_TABLA. Parámetro: identificador de la tabla.
+
+    Para obtener información más detallada de los parámetros empleados en cada función, consultar las secciones consultar las secciones "Petición de metadatos" y "Petición de datos".
+[?parámetros]
+
+    Los parámetros en la URL se establecen a partir del símbolo ?
+
+    Cuando haya más de un parámetro, el símbolo & se utiliza como separador.
+
+    No todas las funciones admiten todos los parámetros posibles. A continuación se detallan los parámetros disponibles según su carácter:
+
+    Parámetros comunes a todas las funciones.
+
+        page: Debido al gran número de registros que pueden resultar de las consultas, es necesario ofrecer la respuesta paginada. Se ofrece un máximo de 500 elementos por página para no ralentizar la respuesta. Para consultar las páginas siguientes, se utiliza el parámetro page.
+        Ejemplo:  https://servicios.ine.es/wstempus/js/ES/SERIES_OPERACION/IPC?page=2
+        download=nombre_del_fichero.json: Cualquier petición puede descargarse en un fichero plano con extensión .json
+        Ejemplo: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?nult=1&download=MiDescarga.json
+        Ejemplo: https://servicios.ine.es/wstempus/jsstat/ES/DATASET/23256?download=MiDescarga.json
+        det (sólo para Tempus3): Ofrece mayor nivel de detalle de la información mostrada. Da acceso a los atributos de la consulta que son a su vez elementos de la base de datos Tempus3.
+        Ejemplo:  https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?nult=1&det=1
+        Ejemplo:  https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?nult=1&det=2
+        tip: Ofrece la posibilidad de obtener la respuesta de las peticiones de modo más amigable y con los metadatos, información adicional que mejora la comprensión de la misma.
+            tip=A: Tipo amigable. Sólo disponible para Tempus3.
+            tip=M: Tipo metadatos. Sólo para peticiones de datos.
+            tip=AM: Tipo amigable y metadatos.
+        Ejemplo: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?tip=AM&date=20110501:
+        Ejemplo: https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/t22/p133/cno11/serie/l0/01003.px?tip=M&nult=1
+
+    Parámetros para la petición de datos.
+
+        date: Permite filtrar datos por fecha según diferentes opciones:
+            date=YYYYMMDD: Fecha concreta.
+            date=YYYYMMDD&date=YYYYMMDD: Lista de fechas concretas:
+            date=YYYYMMDD:YYYYMMDD: Rango de fechas, permite omitir tanto la Fecha Inicio como la Fecha Fin.
+            Ejemplo: https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?date=20110501:
+        nult:  Devuelve los n últimos datos.
+        Ejemplo: https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/t26/p067/p01/serie/l0/01004a.px?nult=4
+
+    Parámetros para la obtención de datos y metadatos en base al ámbito geográfico.
+
+        geo:  para obtener resultados en función del ámbito geográfico.
+            geo=1: Resultados por comunidades autónomas, provincias, municipios y otras desagregaciones.
+            geo=0: Resultados nacionales: geo=0
+        Ejemplo:  https://servicios.ine.es/wstempus/js/ES/OPERACIONES_DISPONIBLES?geo=1
+        Ejemplo:  https://servicios.ine.es/wstempus/js/ES/TABLAS_OPERACION/IPC?geo=0
+
+
+
+
+
+Petición de metadatos (sólo disponible para Tempus3)
+
+El Sistema Tempus3 tiene una arquitectura relacional compleja para almacenar datos y metadatos. Los datos únicamente están asociados al objeto serie y éstas pueden agruparse en diferentes elementos, siendo el más utilizado la tabla estadística. Por tanto, la tabla estadística en Tempus3 es una agrupación de series temporales.
+
+Por otro lado, los metadatos estructurales (variables y valores) son objetos de Tempus3 que describen tanto a las series temporales como a las tablas estadísticas y permiten su definición.
+
+Todos estos objetos de la base de datos tienen un identificador asociado que resulta imprescindible para el correcto uso del servicio, correspondiendo a la parte {inputs} de las peticiones URL. (Ver Glosario Tempus3)
+
+A continuación se detallan las formas de obtención de metadatos.
+
+Obtención de operaciones estadísticas
+
+    La base de datos Tempus3 contiene la información de todas las operaciones estadísticas coyunturales del INE, aquellas cuya periodicidad de difusión de resultados es inferior al año, además de algunas operaciones estadísticas estructurales. La relación de operaciones en Tempus3 cambia a medida que se van integrando en la base de datos .
+
+    Puede consultarse la lista de operaciones disponibles en cualquier momento a través de las siguientes funciones:
+
+        OPERACIONES_DISPONIBLES
+        OPERACION
+
+    Construcción de las URLs:
+
+    Obtener las operaciones estadísticas disponibles del sistema
+
+        Consulta: Todas las operaciones estadísticas disponibles.
+        https://servicios.ine.es/wstempus/js/ES/OPERACIONES_DISPONIBLES
+        {función} = OPERACIONES_DISPONIBLES
+        {input} = ninguno
+        {output} = Se obtienen los identificadores del elemento operación estadística. Existen tres códigos para la identificación de  la operación estadística "Índice de Precios de Consumo (IPC)":
+            código numérico Tempus3 interno (Id=25)
+            código de la operación estadística en el Inventario de Operaciones Estadísticas (IOE30138)
+            código alfabético Tempus3 interno (IPC)
+
+    Obtener una operación estadística
+
+        Consulta: Operación Índice de Precios de Consumo (IPC), IPC.
+        https://servicios.ine.es/wstempus/js/ES/OPERACION/IOE30138
+        https://servicios.ine.es/wstempus/js/ES/OPERACION/IPC
+        https://servicios.ine.es/wstempus/js/ES/OPERACION/25
+        {función} = OPERACION
+        {input} = Códigos para identificar la operación IPC: IOE30138 / IPC / 25
+        {output} = Información de la operación estadística IPC: identificador Tempus3, código del IOE y nombre de la operación.
+
+Obtención de variables
+
+    Acceso a las variables del Sistema utilizando las siguientes funciones:
+
+        VARIABLES
+        VARIABLES_OPERACION
+
+    Construcción de las URLs:
+
+    Obtener todas las variables del sistema
+
+        Consulta: Todas las variables.
+        https://servicios.ine.es/wstempus/js/ES/VARIABLES
+        {función} = VARIABLES
+        {input} = ninguno
+        {output} = Información de todas las variables del Sistema: identificador Tempus3, nombre de la variable y código oficial.
+
+    Obtener variables para una operación
+
+        Consulta: Variables operación IPC.
+        https://servicios.ine.es/wstempus/js/ES/VARIABLES_OPERACION/25
+        {función} = VARIABLES_OPERACION
+        {input} = Códigos identificadores de la operación EOTR: IOE30138 / IPC/ 25
+        {output} = Información de las variables que describen la operación: identificador Tempus3, nombre de la variable y código oficial.
+
+Obtención de valores
+
+    Acceso a los valores de una variable utilizando las siguientes funciones :
+
+        VALORES_VARIABLE
+        VALORES_VARIABLEOPERACION
+
+    Construcción de las URLs:
+
+    Obtener todos los valores de una variable
+
+        Consulta: Valores de la variable “Provincias”.
+        https://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLE/115
+        {función} = VALORES_VARIABLE
+        {input} = código identificador de la variable (Id=115).
+        {output} = Información de los valores que puede tomar la variable: identificador Tempus3 del valor, identificador Tempus 3 de la variable a la que pertenece, nombre del valor y código oficial.
+        [?parámetros] = posibilidad de usar det=1 para ver el detalle de la variable a la que pertenece.
+
+    Obtener todos los valores de una variable para una operación
+
+        Consulta: Valores de la variable “Grupos ECOICOP" para la operación IPC.
+        https://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLEOPERACION/762/25
+        {función} = VALORES_VARIABLEOPERACION
+        {inputs} = códigos identificadores de la variable (Id=762) y de la operación (IOE30138 / IPC / 25).
+        {output} = Información de los valores que puede tomar la variable para describir la operación: identificador Tempus3 del valor, objeto variable Tempus3 a la que pertenece, nombre del valor y código oficial.
+        [?parámetros] = posibilidad de usar det=1 para ver el detalle de la variable a la que pertenece.
+
+Obtención de tablas
+
+    Acceso a las tablas del Sistema utilizando las siguientes funciones :
+
+        TABLAS_OPERACION
+        GRUPOS_TABLA
+        VALORES_GRUPOSTABLA
+
+    Construcción de las URLs:
+
+    Obtener todas las tablas de una operación
+
+        Consulta: Tablas estadísticas asociadas a la operación estadística IPC.
+        https://servicios.ine.es/wstempus/js/ES/TABLAS_OPERACION/IOE30138
+        {función} = TABLAS_OPERACION
+        {input} = código identificativo de la operación (IOE30138 / IPC / 25).
+        {output} = Información de las tablas asociadas a la operación: identificador Tempus3 de la tabla, nombre de la tabla, código con información del nivel geográfico y clasificación, objeto Tempus3  periodicidad, objeto Tempus3  publicación, PubFechaAct * dentro de la publicación,  objeto Tempus3  periodo inicio, año inicio, FechaRef_fin* y última modificación.
+        [?parámetros] =  posibilidad de usar det=2 para ver dos niveles de profuncidad, en concreto hasta acceder al objeto PubFechaAct , geo=1 para acceder sólo a tablas con contenido geográfico y tip=A para que la respuesta sea de tipo amigable, en concreto el campo ultima_modificacion.
+        Observaciónes:
+            *FechaRef_fin: nulo cuando el último periodo publicado coincide con el de la publicación fecha, en otro caso, cuando la tabla está cortada en un periodo anterior al de la publicación fecha, es sustituido por Fk_perido_fin/ Anyo_perido_fin (fecha del último dato publicado). Ver: https://servicios.ine.es/wstempus/js/ES/TABLAS_OPERACION/33
+            * PubFechaAct = contiene la última fecha de actualización de la tabla y el último periodo-año publicado.
+
+    Obtener la combinación de variables y valores que definen una tabla
+
+        Consulta: Una tabla está definida por diferentes grupos o combos de selección y cada uno de ellos por los valores que toman una o varias variables. Para consultar los valores y las variables que constituyen la tabla, se utilizarán las dos funciones siguientes:
+            - Primera parte de la consulta: Grupos o combos de selección que definen a la tabla  "Índices por comunidades autónomas: general y de grupos ECOICOP", la primera de las tablas obtenidas en la consulta anterior.
+                https://servicios.ine.es/wstempus/js/ES/GRUPOS_TABLA/22350
+                {función} = GRUPOS_TABLA
+                {input} = código identificativo de la tabla (Id=22350).
+                {output} = Grupos de valores que definen la tabla: identificador Tempus3 del grupo y nombre del grupo.
+            - Segunda parte de la consulta: Sobre el primer grupo de valores, consultar los valores que éste toma y la variable a la que pertenecen.
+                https://servicios.ine.es/wstempus/js/ES/VALORES_GRUPOSTABLA/22350/81497
+                {función} = VALORES_GRUPOSTABLA
+                {input} = códigos identificativos de la tabla (Id=22350) y del grupo "Comunidades y Ciudades Autónomas"  (Id=81497).
+                {output} = Información de los valores pertenecientes al grupo:  identificador Tempus3 del valor, identificador Tempus 3 de la variable a la que pertenece, nombre del valor y código oficial.
+                [?parámetros] = posibilidad de usar det=1 para ver el detalle de la variable a la que pertenece.
+
+Obtención de series
+
+    Acceso a las series, utilizando las siguientes funciones:
+
+        SERIE
+        SERIES_OPERACION
+        VALORES_SERIE
+        SERIES_TABLA
+        SERIE_METADATAOPERACION
+
+    Consultar "¿Cómo obtener identificadores de objetos utilizando INEbase?".
+
+    Construcción de las URLs:
+
+    Obtener serie
+
+        Consulta: Serie IPC206449, recoge la variación mensual del Índice de precios de consumo. Base 2016.
+        https://servicios.ine.es/wstempus/js/ES/SERIE/IPC206449
+        {función} =  SERIE
+        {input} = código identificativo de la serie (COD=IPC206449). Consultar  "¿Cómo obtener identificadores de objetos utilizando INEbase?".
+        {output} = Información de la serie: identificadores Tempus3 de la serie, objetoTempus3 operación, nombre de la serie, número de decimales que se van a visualizar para los datos de esa serie, objeto Tempus3  periodicidad, objeto Tempus3 publicación, PubFechaAct * dentro de la publicación, objeto Tempsu3 clasificación *, objeto Tempus3  escala y objeto Tempus3 unidad.
+        [?parámetros]= posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder al objeto PubFechaAct y tip=M para obtener los metadatos (cruce variables-valores) de la serie.
+        Observaciónes:
+            * PubFechaAct = contiene la última fecha de actualización de la serie y el último periodo-año publicado.
+            * clasificación =  nos da información de la versión temporal de la serie, por ejempo, la clasificación nacional que en algunos casos sigue, marco poblacional, base utilizada en el cálculo de los índices,...
+
+    Obtener todas las series de una operación
+
+        Consulta: Series pertenecientes a la operación IPC.
+        https://servicios.ine.es/wstempus/js/ES/SERIES_OPERACION/IPC?page=1
+        {función}  = SERIES_OPERACION
+        {input} = código identificativo de la operación (IOE30138 / IPC / 25)
+        {output} = Información de las series: identificadores Tempus3 de la serie, identificador Tempus3 de la operación, nombre de la serie, número de decimales que se van a visualizar para los datos de esa serie, identificador Tempus3 de la periodicidad, identificador Tempus3 de la publicación, identificador Tempsu3 de la clasificación, identificador Tempus3 de la escala e identificador Tempus3 de la unidad.
+        [?parámetros]= posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder al objeto PubFechaAct y tip=M para obtener los metadatos (cruce variables-valores) de la serie.
+
+    Obtener los metadatos que definen una serie
+
+        Consulta: Definición en términos de metadatos (variables y valores) de la serie que recoge los datos de la variación mensual del IPC, IPC206449.
+        https://servicios.ine.es/wstempus/js/ES/VALORES_SERIE/IPC206449
+        {función} = VALORES_SERIE
+        {input} = Código identificativo de la serie (IPC206449)
+        {output} = Información de los metadatos que definen a la serie: identificador Tempus3 del valor, identificador Tempus3 de la variable a la que pertenece, nombre del valor y código oficial del valor.
+        [?parámetros] = posibilidad de usar det=1 para acceder al objeto variable.
+
+    Obtener las series de una tabla
+
+        Consulta: Series que aparecen en la tabla "Índices por comunidades autónomas: general y de grupos ECOICOP" de la operación IPC.
+        https://servicios.ine.es/wstempus/js/ES/SERIES_TABLA/22350
+        {función} = SERIES_TABLA
+        {input} = código identificativo de la tabla (Id=22350)
+        {output} = Información de las series resultado de la tabla: identificadores Tempus3 de la serie, identificador Tempus3 de la operación, nombre de la serie, número de decimales que se van a visualizar para los datos de esa serie, identificador Tempus3 de la periodicidad, identificador Tempus3 de la publicación, identificador Tempsu3 de la clasificación, identificador Tempus3 de la escala e identificador Tempus3 de la unidad.
+        [?parámetros] =  posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder al objeto PubFechaAct y tip=M para obtener los metadatos (cruce variables-valores) de la serie.
+
+    Obtener las series de una tabla filtrando por variables-valores
+
+        Consulta: Obtener las series contenidas en la tabla "Índices por comunidades autónomas: general y de grupos ECOICOP" filtrando por:
+            Comunidades y Ciudades Autónomas =  "Madrid, Comunidad de" y "Comunitat Valenciana"
+            Tipo de dato  = "Variación mensual"
+            Grupos ECOICOP = "Índice general"
+
+                      Para conocer las variables y los valores de las series contenidas en una tabla será necesario realizar la siguiente consulta:
+
+                      GRUPOS_TABLA =  https://servicios.ine.es/wstempus/js/ES/GRUPOS_TABLA/22350
+
+                      Y para cada uno de los grupos, por ejemplo para el grupo "Comunidades y Ciudades Autónomas"  (id=81497), la siguiente consulta:
+
+                      VALORES_GRUPOSTABLA =  https://servicios.ine.es/wstempus/js/ES/VALORES_GRUPOSTABLA/22350/81497?det=2&tip=A
+
+        https://servicios.ine.es/wstempus/js/ES/SERIES_TABLA/22350?tv=70:9009&tv=70:9006&tv=762:304092&tv=3:84
+        {función} = SERIES_TABLA
+        {input} = Código identificativo de la tabla (Id=22350) y códigos identificativos de las variables y valores:
+            Comunidades y Ciudades Autónomas (FK_VARIABLE=70) = "Madrid, Comunidad de" (FK_VALOR=9009)  --  tv=70:9009
+            Comunidades y Ciudades Autónomas (FK_VARIABLE=70) = "Comunitat Valenciana" (FK_VALOR=9006)  --  tv=70:9006
+            Grupos ECOICOP (FK_VARIABLE=762) = "Índice general" (FK_VALOR=304092) --  tv=762:304092
+            Tipo de dato (FK_VARIABLE=3) = "Variación mensual"   (FK_VALOR=84) --  tv=3:84
+        {output} = Información de las series contenidas en la tabla cuya definición de metadatos cumple los criterios establecidos: identificadores Tempus3 de la serie, identificador Tempus3 de la operación, nombre de la serie, número de decimales que se van a visualizar para los datos de esa serie, identificador Tempus3 de la periodicidad, identificador Tempus3 de la publicación, identificador Tempsu3 de la clasificación, identificador Tempus3 de la escala e identificador Tempus3 de la unidad..
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder al objeto PubFechaAct y tip=M para obtener los metadatos (cruce variables-valores) de la serie.
+
+    Obtener series mediante cruce de metadatos
+
+    Para saber cómo están definidas las series dentro de una operación, por ejemplo del IPC, es necesario realizar la siguiente petición:
+
+    VARIABLES_OPERACION =  https://servicios.ine.es/wstempus/js/ES/VARIABLES_OPERACION/IPC
+
+    Y para cada una de estas variables, por ejemplo para la variable provincias (id=115), la siguiente consulta:
+
+    VALORES_VARIABLEOERACION =  https://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLEOPERACION/115/IPC
+
+    Así nos puede interesar acceder a todas las series correspondientes a la variación mensual del IPC en Madrid según los diferentes grupos ECOICOP.
+
+        Consulta: Series mensuales de la operación IPC cuya definición en términos de metadatos (variables y valores)  cumple lo siguiente:
+            Provincias =  "Madrid"
+            Tipo de dato  = "Variación mensual"
+            Grupos ECOICOP = "Todos los grupos"
+        https://servicios.ine.es/wstempus/js/ES/SERIE_METADATAOPERACION/IPC?g1=115:29&g2=3:84&g3=762:&p=1
+        {función} = SERIE_METADATAOPERACION
+        {input} = Código identificativo de la operación (IOE30138 /IPC/ 25) y códigos identificativos de las variables y valores:
+            Provincias (FK_VARIABLE=115) = "Madrid" (FK_VALOR=29)  -- g1=115:29
+            Tipo de dato (FK_VARIABLE=3) = "Variación mensual"   (FK_VALOR=84) -- g2=3:84
+            Grupos ECOICOP (FK_VARIABLE=762) = "Todos los grupos ECOICOP" (FK_VALOR=null) --  g3=762:
+            Serie mensual (FK_PERIODICIDAD=1) --  p=1  (Ver PUBLICACIONES_OPERACION)
+        {output} = Información de las series cuya deficición de metadatos cumple los criterios establecidos: identificadores Tempus3 de la serie, identificador Tempus3 de la operación, nombre de la serie, número de decimales que se van a visualizar para los datos de esa serie, identificador Tempus3 de la periodicidad, identificador Tempus3 de la publicación, identificador Tempsu3 de la clasificación, identificador Tempus3 de la escala e identificador Tempus3 de la unidad..
+        [?parámetros] =  posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder al objeto PubFechaAct y tip=M para obtener los metadatos (cruce variables-valores) de la serie.
+
+Obtención de publicaciones
+
+    Acceso a las publicaciones utilizando las siguientes funciones:
+
+        PUBLICACIONES
+        PUBLICACIONES_OPERACION
+        PUBLICACIONFECHA_PUBLICACION
+
+    Construcción de las URLs:
+
+    Obtener todas las publicaciones
+
+        Consulta: Todas las publicaciones del sistema.
+        https://servicios.ine.es/wstempus/js/ES/PUBLICACIONES
+        {función} = PUBLICACIONES
+        {input} = ninguno
+        {output} = Información de todas las publicaciones: identificador Tempus3 de la publicación, nombre, identificador Tempus3 de la periodicidad e identificador Tempus3 de la publicación fecha.
+        [?parámetros]= posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder a los atributos del objeto PubFechaAct .
+
+    Obtener las publicaciones de una operación
+
+        Consulta: Publicaciones asociadas a la operación IPC.
+        https://servicios.ine.es/wstempus/js/ES/PUBLICACIONES_OPERACION/IOE30138
+        {función} = PUBLICACIONES_OPERACION
+        {input} = Código identificativo de la operación (IOE30138 / IPC / 25).
+        {output} = Información de todas las publicaciones de una operación: identificador Tempus3 de la publicación, nombre, identificador Tempus3 de la periodicidad e identificador Tempus3 de la publicación fecha.
+        [?parámetros]= posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder a los atributos del objeto PubFechaAct .
+
+    Obtener las fechas de publicación de una publicación
+
+        Consulta: Fechas de publicación asociadas a la publicación “Índice de Precios de Consumo”, la primera de las publicaciones obtenidas en la consulta anterior.
+        https://servicios.ine.es/wstempus/js/ES/PUBLICACIONFECHA_PUBLICACION/8
+        {función} = PUBLICACIONFECHA_PUBLICACION
+        {input} =  Código identificativo de la publicación (Id=8).
+        {output} = Fechas en las que se producen nuevas incorporaciones de datos: identificador Tempus3 de la publicación fecha, identificador Tempus3 de la publicación a la que pertenece, fecha en que se produce la publicación y periodo al que se refieren los datos publicados.
+        [?parámetros]= posibilidad de usar det=2 para ver dos niveles de detalle, en contreto para poder acceder a los atributos del objeto PubFechaAct .
+
+
+
+
+Petición de datos
+
+El campo valor derivado de las siguientes consultas es el único que contiene datos. El resto de los campos que acompañan al dato son necesarios para que esté bien definido, siendo los más relevantes:
+
+Sistema Tempus3:
+
+    Tipo de dato: puede ser: definitivo (1), provisional (2), avance (3), primera estimación (4), estimado (5).
+    Fecha: fecha, en milisegundos, a la que hace referencia el dato. Por defecto, es la fecha correspondiente al día 1 del mes que indica el periodo más el año, pero puede ocurrir que los datos estén referidos a una fecha concreta.
+    Secreto: true cuando el campo valor se oculta por secreto estadístico, false en caso contrario.
+
+Repositorio de ficheros PC-Axis:
+
+    NombrePeriodo: fecha a la que hace referencia el dato (sólo para PC-Axis con datos de diferentes periodos) .
+
+Se pueden obtener datos utilizando las siguientes funciones:
+
+    DATOS_SERIE  (Sólo disponible para Tempus3)
+    DATOS_TABLA
+    DATOS_METADATAOPERACION (Sólo disponible para Tempus3)
+
+Obtención de datos Sistema Tempus3
+
+    Obtener el último dato de una serie
+
+        Consulta: Último dato publicado para la serie que recoge la variación mensual del Índice de precios de consumo. Base 2016.
+        https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?nult=1
+        {función} = DATOS_SERIE
+        {input} = código identificativo de la serie (COD=IPC206449).
+        {?parámetro obligatorio} = Número de datos, o de periodos, que se quieren visualizar. En este caso, un solo dato, por tanto el parámetro nult tomará el valor 1.
+        {output} = Información de la serie y último dato publicado: Nombre de la serie, identificador Tempu3 de la unidad, identificador Tempus3 de la escala, fecha, identificador Tempus3 del tipo de dato, identificador Tempus3 del periodo, año y valor (dato).
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder a los atributos del objeto dato, y tip=AM para obtener los metadatos (cruce variables-valores) de la serie y una salida de tipo amigable.
+
+    Obtener los n últimos datos de una serie
+
+        Consulta: Últimos cinco datos publicados para la serie que recoge la variación mensual del Índice de precios de consumo. Base 2016.
+        https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?nult=5
+        {función} = DATOS_SERIE
+        {input} = código identificativo de la serie (COD=IPC206449).
+        {?parámetro obligatorio} = Número de datos, o de periodos, que se quieren visualizar. En este caso, los 5 últimos datos, por tanto el parámetro nult tomará el valor 5.
+        {output} =Información de la serie y los 5 últimos datos publicados: Nombre de la serie, identificador Tempu3 de la unidad, identificador Tempus3 de la escala, fecha, identificador Tempus3 del tipo de dato, identificador Tempus3 del periodo, año y valor (dato).
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder a los atributos del objeto dato, y tip=AM para obtener los metadatos (cruce variables-valores) de la serie y una salida de tipo amigable.
+
+    Obtener datos de una serie entre dos fechas
+
+        Consulta: Datos publicados entre 01/01/2013 y 01/01/2016 para la serie que recoge la variación mensual del Índice de precios de consumo. Base 2016.
+        https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?date=20130101:20160101
+        {función} = DATOS_SERIE
+        {input} = código identificativo de la serie (COD=IPC206449).
+        {?parámetro obligatorio} = Rango de fechas entre las cuales se quiere obtener datos y se especifican en el parámetro date (date=20130101:20160101).
+        {output} = Información de la serie y los datos publicados entre dos fechas: Nombre de la serie, identificador Tempu3 de la unidad, identificador Tempus3 de la escala, fecha, identificador Tempus3 del tipo de dato, identificador Tempus3 del periodo, año y valor (dato) .
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder a los atributos del objeto dato, y tip=AM para obtener los metadatos (cruce variables-valores) de la serie y una salida de tipo amigable.
+
+    Obtener datos de una serie a partir de una fecha
+
+        Consulta: Datos publicados desde 01/01/2010 para la serie que recoge la variación mensual del Índice de precios de consumo. Base 2016.
+        https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/IPC206449?date=20100101:
+        {función} = DATOS_SERIE
+        {input} = código identificativo de la serie (COD=IPC206449).
+        {?parámetro obligatorio} = Fecha a partir de la cual se quiere obtener datos y se especifica en el parámetro date (date=20100101:).
+        {output} = Información de la serie y los datos publicados a partir de una fecha: Nombre de la serie, identificador Tempu3 de la unidad, identificador Tempus3 de la escala, fecha, identificador Tempus3 del tipo de dato, identificador Tempus3 del periodo, año y valor (dato) (ver detalle de los objetos Tempus3 usando el parámetro det).
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder a los atributos del objeto dato, y tip=AM para obtener los metadatos (cruce variables-valores) de la serie y una salida de tipo amigable.
+
+    Obtener los n últimos datos de una tabla
+
+        Consulta: Obtener los 4 últimos datos de las series contenidas en la tabla ¿ Índices por comunidades autónomas: general y de grupos ECOICOP"
+        https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/22350?nult=4
+        {función} = DATOS_TABLA
+        {inputs} = código identificativo de la tabla (Id=22350).
+        {?parámetro obligatorio} = Número de datos, o de periodos, que se quieren visualizar. En este caso, los 4 últimos datos, por tanto el parámetro nult tomará el valor 4.
+        {output} = Información y datos de las series contenidas en la tabla: Nombre de la serie, identificador Tempu3 de la unidad, identificador Tempus3 de la escala, fecha, identificador Tempus3 del tipo de dato, identificador Tempus3 del periodo, año y valor (dato).
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder a los atributos del objeto dato, y tip=AM para obtener los metadatos (cruce variables-valores) de la serie y una salida de tipo amigable.
+
+    Obtener n los últimos datos de series mediante el cruce de metadatos
+
+    Para saber cómo están definidas las series dentro de una operación, por ejemplo del IPC, es necesario realizar la siguiente petición:
+
+    VARIABLES_OPERACION =  https://servicios.ine.es/wstempus/js/ES/VARIABLES_OPERACION/IPC
+
+    Y para cada una de estas variables, por ejemplo para la variable provincias (id=115), la siguiente consulta:
+
+    VALORES_VARIABLEOERACION =  https://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLEOPERACION/115/IPC
+
+    Así nos puede interesar acceder al último dato de todas las series correspondientes a la variación mensual del IPC en Madrid según los diferentes grupos ECOICOP.
+
+        Consulta: Series mensuales de la operación IPC cuya definición en términos de metadatos (variables y valores)  cumple lo siguiente:
+            ¿Provincias¿ =  "Madrid"
+            ¿Tipo de dato¿  = ¿Variación mensual¿
+            ¿Grupos ECOICOP¿ = Todos los grupos
+        https://servicios.ine.es/wstempus/js/ES/DATOS_METADATAOPERACION/IPC?g1=115:29&g2=3:84&g3=762:&p=1&nult=1
+        {función} = DATOS_METADATAOPERACION
+        {input} = Código identificativo de la operación (IOE30138 /IPC/ 25) y códigos identificativos de las variables y valores:
+            ¿Provincias¿ (FK_VARIABLE=115) = "Madrid" (FK_VALOR=29)  ¿  g1=115:29
+            ¿Tipo de dato¿ (FK_VARIABLE=3) = ¿Variación mensual¿   (FK_VALOR=84) ¿ g2=3:84
+            ¿Grupos ECOICOP¿ (FK_VARIABLE=762) = "Todos los grupos ECOICOP¿ (FK_VALOR=null) ¿  g3=762:
+            "Serie mensual" (FK_PERIODICIDAD=1) ¿  p=1  (Ver PUBLICACIONES_OPERACION)
+        {?parámetro obligatorio} = Número de datos, o de periodos, que se quieren visualizar. En este caso, el último dato, por tanto el parámetro nult tomará el valor 1.
+        {output} = Información de las series cuya deficición de metadatos cumple los criterios establecidos: identificadores Tempus3 de la serie, identificador Tempus3 de la operación, nombre de la serie, número de decimales que se van a visualizar para los datos de esa serie, identificador Tempus3 de la periodicidad, identificador Tempus3 de la publicación, identificador Tempsu3 de la clasificación, identificador Tempus3 de la escala e identificador Tempus3 de la unidad..
+        {?parámetros}= posibilidad de usar det=2 para ver dos niveles de detalle, en concreto para poder acceder a los atributos del objeto dato, y tip=AM para obtener los metadatos (cruce variables-valores) de la serie y una salida de tipo amigable.
+
+Obtención de datos PcAxis
+
+    Obtener los n últimos datos de una tabla
+
+        Consulta: Obtener los 4 últimos datos de las series contenidas en la tabla "Población (españoles/extranjeros) por edad (3 grupos de edad), sexo y año"
+        https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/t20/e245/p08/l0/01001.px?nult=4
+        {función} = DATOS_TABLA
+        {inputs} = código identificativo de la tabla (t20/e245/p08/l0/01001.px).
+        {?parámetro} = Número de datos, o de periodos, que se quieren visualizar. En este caso, los 4 últimos datos, por tanto el parámetro nult tomará el valor 4. Posibilidad de usar tip=M para obtener el campo metadata con los códigos de selección.
+        {output} = descripción y 4 últimos datos de las series contenidas en la tabla: Nombre de la serie y Data (NombrePeriodo, valor y secreto).
+
+    Obtener los n últimos datos de una tabla filtrando por metadata
+
+        Consulta: Obtener los 2 últimos datos de las series contenidas en la tabla "Población (españoles/extranjeros) por edad (3 grupos de edad), sexo y año"  filtrando por:
+            Edad (3 grupos de edad) =  "0-15 años"
+            Españoles/Extranjeros  = "Extranjeros"
+            Sexo = "Hombres"  y "Mujeres"
+
+           Para obtener el campo metadata con los códigos de selección en una tabla será necesario realizar la siguiente consulta:
+
+           https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/t20/e245/p08/l0/01001.px?nult=2&tip=M
+
+        https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/t20/e245/p08/l0/01001.px?tv=edad3gruposdeedad:015anos&tv=espanolesextranjeros:extranjeros&tv=sexo:mujeres&tv=sexo:hombres&nult=2
+        {función} = DATOS_TABLA
+        {input} = Código identificativo de la tabla (t20/e245/p08/l0/01001.px) y códigos de selección:
+            Edad (3 grupos de edad) (codigo=edad3gruposdeedad) = "0-15 años" (codigo=015anos) --  tv=edad3gruposdeedad:015anos
+            Españoles/Extranjeros (codigo=espanolesextranjeros) = "Extranjeros" (codigo=extranjeros)  --  tv=espanolesextranjeros:extranjeros
+            Sexo  (codigo=sexo) = "Hombre" (codigo=hombres)  -- tv=sexo:hombres
+            Sexo  (codigo=sexo) = "Mujeres" (codigo=mujeres)  -- tv=sexo:mujeres
+        {?parámetro} = Número de datos, o de periodos, que se quieren visualizar. En este caso, los 2 últimos datos, por tanto el parámetro nult tomará el valor 2. Posibilidad de usar tip=M para obtener el campo metadata con los códigos de selección.
+        {output} = descripción y 2 últimos datos de las series contenidas en la tabla: Nombre de la serie y Data (NombrePeriodo, valor y secreto).
+
+
+
+
+
+Glosario Tempus3: conceptos fundamentales
+
+Para hacer un uso adecuado del servicio es necesario describir los siguientes conceptos, cuyos identificadores serán los inputs (valores de entrada) en la construcción de URLs.
+
+La información en el Sistema se estructura en torno a la serie temporal, como elemento principal de Tempus3, y se organiza de la siguiente forma:
+
+Elementos_TEMPUS3
+
+
+
+Variables
+
+    Una variable es una característica que puede fluctuar y cuya variación es susceptible de adoptar diferentes valores.
+
+    Las variables o listas de valores contenidas en Tempus3 y utilizadas en la difusión, son comunes a todas las operaciones estadísticas, es decir, no están duplicadas en el sistema, su identificador en Tempus3 (Id) y sus descriptores son únicos.
+
+    Un de estos descriptores es el campo codigo que contiene, en el caso de existir, el identificador estándar de la variable. Es conveniente que las definiciones y codificaciones de ciertas variables estadísticas sean siempre las mismas.  A día de hoy pocas de estas listas son un estándar aprobado por el INE pero estamos trabajando junto con la S.G de Metodología con el fin de conseguir su paulatina normalización.
+
+    Son ejemplos de variables las listas: Grupos COICOP,  Sexo, CCAA,  Provincias,...
+
+    variable
+Valores
+
+    Los valores son los estados que puede presentar una variable determinada. Por ejemplo, la variable Provincias contiene los valores: Áraba/Álava,  Albacete, Alicante/Alacant,...etc.
+
+    Los valores contenidos en Tempus3 y utilizados en la difusión, son comunes a todas las operaciones estadísticas, es decir, no están duplicadas en el sistema, su identificador en Tempus3 (Id) y sus descriptores son únicos.
+
+    Un de estos descriptores es el campo codigo que contiene, en el caso de existir, el identificador estándar del valor. Es conveniente que las definiciones y codificaciones de ciertos valores estadísticos sean siempre las mismas.  A día de hoy pocas de estas listas son un estándar aprobado por el INE pero estamos trabajando junto con la S.G de Metodología con el fin de conseguir su paulatina normalización.
+
+    valores
+Series
+
+    ¿Qué son las series temporales?
+
+    Conjunto de observaciones medidas en determinados momentos del tiempo, ordenados cronológicamente y normalmente espaciados entre sí de manera uniforme.
+
+    Como entidad principal de la base de datos Tempus3, la serie tiene unas propiedades que la definen y que no cambian a lo largo del tiempo:
+
+    Identificador único y características de la serie: id, nombre, periodicidad, escala, unidad, clasificación, decimales,..
+
+    Identificador único y características de la serie
+
+    Pero un literal o un id nos dice poco. Para dotar a la serie de significado, necesitamos definirla por una combinación de variables-valores, lo que llamaremos los metadatos de la serie.
+
+    La serie "Variación mensual del IPC en Andalucía" es el resultado del cruce de los valores Total (de la variable Grupos COICOP), Andalucía (de la variable CCAA), variación mensual (de la variable Tipo de dato),..
+
+    variables-valores
+
+    variables-valores serie
+
+
+
+
+Tablas
+
+    Una de las ventajas de este Sistema es la facilidad que ofrece a la hora de gestionar las diferentes formas de presentación, que corresponden a las distintas formas en las que se pueden agrupar las series. Una de ellas es la agrupación en tabla (o cubo). Es la más utilizada por los usuarios, que acceden a las tablas estadísticas a través de INEbase.
+
+    Una tabla es el resultado del cruce de grupos de valores contenidos en una o varias variables, es decir, son una agrupación de series temporales definidas por estos grupos.
+
+    Por ejemplo, se navega por INEbase para llegar a la tabla "Índices por comunidades autónomas de subgrupos" del Índice de Precios de Consumo, Base 2011.
+
+    Tabla de INEbase
+
+    Una vez se ha accedido a la tabla, se observa que ésta contiene todas las series que resultan de la combinación de los grupos de valores contenidos en las siguientes variables:
+
+    {Comunidades Autónomas} x {Subgrupos} x {Tipo de dato}
+
+    Como entidad, la tabla tiene unas características propias como nombre, los periodos que comprende su un identificador que es único.
+Fecha de publicación
+
+    Los datos en Tempus3 se publican a nivel de serie y están asociados a un instante de tiempo o fecha de referencia (periodo /año)
+
+    Publicación
+
+    Pero..¿cuándo se publican los datos? ¿cuándo se actualizan?
+
+    Cada operación tiene asociada una o varias publicaciones según sus diferentes periodicidades, por ejemplo, hay dos publicaciones para el IPC, una con periodicidad mensual y otra anual. Y éstas siguen el calendario de publicaciones del INE.
+
+    De esta manera, una publicación contiene los momentos en los que se publican los datos de una operación estadística: fechas de publicación.
+
+    Fechas publicación
+
+    Con el identificador de la publicación se puede consultar la fecha de publicación de todas las operaciones estadísticas que se disponen en el calendario de publicaciones. Cada una de estas fechas de publicación tiene unas características:
+
+    Publicación
+
