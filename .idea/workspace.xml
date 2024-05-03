@@ -5,48 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/functions/api/_middleware.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/classes/Operation.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/classes/SeriesInfo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/classes/Table.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/classes/TableData.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/classes/TableGroup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/display/LineGraph.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/display/TableDisplay.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/select/Delete_OldTableDataSelector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/select/Delete_TableDataSelector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/select/OperationsSelector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/select/TablesSelector.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ine_instructions.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/ineApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/seriesDataFetch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/setupTests.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uc3m-tfg.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/D3BarChart.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataDisplay.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataFetcher.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/react-app-env.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reportWebVitals.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/setupTests.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +114,7 @@
       <workItem from="1713723524435" duration="1316000" />
       <workItem from="1714148764703" duration="231000" />
       <workItem from="1714741080897" duration="2046000" />
-      <workItem from="1714744956272" duration="6019000" />
+      <workItem from="1714744956272" duration="7338000" />
     </task>
     <servers />
   </component>
