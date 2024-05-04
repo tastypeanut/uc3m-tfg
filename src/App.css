@@ -1,15 +1,4 @@
-body {
-  background-color: #FEFBF6;
-  color: #8CB9BD;
-  margin: 15%;
-  /*min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;*/
-}
+
 
 .on-hover-highlight {
   /*fill: none;*/

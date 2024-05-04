@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
 import {Operation} from "../../classes/Operation";
-import {Box, CircularProgress, LinearProgress, Skeleton} from "@mui/material";
+import {Box, CircularProgress, LinearProgress, Skeleton, Typography} from "@mui/material";
 
 const OperationsSelector = ({ onOperationSelect }) => {
     const [operations, setOperations] = useState([]); //Array of Operation objects
@@ -20,12 +20,13 @@ const OperationsSelector = ({ onOperationSelect }) => {
         fetchData('OPERACIONES_DISPONIBLES', '')
             .then(jsonData => {
                 setOperations(jsonData.map(item => new Operation(item.Id, item.Cod_IOE, item.Nombre, item.Codigo, item.Url)));
-                setLoading(false);
             })
             .catch(error => {
                 setError(error);
-                setLoading(false);
                 console.error("Failed to fetch operations:", error);
+            })
+            .finally(() => {
+                setLoading(false)
             });
     }, []);
 
@@ -46,19 +47,18 @@ const OperationsSelector = ({ onOperationSelect }) => {
 
     if (loading) return (
         <>
-            <p>Cargando operaciones disponibles...</p>
-            <LinearProgress />
+            <Typography variant="body1">Cargando operaciones disponibles...</Typography>
+            <LinearProgress/>
         </>
     );
 
     if (error) return (
         <>
-            <p>Error al cargar operaciones disponibles: {error.message}</p>
+            <Typography variant="body1">Error al cargar operaciones disponibles: {error.message}</Typography>
         </>
     );
 
     return (
-        <div>
             <Select
                 value={selectedOption}
                 onChange={handleSelectChange}
@@ -67,7 +67,6 @@ const OperationsSelector = ({ onOperationSelect }) => {
                 isClearable={true}
                 isSearchable={true}
             />
-        </div>
     );
 };
 

@@ -7,12 +7,14 @@ import {Box, Button, Card, Chip, Divider, LinearProgress, Stack, Typography} fro
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Grid from "@mui/material/Unstable_Grid2";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import {Grid3x3} from "@mui/icons-material";
 
 const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     const [tableGroups, setTableGroups] = useState([]);
     const [selectedValues, setSelectedValues] = useState({});
 
     const [loading, setLoading] = useState(false);
+    const [loadingData, setLoadingData] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -53,7 +55,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                         })
                         .catch(error => {
                             console.error(`Failed to fetch values for group ${group.id}:`, error);
-                            return group; // Return group without options on failure
+                            return group;
                         });
                 }));
             })
@@ -111,8 +113,12 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     };
 
     const handleSeriesSearch = () => { //TODO: Move this to a helper function
+
         let searchQuery = tableId + generateTableQueryString();
         let resultingSeries = {};
+
+        setLoadingData(true);
+
         fetchData('SERIES_TABLA', searchQuery)
             .then(jsonData => {
                 // Assuming jsonData is an array of series objects
@@ -121,33 +127,37 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                 );
                 console.log("Search results:", jsonData); //TODO: Remove
             })
+            .then(() => {
+                onSeriesSelect(resultingSeries);
+            })
             .catch(error => {
+                setError(error);
                 console.error("Failed to fetch search results:", error);
             })
             .finally(() => {
-                onSeriesSelect(resultingSeries);
+                setLoadingData(false);
             });
     };
 
     if (loading) return (
         <>
-            <p>Cargando información de la tabla...</p>
-            <LinearProgress />
+            <Typography variant="body1">Cargando información de la tabla...</Typography>
+            <LinearProgress/>
         </>
     );
 
     if (error) return (
         <>
-            <p>Error al cargar información de la tabla: {error.message}</p>
+            <Typography variant="body1">Error al cargar información de la tabla: {error.message}</Typography>
         </>
     );
 
     return (
-        <Grid2 container>
+        <Grid2 container spacing={4}>
             {tableGroups.map(group => (
-                <Grid2 xs={6} container key={group.id} >
+                <Grid2 xs={12} md={6} container key={group.id} spacing={2}>
                     <Grid2 xs={12}>
-                        <h3>{group.nombre}</h3>
+                        <Typography variant="h6">{group.nombre}</Typography>
                     </Grid2>
                     <Grid2 xs={9}>
                         <Select
@@ -160,15 +170,21 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                             isSearchable={true}
                         />
                     </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 xs={3}>
                         <Button variant="contained" size="small" onClick={() => handleSelectAll(group)}>Seleccionar todos los valores</Button>
                         <Button variant="contained" size="small" onClick={() => handleDeselectAll(group)}>Quitar selección</Button>
                     </Grid2>
                 </Grid2>
             ))}
-            <Grid2 xs={12}>
+            <Grid2 xs={12} display="flex" justifyContent="center" alignItems="center">
                 <Button variant="contained" size="large" startIcon={<QueryStatsIcon/>} onClick={() => handleSeriesSearch()}>Obtener datos</Button>
             </Grid2>
+            {loadingData &&
+                <Grid2 xs={12}>
+                    <Typography variant="body1">Cargando datos de la tabla...</Typography>
+                    <LinearProgress/>
+                </Grid2>
+            }
         </Grid2>
     );
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
 import {Table} from "../../classes/Table";
-import {LinearProgress} from "@mui/material";
+import {LinearProgress, Typography} from "@mui/material";
 
 const TablesSelector = ({ operationId, onTableSelect }) => {
     const [tables, setTables] = useState([]); //Array of Table objects
@@ -20,12 +20,13 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
             fetchData('TABLAS_OPERACION', operationId)
                 .then(jsonData => {
                     setTables(jsonData.map(item => new Table(item.Id, item.Nombre, item.Codigo, item.FK_Periodicidad, item.FK_Publicacion, item.FK_Periodo_ini, item.Anyo_Periodo_ini, item.FechaRef_fin, item.Ultima_Modificacion)));
-                    setLoading(false);
                 })
                 .catch(error => {
                     setError(error);
-                    setLoading(false);
                     console.error("Failed to fetch tables:", error);
+                })
+                .finally(() => {
+                    setLoading(false)
                 });
         }
     }, [operationId]);
@@ -47,19 +48,18 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
 
     if (loading) return (
         <>
-            <p>Cargando tablas disponibles...</p>
+            <Typography variant="body1">Cargando tablas disponibles...</Typography>
             <LinearProgress/>
         </>
     );
 
     if (error) return (
         <>
-            <p>Error al cargar tablas disponibles: {error.message}</p>
+            <Typography variant="body1">Error al cargar tablas disponibles: {error.message}</Typography>
         </>
     );
 
     return (
-        <div>
             <Select
                 value={selectedOption}
                 onChange={handleSelectChange}
@@ -68,7 +68,6 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
                 isClearable={true}
                 isSearchable={true}
             />
-        </div>
     );
 };
 

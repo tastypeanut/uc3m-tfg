@@ -42,32 +42,31 @@ function App() {
     }*/
 
     return (
-        <Grid2>
-            <h1>INE Data Viewer</h1>
+        <Grid2 container spacing={4} sx={{ p: 5, m: 0}}>
+            <Grid2 xs={12}>
+                <Typography variant="h3">INE Data Viewer</Typography>
+            </Grid2>
             {dataLookups.map((lookup, index) => (
-                <Accordion key={lookup.id} defaultExpanded>
-                    <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        <Typography>
-                            <h1>Consulta {lookup.id}</h1>
-                            {dataLookups.length > 1 &&
-                                <Button variant="contained" size="small" /*onClick={() => deleteDataLookup(index)}*/>
-                                    Borrar consulta
-                                </Button>}
-                        </Typography>
-                    </AccordionSummary>
+                <Grid2 xs={12}>
                     <DataLookup
-                        key={lookup.id}
-                        onDataLookup={(data) => handleDataLookup(index, data)}
-                    />
-                </Accordion>
+                            key={lookup.id}
+                            onDataLookup={(data) => handleDataLookup(index, data)}
+                        />
+                </Grid2>
             ))}
-            {normalizedData.length > 0 && <button onClick={addDataLookup}>Add Data Lookup</button>}
-            {normalizedData.length > 0 && <TableDisplay data={normalizedData}/>}
-            {normalizedData.length > 0 && <LineGraph data={normalizedData}/>}
+            {normalizedData.length > 0 &&
+                <>
+                    <Grid2 xs={12}>
+                        <button onClick={addDataLookup}>Add Data Lookup</button>
+                    </Grid2>
+                    <Grid2 xs={12}>
+                        <TableDisplay data={normalizedData}/>
+                    </Grid2>
+                    <Grid2 xs={12}>
+                        <LineGraph data={normalizedData}/>
+                    </Grid2>
+                </>
+            }
         </Grid2>
     );
 }

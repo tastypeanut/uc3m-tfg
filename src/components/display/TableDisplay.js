@@ -55,18 +55,16 @@ const DataTable = ({ data }) => {
     );
 
     return (
-        <Grid2 container xs={10}>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        {renderTableHeader()}
-                    </TableHead>
-                    <TableBody>
-                        {renderTableData()}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Grid2>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    {renderTableHeader()}
+                </TableHead>
+                <TableBody>
+                    {renderTableData()}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 
