@@ -1,4 +1,6 @@
 import React, { useMemo } from 'react';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 // Helper function to convert Unix timestamp to a readable date
 const formatDate = (unixTimestamp) => {
@@ -16,7 +18,7 @@ const DataTable = ({ data }) => {
                 console.log(formatDate(dp.fecha));
             });
         });
-        return Array.from(dateSet).sort();
+        return Array.from(dateSet).sort(); //TODO: Table values are not being sorted correctly Example: 1/1/2012 1/1/2013 1/10/2002	1/10/2003
     }, [data]);
 
     //Map data to the set of dates, so we can render it easily
@@ -33,34 +35,38 @@ const DataTable = ({ data }) => {
     }, [data]);
 
     const renderTableHeader = () => (
-        <tr>
-            <th>Nombre</th>
-            {dates.map(year => (
-                <th key={year}>{year}</th>
+        <TableRow>
+            <TableCell>Nombre</TableCell>
+            {dates.map(date => (
+                <TableCell key={date}>{date}</TableCell>
             ))}
-        </tr>
+        </TableRow>
     );
 
     const renderTableData = () => (
         Array.from(dataMap, ([nombre, yearMap]) => (
-            <tr key={nombre}>
-                <td>{nombre}</td>
-                {dates.map(year => (
-                    <td key={`${nombre}-${year}`}>{yearMap.get(year) || '-'}</td>
+            <TableRow key={nombre}>
+                <TableCell>{nombre}</TableCell>
+                {dates.map(date => (
+                    <TableCell key={`${nombre}-${date}`}>{yearMap.get(date) || '-'}</TableCell>
                 ))}
-            </tr>
+            </TableRow>
         ))
     );
 
     return (
-        <table>
-            <thead>
-            {renderTableHeader()}
-            </thead>
-            <tbody>
-            {renderTableData()}
-            </tbody>
-        </table>
+        <Grid2 container xs={10}>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        {renderTableHeader()}
+                    </TableHead>
+                    <TableBody>
+                        {renderTableData()}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Grid2>
     );
 };
 

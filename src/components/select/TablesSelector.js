@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
 import {Table} from "../../classes/Table";
+import {LinearProgress} from "@mui/material";
 
 const TablesSelector = ({ operationId, onTableSelect }) => {
     const [tables, setTables] = useState([]); //Array of Table objects
@@ -35,7 +36,7 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
             value: table.id,
             label: `${table.nombre} -> ID: ${table.id}`
         })))
-        console.log("Available tables: ", tables);
+        console.log("Available tables: ", tables); //TODO: Remove
     }, [tables]);
 
     const handleSelectChange = (selectedOption) => {
@@ -44,17 +45,26 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
         console.log(selectedOption);
     }
 
-    if (loading) return <p>Loading tables...</p>;
-    if (error) return <p>Error fetching tables: {error.message}</p>;
+    if (loading) return (
+        <>
+            <p>Cargando tablas disponibles...</p>
+            <LinearProgress/>
+        </>
+    );
+
+    if (error) return (
+        <>
+            <p>Error al cargar tablas disponibles: {error.message}</p>
+        </>
+    );
 
     return (
         <div>
-            <h2>Select a Table</h2>
             <Select
                 value={selectedOption}
                 onChange={handleSelectChange}
                 options={options}
-                placeholder="Search and select a table..."
+                placeholder="Busca y selecciona una tabla..."
                 isClearable={true}
                 isSearchable={true}
             />

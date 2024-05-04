@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
 import {Operation} from "../../classes/Operation";
+import {Box, CircularProgress, LinearProgress, Skeleton} from "@mui/material";
 
 const OperationsSelector = ({ onOperationSelect }) => {
     const [operations, setOperations] = useState([]); //Array of Operation objects
@@ -34,7 +35,7 @@ const OperationsSelector = ({ onOperationSelect }) => {
             value: operation.id,
             label: `${operation.nombre} -> ID: ${operation.id}`
         })))
-        console.log("Available operations: ", operations);
+        console.log("Available operations: ", operations); //TODO: Remove
     }, [operations]);
 
     const handleSelectChange = (selectedOption) => {
@@ -43,17 +44,26 @@ const OperationsSelector = ({ onOperationSelect }) => {
         console.log(selectedOption);
     }
 
-    if (loading) return <p>Loading operations...</p>;
-    if (error) return <p>Error fetching operations: {error.message}</p>;
+    if (loading) return (
+        <>
+            <p>Cargando operaciones disponibles...</p>
+            <LinearProgress />
+        </>
+    );
+
+    if (error) return (
+        <>
+            <p>Error al cargar operaciones disponibles: {error.message}</p>
+        </>
+    );
 
     return (
         <div>
-            <h2>Select an Operation</h2>
             <Select
                 value={selectedOption}
                 onChange={handleSelectChange}
                 options={options}
-                placeholder="Search and select an operation..."
+                placeholder="Busca y selecciona una operación..."
                 isClearable={true}
                 isSearchable={true}
             />

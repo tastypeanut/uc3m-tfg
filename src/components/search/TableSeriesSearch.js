@@ -3,6 +3,10 @@ import { fetchData } from '../../services/ineApi';
 import { TableGroup, TableGroupValue } from "../../classes/TableGroup";
 import Select from "react-select";
 import {SeriesInfo} from "../../classes/SeriesInfo";
+import {Box, Button, Card, Chip, Divider, LinearProgress, Stack, Typography} from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Unstable_Grid2";
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     const [tableGroups, setTableGroups] = useState([]);
@@ -70,11 +74,6 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
 
     }, [tableId]); // Trigger only when tableId changes
 
-    useEffect(() => {
-        console.log("Selected values:", selectedValues);
-        generateTableQueryString();
-    }, [selectedValues]); //TODO: Delete this effect
-
     const generateTableQueryString = () => { //TODO: Move this to a helper function
         let parameters = [];
         Object.entries(selectedValues).forEach(([groupId, selectedOptions]) => {
@@ -87,7 +86,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
         });
         // Join all parameters with '&' and prepend with '?'
         const searchString = "?" + parameters.join('&');
-        console.log(searchString);
+        console.log(searchString); //TODO: Remove
         return searchString;
     }
 
@@ -120,7 +119,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                 jsonData.forEach(item =>
                     resultingSeries[item.COD] = new SeriesInfo(item.COD, item.Decimales, item.FK_Clasificacion, item.FK_Escala, item.FK_Operacion, item.FK_Periodicidad, item.FK_Publicacion, item.FK_Unidad, item.Id, item.Nombre)
                 );
-                console.log("Search results:", jsonData);
+                console.log("Search results:", jsonData); //TODO: Remove
             })
             .catch(error => {
                 console.error("Failed to fetch search results:", error);
@@ -130,34 +129,47 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
             });
     };
 
-    if (loading) return <p>Loading tables...</p>;
-    if (error) return <p>Error fetching tables: {error.message}</p>;
+    if (loading) return (
+        <>
+            <p>Cargando información de la tabla...</p>
+            <LinearProgress />
+        </>
+    );
+
+    if (error) return (
+        <>
+            <p>Error al cargar información de la tabla: {error.message}</p>
+        </>
+    );
 
     return (
-        <form>
+        <Grid2 container>
             {tableGroups.map(group => (
-                <div key={group.id}>
-                    <h2>{group.nombre}</h2>
-                    <div>
-                        <button type="button" onClick={() => handleSelectAll(group)}>Select All</button>
-                        <button type="button" onClick={() => handleDeselectAll(group)}>Deselect All</button>
-                    </div>
-                    <Select
-                        isMulti
-                        //key={group.id} //Unique key is necessary, this is why this is commented
-                        value={selectedValues[group.id]}
-                        onChange={(option) => handleSelectChange(option, group)}
-                        options={group.options}
-                        placeholder="Search and select a variable..."
-                        isClearable={true}
-                        isSearchable={true}
-                    />
-                </div>
+                <Grid2 xs={6} container key={group.id} >
+                    <Grid2 xs={12}>
+                        <h3>{group.nombre}</h3>
+                    </Grid2>
+                    <Grid2 xs={9}>
+                        <Select
+                            isMulti
+                            value={selectedValues[group.id]}
+                            onChange={(option) => handleSelectChange(option, group)}
+                            options={group.options}
+                            placeholder="Search and select a variable..."
+                            isClearable={true}
+                            isSearchable={true}
+                        />
+                    </Grid2>
+                    <Grid2 xs={12}>
+                        <Button variant="contained" size="small" onClick={() => handleSelectAll(group)}>Seleccionar todos los valores</Button>
+                        <Button variant="contained" size="small" onClick={() => handleDeselectAll(group)}>Quitar selección</Button>
+                    </Grid2>
+                </Grid2>
             ))}
-            <div>
-                <button type="button" onClick={() => handleSeriesSearch()}>Search...</button>
-            </div>
-        </form>
+            <Grid2 xs={12}>
+                <Button variant="contained" size="large" startIcon={<QueryStatsIcon/>} onClick={() => handleSeriesSearch()}>Obtener datos</Button>
+            </Grid2>
+        </Grid2>
     );
 };
 

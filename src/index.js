@@ -1,15 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+//import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import CssBaseline from "@mui/material/CssBaseline";
+import {createMuiTheme, createTheme, ThemeProvider} from "@mui/material";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#3f51b5', // Customize primary color
+        },
+        secondary: {
+            main: '#f50057', // Customize secondary color
+        },
+        background: {
+            default: '#f0f0f0', // Customize default background color
+        },
+    },
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
-    <App />
+    <>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App/>
+        </ThemeProvider>
+    </>
+
   //</React.StrictMode>
 );
 

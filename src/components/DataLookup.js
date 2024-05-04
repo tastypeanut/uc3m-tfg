@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {fetchSeriesData} from "../services/seriesDataFetch";
 import OperationsSelector from "./select/OperationsSelector";
 import TablesSelector from "./select/TablesSelector";
 import TableSeriesSearch from "./search/TableSeriesSearch";
-import TableDisplay from "./display/TableDisplay";
-import Delete_TableDataSelector from "./select/Delete_TableDataSelector";
+import Grid2 from "@mui/material/Unstable_Grid2";
+
 
 const DataLookup = ({ onDataLookup }) => {
 
@@ -42,23 +42,24 @@ const DataLookup = ({ onDataLookup }) => {
 
 
     return (
-        <div className="App">
-            <h1>INE Data Viewer</h1>
-
-            { /* Select an operation */ }
-            <OperationsSelector onOperationSelect={setSelectedOperation} />
-
-            { /* Select a table */ }
+        <Grid2 container spacing={2}>
+            <Grid2 xs={12}>
+                <h2>Selecciona una operación:</h2>
+                <OperationsSelector onOperationSelect={setSelectedOperation}/>
+            </Grid2>
             {selectedOperation &&
-                <TablesSelector operationId={selectedOperation} onTableSelect={setSelectedTable} />
+                <Grid2 xs={12}>
+                    <h2>Selecciona una tabla:</h2>
+                    <TablesSelector operationId={selectedOperation} onTableSelect={setSelectedTable}/>
+                </Grid2>
             }
-
-            { /* Search and select relevant series in that table */ }
             {selectedTable &&
-                <TableSeriesSearch tableId={selectedTable} onSeriesSelect={setSelectedSeries} />
+                <Grid2 xs={12}>
+                    <h2>Selecciona las variables relevantes de la tabla:</h2>
+                    <TableSeriesSearch tableId={selectedTable} onSeriesSelect={setSelectedSeries}/>
+                </Grid2>
             }
-
-        </div>
+        </Grid2>
     );
 }
 
