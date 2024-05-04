@@ -6,6 +6,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Accordion, AccordionSummary, Button, Typography} from "@mui/material";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {AddCircle} from "@mui/icons-material";
+import NoDataLanding from "./components/display/NoDataLanding";
 
 function App() {
     const [dataLookups, setDataLookups] = useState([{ id: 0 }]);
@@ -43,29 +47,32 @@ function App() {
 
     return (
         <Grid2 container spacing={4} sx={{ p: 5, m: 0}}>
-            <Grid2 xs={12}>
+            <Grid2 item xs={12} sx={{ px: 0 }}>
                 <Typography variant="h3">INE Data Viewer</Typography>
             </Grid2>
             {dataLookups.map((lookup, index) => (
-                <Grid2 xs={12}>
+                <Grid2 item xs={12} sx={{ px: 0 }}>
                     <DataLookup
                             key={lookup.id}
                             onDataLookup={(data) => handleDataLookup(index, data)}
                         />
                 </Grid2>
             ))}
+            <Grid2 item xs={12} sx={{ px: 0 }} display="flex" justifyContent="right" alignItems="center">
+                <Button variant="contained" size="large" color="success" startIcon={<AddCircle/>} onClick={addDataLookup}>Añadir consulta</Button>
+            </Grid2>
             {normalizedData.length > 0 &&
                 <>
-                    <Grid2 xs={12}>
-                        <button onClick={addDataLookup}>Add Data Lookup</button>
-                    </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 item xs={12} sx={{ px: 0 }}>
                         <TableDisplay data={normalizedData}/>
                     </Grid2>
-                    <Grid2 xs={12}>
+                    <Grid2 item xs={12} sx={{ px: 0 }}>
                         <LineGraph data={normalizedData}/>
                     </Grid2>
                 </>
+            }
+            {normalizedData.length <= 0 &&
+                <NoDataLanding/>
             }
         </Grid2>
     );

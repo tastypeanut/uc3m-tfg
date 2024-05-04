@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/display/NoDataLanding.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +87,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/display" />
       <recent name="$PROJECT_DIR$/functions/api" />
       <recent name="$PROJECT_DIR$/functions" />
       <recent name="$PROJECT_DIR$/src/components/D3" />
@@ -111,7 +116,7 @@
       <workItem from="1713723524435" duration="1316000" />
       <workItem from="1714148764703" duration="231000" />
       <workItem from="1714741080897" duration="2046000" />
-      <workItem from="1714744956272" duration="35272000" />
+      <workItem from="1714744956272" duration="42033000" />
     </task>
     <servers />
   </component>

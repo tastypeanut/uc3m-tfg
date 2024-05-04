@@ -155,37 +155,42 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     return (
         <Grid2 container spacing={4}>
             {tableGroups.map(group => (
-                <Grid2 xs={12} md={6} container key={group.id} spacing={2}>
-                    <Grid2 xs={12}>
+                <Grid2 container key={group.id} xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
+                    <Grid2 xs={12} item>
                         <Typography variant="h6">{group.nombre}</Typography>
                     </Grid2>
-                    <Grid2 xs={9}>
+                    <Grid2 xs={12} container spacing={2}>
+                        <Grid2>
+                            <Button variant="outlined" size="small" onClick={() => handleSelectAll(group)}>Seleccionar todos los valores</Button>
+                        </Grid2>
+                        <Grid2>
+                            <Button variant="contained" size="small" onClick={() => handleDeselectAll(group)}>Borrar selección</Button>
+                        </Grid2>
+                    </Grid2>
+                    <Grid2 xs={12} item>
                         <Select
                             isMulti
                             value={selectedValues[group.id]}
                             onChange={(option) => handleSelectChange(option, group)}
                             options={group.options}
-                            placeholder="Search and select a variable..."
+                            placeholder="Busca y selecciona una variable..."
                             isClearable={true}
                             isSearchable={true}
                         />
                     </Grid2>
-                    <Grid2 xs={3}>
-                        <Button variant="contained" size="small" onClick={() => handleSelectAll(group)}>Seleccionar todos los valores</Button>
-                        <Button variant="contained" size="small" onClick={() => handleDeselectAll(group)}>Quitar selección</Button>
-                    </Grid2>
                 </Grid2>
             ))}
-            <Grid2 xs={12} display="flex" justifyContent="center" alignItems="center">
+            <Grid2 xs={12} item display="flex" justifyContent="center" alignItems="center">
                 <Button variant="contained" size="large" startIcon={<QueryStatsIcon/>} onClick={() => handleSeriesSearch()}>Obtener datos</Button>
             </Grid2>
             {loadingData &&
-                <Grid2 xs={12}>
+                <Grid2 xs={12} item>
                     <Typography variant="body1">Cargando datos de la tabla...</Typography>
                     <LinearProgress/>
                 </Grid2>
             }
         </Grid2>
+
     );
 };
 
