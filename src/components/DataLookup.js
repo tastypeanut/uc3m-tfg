@@ -42,7 +42,6 @@ const DataLookup = ({ onDataLookup }) => {
         }
     }, [selectedSeries]);
 
-
     return (
         <Grid2 container spacing={4}>
             <Accordion defaultExpanded sx={{ width: '100%' }}>
