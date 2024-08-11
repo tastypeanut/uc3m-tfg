@@ -4,9 +4,10 @@ import OperationsSelector from "./select/OperationsSelector";
 import TablesSelector from "./select/TablesSelector";
 import TableSeriesSearch from "./search/TableSeriesSearch";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Accordion, AccordionDetails, AccordionSummary, Chip, Typography} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Button, Chip, Typography} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NoDataLanding from "./display/NoDataLanding";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 
 const DataLookup = ({ onDataLookup }) => {
@@ -42,7 +43,11 @@ const DataLookup = ({ onDataLookup }) => {
     return (
             <Accordion defaultExpanded sx={{ width: '100%' }} sx={{px: 3, py: 2}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>} aria-controls="panel1-content" id="panel1-header">
-                    <Chip label="Chip Outlined" variant="outlined" />
+                    <Grid2 container spacing={4} >
+                            <Grid2 item xs={12} display="flex" justifyContent="right" alignItems="center" sx={{ width: '100%' }}>
+                                <Chip label={"Operación: " + selectedOperation} variant="outlined" /><Chip label={"Tabla: " + selectedTable} variant="outlined" />
+                            </Grid2>
+                    </Grid2>
                 </AccordionSummary>
                 <AccordionDetails sx={{pb: 4}}>
                     <Grid2 container spacing={4}>

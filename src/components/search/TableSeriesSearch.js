@@ -32,7 +32,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
         fetchData('GRUPOS_TABLA', tableId, {}, abortController.signal)
             .then(jsonData => {
 
-                const groups = jsonData.map(item => new TableGroup(item.Id, item.Nombre));
+                const groups = jsonData.map(item => new TableGroup(item.Id, item.Nombre)); //Deserialize TableGroup Data
                 setTableGroups(groups);
 
                 // After setting groups, fetch values for each group
@@ -42,7 +42,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                     return fetchData('VALORES_GRUPOSTABLA', inputPath, {}, abortController.signal)
                         .then(valuesData => {
                             const values = valuesData.map(val =>
-                                new TableGroupValue(val.Id, val.Nombre, val.Codigo, val.Fk_Variable)
+                                new TableGroupValue(val.Id, val.Nombre, val.Codigo, val.FK_Variable) //Deserialize Variable Data
                             );
                             return {
                                 ...group,

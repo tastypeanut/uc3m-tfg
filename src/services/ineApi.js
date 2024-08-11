@@ -1,4 +1,5 @@
 const BASE_URL = 'https://tfg.enrique.wtf/api/ES';
+//const BASE_URL = 'https://servicios.ine.es/wstempus/js/ES/';
 const cache = {};
 
 export const fetchData = async (functionName, input, params = {}, signal) => {

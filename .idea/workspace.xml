@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/display/NoDataLanding.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/display/TableDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/display/TableDisplay.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/ineApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ineApi.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -51,24 +56,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.Run.executor": "Run",
-    "Node.js.Unnamed.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/enrique/Documents/Git_Repos/uc3m-tfg/functions",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.start.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.Run.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/enrique/Documents/Git_Repos/uc3m-tfg/functions&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactBuddySettings">
     <option name="extensionsIgnore" value="true" />
   </component>
@@ -116,7 +121,9 @@
       <workItem from="1713723524435" duration="1316000" />
       <workItem from="1714148764703" duration="231000" />
       <workItem from="1714741080897" duration="2046000" />
-      <workItem from="1714744956272" duration="42033000" />
+      <workItem from="1714744956272" duration="44227000" />
+      <workItem from="1716219953613" duration="5000" />
+      <workItem from="1723291085424" duration="10420000" />
     </task>
     <servers />
   </component>
