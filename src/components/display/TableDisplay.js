@@ -1,11 +1,5 @@
 import React, { useMemo } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from "@mui/material";
-import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import { unparse } from 'papaparse';
-
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 // Helper function to convert Unix timestamp to a readable date
 const formatDate = (unixTimestamp) => {
@@ -43,7 +37,10 @@ const DataTable = ({ data }) => {
     const renderTableHeader = useMemo(() => (
         <>
             <TableRow>
-                <TableCell>Nombre</TableCell>
+                <TableCell rowSpan={2}>Nombre de Serie &darr;</TableCell>
+                <TableCell colSpan={dates.length} align="center">Fecha</TableCell>
+            </TableRow>
+            <TableRow>
                 {dates.map(date => (
                     <TableCell key={date}>{date}</TableCell>
                 ))}
@@ -62,63 +59,17 @@ const DataTable = ({ data }) => {
         ))
     ), [dataMap, dates]);
 
-    // Function to export data as Excel
-    const exportToExcel = () => {
-        const wb = XLSX.utils.book_new();
-        const wsData = [
-            ["Nombre", ...dates], // Header
-            ...Array.from(dataMap, ([nombre, yearMap]) => [
-                nombre,
-                ...dates.map(date => yearMap.get(date) || '-')
-            ])
-        ];
-        const ws = XLSX.utils.aoa_to_sheet(wsData);
-        XLSX.utils.book_append_sheet(wb, ws, "Data");
-        XLSX.writeFile(wb, "table_data.xlsx");
-    };
-
-    // Function to export data as CSV using papaparse
-    const exportToCSV = () => {
-        const csvData = Array.from(dataMap, ([nombre, yearMap]) => ({
-            Nombre: nombre,
-            ...Object.fromEntries(dates.map(date => [date, yearMap.get(date) || '-']))
-        }));
-        const csv = unparse(csvData);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, "table_data.csv");
-    };
-
-    // Function to export data as PDF
-    const exportToPDF = () => {
-        const doc = new jsPDF();
-        doc.text("Table Data", 14, 16);
-        const tableData = Array.from(dataMap, ([nombre, yearMap]) => [
-            nombre,
-            ...dates.map(date => yearMap.get(date) || '-')
-        ]);
-        doc.autoTable({
-            head: [["Nombre", ...dates]],
-            body: tableData
-        });
-        doc.save("table_data.pdf");
-    };
-
     return (
-        <>
-            <Button variant="contained" color="success" onClick={exportToExcel}>Exportar a Excel</Button>
-            <Button variant="contained" color="success" onClick={exportToCSV}>Exportar a CSV</Button>
-            <Button variant="contained" color="success" onClick={exportToPDF}>Exportar a PDF</Button>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        {renderTableHeader}
-                    </TableHead>
-                    <TableBody>
-                        {renderTableData}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    {renderTableHeader}
+                </TableHead>
+                <TableBody>
+                    {renderTableData}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 

@@ -7,6 +7,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import { Button, Typography } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoDataLanding from "./display/NoDataLanding";
+import DataExport from "./DataExport";
 
 // Custom Hook for Data Management
 const useDataManagement = () => {
@@ -69,6 +70,9 @@ const StatisticsToolPage = () => {
             {dataIsAvailable ? (
                 console.log(normalizedData),
                 <>
+                    <Grid2 item xs={12} sx={itemStyle}>
+                        <DataExport normalizedData={normalizedData}/>
+                    </Grid2>
                     <Grid2 item xs={12} sx={itemStyle}>
                         <TableDisplay data={normalizedData} />
                     </Grid2>

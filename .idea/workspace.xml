@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/DataExport.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/display/TableDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/display/TableDisplay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/ineApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ineApi.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +118,7 @@
       <workItem from="1714741080897" duration="2046000" />
       <workItem from="1714744956272" duration="44227000" />
       <workItem from="1716219953613" duration="5000" />
-      <workItem from="1723291085424" duration="10420000" />
+      <workItem from="1723291085424" duration="15110000" />
     </task>
     <servers />
   </component>
