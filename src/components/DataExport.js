@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import * as Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import {Box, Button, ButtonGroup, Menu, MenuItem, Tooltip} from "@mui/material";
+import {Box, Button, ButtonGroup, Link, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import {ArrowDropDown} from "@mui/icons-material";
 import DownloadIcon from '@mui/icons-material/Download';
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
@@ -135,7 +135,23 @@ const DataExporter = ({ normalizedData }) => {
                 >
                     Exportar Datos
                 </Button>
-                <Tooltip title="Al exportar, se incluyen todos los campos devueltos por la base de datos del INE. Puedes consultar su significado en https://ine.es/dyngs/DataLab/manual.html" placement="right">
+                <Tooltip
+                    title={
+                    <>
+                            Al exportar, se incluyen todos los campos devueltos por la base de datos del INE. Puedes consultar la documentación oficial en {' '}
+                            <Link
+                                href="https://ine.es/dyngs/DataLab/manual.html?cid=64"
+                                target="_blank"
+                                rel="noopener"
+                                sx={{ color: 'inherit', textDecoration: 'underline', whiteSpace: 'nowrap', cursor: 'pointer' }}
+                            >
+                                https://ine.es/dyngs/DataLab/manual.html?cid=64
+                            </Link>.
+
+                    </>
+                    }
+                    placement="right"
+                >
                     <InfoIcon style={{ cursor: 'pointer', marginLeft: 8 }} />
                 </Tooltip>
             </Box>
