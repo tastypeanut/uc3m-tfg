@@ -11,20 +11,20 @@ const compareDates = (date1, date2) => {
     return new Date(date1) - new Date(date2);
 };
 
-const DataTable = ({ data }) => {
+const DataTable = ({ normalizedData }) => {
     const dates = useMemo(() => {
         const dateSet = new Set();
-        data.forEach(record => {
+        normalizedData.forEach(record => {
             record.data.forEach(dp => {
                 dateSet.add(formatDate(dp.fecha));
             });
         });
         return Array.from(dateSet).sort(compareDates);
-    }, [data]);
+    }, [normalizedData]);
 
     const dataMap = useMemo(() => {
         const map = new Map();
-        data.forEach(record => {
+        normalizedData.forEach(record => {
             let innerMap = map.get(record.nombre) || new Map();
             record.data.forEach(dp => {
                 innerMap.set(formatDate(dp.fecha), dp.valor);
@@ -32,7 +32,7 @@ const DataTable = ({ data }) => {
             map.set(record.nombre, innerMap);
         });
         return map;
-    }, [data]);
+    }, [normalizedData]);
 
     const renderTableHeader = useMemo(() => (
         <>
