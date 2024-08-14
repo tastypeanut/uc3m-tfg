@@ -1,6 +1,24 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import * as d3 from "d3";
 import useResizeObserver from "@react-hook/resize-observer";
+import {
+    Accordion, AccordionDetails,
+    AccordionSummary,
+    Box,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    Paper,
+    Typography
+} from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import Grid2 from "@mui/material/Unstable_Grid2";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import DownloadIcon from "@mui/icons-material/Download";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const TimeSeriesChart = ({ normalizedData }) => {
     const chartRef = useRef();
@@ -227,47 +245,100 @@ const TimeSeriesChart = ({ normalizedData }) => {
     }, [normalizedData, showTrendLine, showMovingAverage, calculateLinearTrendLine, calculateMovingAverage, parseDate, containerWidth, activeDatasets]);
 
     return (
-        <div>
-            <div style={{ marginBottom: "10px" }}>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={showTrendLine}
-                        onChange={() => setShowTrendLine(!showTrendLine)}
-                    />
-                    Mostrar línea de tendencia
-                </label>
-                <label style={{ marginLeft: "10px" }}>
-                    <input
-                        type="checkbox"
-                        checked={showMovingAverage}
-                        onChange={() => setShowMovingAverage(!showMovingAverage)}
-                    />
-                    Mostrar media móvil (n=3)
-                </label>
-            </div>
-            <div ref={chartRef} style={{ width: '100%', height: '400px' }}></div>
-            <div style={{ marginTop: "10px", display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-                <button onClick={addAllDatasets} style={{ marginRight: "10px" }}>Agregar todo</button>
-                <button onClick={removeAllDatasets} style={{ marginRight: "20px" }}>Quitar todo</button>
-                {normalizedData.map((dataset) => (
-                    <label key={dataset.cod} style={{ marginRight: "20px", cursor: "pointer" }}>
-                        <input
-                            type="checkbox"
-                            checked={activeDatasets.includes(dataset.cod)}
-                            onChange={() => toggleDatasetVisibility(dataset.cod)}
-                            style={{ marginRight: "5px" }}
-                        />
-                        <span style={{ color: activeDatasets.includes(dataset.cod) ? d3.schemeCategory10[normalizedData.findIndex(d => d.cod === dataset.cod) % 10] : "#ccc" }}>
-                        {dataset.nombre}
-                    </span>
-                    </label>
-                ))}
-            </div>
-            <div style={{ marginTop: "20px", textAlign: "center" }}>
-                <button onClick={downloadAsSVG} style={{ marginLeft: "10px" }}>Descargar SVG</button>
-            </div>
-        </div>
+        <Paper>
+            <Grid2 spacing={4}>
+                <Grid2 xs={12}>
+                    <Paper variant="outlined">
+                        <Grid2 ref={chartRef} item/>
+                    </Paper>
+                </Grid2>
+                <Grid2 container xs={12}>
+                    <Grid2 container xs={12} md={3} spacing={2} display="block">
+                        <Grid2 xs={12} item>
+                            <Typography variant="h6">Ajustes de gráfica:</Typography>
+                        </Grid2>
+                        <Grid2 xs={12} item>
+                            <Paper variant="outlined">
+                                <Grid2 xs={12} item justifyContent="left" alignItems="center">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={showTrendLine}
+                                            onChange={() => setShowTrendLine(!showTrendLine)}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Mostrar línea de tendencia"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={showMovingAverage}
+                                            onChange={() => setShowMovingAverage(!showMovingAverage)}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Mostrar media móvil (n=3)"
+                                />
+                            </Grid2>
+                            </Paper>
+                        </Grid2>
+                        <Grid2 xs={12} item display="flex" justifyContent="center" alignItems="center">
+                            <Button variant="outlined" size="small" startIcon={<DownloadIcon/>} onClick={downloadAsSVG}>Descargar SVG</Button>
+                        </Grid2>
+                    </Grid2>
+                    <Grid2 container xs={12} md={9}  spacing={2} display="block">
+                        <Grid2 item xs={12}>
+                            <Typography variant="h6">Series mostradas:</Typography>
+                        </Grid2>
+                        <Grid2 item xs={12}>
+                            <Paper variant="outlined">
+                                <Grid2
+                                    item
+                                    xs={12}
+                                    display="grid"
+                                    sx={{
+                                        maxHeight: '500px', // Set your desired max height here
+                                        overflowY: 'auto',  // Enable vertical scrolling
+                                    }}
+                                >
+                                    {normalizedData.map((dataset) => (
+                                        <FormControlLabel
+                                            key={dataset.cod}
+                                            control={
+                                                <Checkbox
+                                                    checked={activeDatasets.includes(dataset.cod)}
+                                                    onChange={() => toggleDatasetVisibility(dataset.cod)}
+                                                />
+                                            }
+                                            label={
+                                                <Typography
+                                                    sx={{
+                                                        color: activeDatasets.includes(dataset.cod)
+                                                            ? d3.schemeCategory10[normalizedData.findIndex(d => d.cod === dataset.cod) % 10]
+                                                            : "#ccc",
+                                                    }}
+                                                >
+                                                    {dataset.nombre}
+                                                </Typography>
+                                            }
+                                        />
+                                    ))}
+                                </Grid2>
+                            </Paper>
+                        </Grid2>
+                        <Grid2 container xs={12} spacing={4} display="flex" justifyContent="center" alignItems="center">
+                            <Grid2 item>
+                                <Button variant="contained" size="small" startIcon={<AddCircleOutlineIcon/>} onClick={addAllDatasets}>Seleccionar todo</Button>
+                            </Grid2>
+                            <Grid2 item>
+                                <Button variant="contained" size="small" startIcon={<RemoveCircleOutlineIcon/>} onClick={removeAllDatasets}>Borrar Selección</Button>
+                            </Grid2>
+                        </Grid2>
+                    </Grid2>
+                </Grid2>
+            </Grid2>
+        </Paper>
     );
 };
 

@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-//import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from "@mui/material/CssBaseline";
-import {createMuiTheme, createTheme, ThemeProvider} from "@mui/material";
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import { createTheme, ThemeProvider } from "@mui/material";
+import * as serviceWorkerRegistration from './ServiceWorkerRegistration';
 
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         primary: {
             main: '#3f51b5', // Customize primary color
@@ -23,13 +22,14 @@ const theme = createMuiTheme({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  //<React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <App/>
-        </ThemeProvider>
-  //</React.StrictMode>
+    <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <App/>
+    </ThemeProvider>
 );
+
+// Register the service worker to make the app work offline and load faster
+serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

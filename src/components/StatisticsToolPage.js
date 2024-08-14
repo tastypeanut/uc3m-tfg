@@ -43,9 +43,7 @@ const useDataManagement = () => {
 };
 
 // Style Constants
-const containerStyle = { p: 5, m: 0 };
-const itemStyle = { px: 0 };
-const buttonStyle = { px: 0, display: "flex", justifyContent: "right", alignItems: "center" };
+const pageMargins = { p: 5, m: 0 };
 
 const StatisticsToolPage = () => {
 
@@ -54,17 +52,16 @@ const StatisticsToolPage = () => {
     const dataIsAvailable = useMemo(() => normalizedData.length > 0, [normalizedData]);
 
     return (
-        <Grid2 container spacing={4} sx={containerStyle}>
-            <CssBaseline />
-            <Grid2 item xs={12} sx={itemStyle}>
+        <Grid2 container spacing={4} sx={pageMargins}>
+            <Grid2 item xs={12}>
                 <Typography variant="h3">INE Data Viewer</Typography>
             </Grid2>
             {dataLookups.map((lookup, index) => (
-                <Grid2 item xs={12} sx={itemStyle} key={lookup.id}>
+                <Grid2 item xs={12} key={lookup.id}>
                     <DataLookup onDataLookup={(data) => handleDataLookup(index, data)} />
                 </Grid2>
             ))}
-            <Grid2 item xs={12} sx={buttonStyle}>
+            <Grid2 item xs={12} display="flex" justifyContent="right" alignItems="center">
                 <Button variant="contained" size="large" color="success" startIcon={<AddCircleIcon />} onClick={addDataLookup}>
                     Añadir consulta
                 </Button>
@@ -72,20 +69,14 @@ const StatisticsToolPage = () => {
             {dataIsAvailable ? (
                 console.log(normalizedData),
                 <>
-                    <Grid2 item xs={12} sx={itemStyle}>
-                        <DataExport normalizedData={normalizedData}/>
-                    </Grid2>
-                    <Grid2 item xs={12} sx={itemStyle}>
-                        <TableDisplay normalizedData={normalizedData} />
-                    </Grid2>
-                    <Grid2 item xs={12} sx={itemStyle}>
+                    <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
-                    <Grid2 item xs={12} sx={itemStyle}>
-                        <Heatmap normalizedData={normalizedData}/>
+                    <Grid2 item xs={12}>
+                        <DataExport normalizedData={normalizedData}/>
                     </Grid2>
-                    <Grid2 item xs={12} sx={itemStyle}>
-                        <RadarChart normalizedData={normalizedData}/>
+                    <Grid2 item xs={12}>
+                        <TableDisplay normalizedData={normalizedData} />
                     </Grid2>
                 </>
             ) : (

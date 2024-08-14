@@ -161,10 +161,10 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                     </Grid2>
                     <Grid2 xs={12} container spacing={2}>
                         <Grid2>
-                            <Button variant="outlined" size="small" onClick={() => handleSelectAll(group)}>Seleccionar todos los valores</Button>
+                            <Button variant="contained" size="small" onClick={() => handleSelectAll(group)}>Seleccionar todos los valores</Button>
                         </Grid2>
                         <Grid2>
-                            <Button variant="contained" size="small" onClick={() => handleDeselectAll(group)}>Borrar selección</Button>
+                            <Button variant="outlined" size="small" onClick={() => handleDeselectAll(group)}>Borrar selección</Button>
                         </Grid2>
                     </Grid2>
                     <Grid2 xs={12} item>

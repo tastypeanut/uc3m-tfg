@@ -9,6 +9,7 @@ import {ArrowDropDown} from "@mui/icons-material";
 import DownloadIcon from '@mui/icons-material/Download';
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import InfoIcon from '@mui/icons-material/Info';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 
 const DataExporter = ({ normalizedData }) => {
 
@@ -130,8 +131,8 @@ const DataExporter = ({ normalizedData }) => {
                 <Button
                     variant="contained"
                     onClick={handleClick}
-                    startIcon={<DownloadIcon />}
-                    endIcon={<ArrowDropDown />}
+                    startIcon={<SystemUpdateAltIcon/>} //TODO: Maybe change this icon
+                    endIcon={<ArrowDropDown/>}
                 >
                     Exportar Datos
                 </Button>
