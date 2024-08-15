@@ -42,9 +42,6 @@ const useDataManagement = () => {
     return { dataLookups, normalizedData, handleDataLookup, addDataLookup };
 };
 
-// Style Constants
-const pageMargins = { p: 5, m: 0 };
-
 const StatisticsToolPage = () => {
 
     const { dataLookups, normalizedData, handleDataLookup, addDataLookup } = useDataManagement();
@@ -52,7 +49,7 @@ const StatisticsToolPage = () => {
     const dataIsAvailable = useMemo(() => normalizedData.length > 0, [normalizedData]);
 
     return (
-        <Grid2 container spacing={4} sx={pageMargins}>
+        <Grid2 container spacing={4} sx={{pt:2}}>
             <Grid2 item xs={12}>
                 <Typography variant="h3">INE Data Viewer</Typography>
             </Grid2>
