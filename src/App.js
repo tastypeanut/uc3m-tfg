@@ -10,16 +10,14 @@ function App() {
 
     const renderPageContent = () => {
         switch (currentPage) {
-            case 'Statistics':
-                return <StatisticsToolPage />;
             case 'About':
-                return <AboutPage/>;
+                return <AboutPage />;
             case 'Contact':
-                return <ContactPage/>;
+                return <ContactPage />;
             case 'Legal':
                 return <LegalPage />;
             default:
-                return <StatisticsToolPage/>;
+                return null; // Return null for default case since the StatisticsToolPage will always be rendered
         }
     };
 
@@ -42,14 +40,17 @@ function App() {
                         px: { xs: 2, sm: 4 }, // No padding on xs, 3 units of padding on sm and above
                     }}
                 >
+                    {/* Always render the StatisticsToolPage and control its visibility */}
+                    <div style={{ display: currentPage === 'Statistics' ? 'block' : 'none' }}>
+                        <StatisticsToolPage />
+                    </div>
                     {renderPageContent()}
                 </Box>
-                <Footer/>
+                <Footer />
             </Box>
         </React.Fragment>
     );
 }
-
 
 const AboutPage = () => (
     <div>
