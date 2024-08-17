@@ -6,9 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServiceWorkerRegistration.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/Operation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/SeriesInfo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/Table.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/TableData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/TableGroup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/classes/data/SeriesData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/data/SeriesData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/classes/info/OperationInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/info/OperationInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/classes/info/SeriesInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/info/SeriesInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/classes/info/TableInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/info/TableInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/classes/info/TableVariableInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/info/TableVariableInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/classes/info/VariableInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/info/VariableInfo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/TableSeriesSearch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/select/OperationsSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/select/OperationsSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/select/TablesSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/select/TablesSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/seriesDataFetch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/seriesDataFetch.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +132,7 @@
       <workItem from="1716219953613" duration="5000" />
       <workItem from="1723291085424" duration="19888000" />
       <workItem from="1723903241685" duration="1346000" />
-      <workItem from="1723927744570" duration="1381000" />
+      <workItem from="1723927744570" duration="4744000" />
     </task>
     <servers />
   </component>

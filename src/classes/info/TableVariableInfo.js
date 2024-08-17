@@ -3,8 +3,8 @@ export class TableVariableInfo {
     constructor(id, nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.options = [];
-        this.values = [];
+        //this.options = [];
+        //this.values = [];
     }
 
     // Static method to create a TableVariableInfo instance from raw data

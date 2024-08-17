@@ -15,7 +15,7 @@ export class SeriesInfo {
     // Static method to create a SeriesInfo instance from raw data
     static fromJson(data) {
         return new SeriesInfo(
-            data.COD,
+            data.a,
             data.Decimales,
             data.FK_Clasificacion,
             data.FK_Escala,

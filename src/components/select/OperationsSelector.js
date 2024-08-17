@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
-import {Operation} from "../../classes/Operation";
+import {OperationInfo} from "../../classes/info/OperationInfo";
 import {Box, CircularProgress, LinearProgress, Skeleton, Typography} from "@mui/material";
 
 const OperationsSelector = ({ onOperationSelect }) => {
@@ -19,7 +19,7 @@ const OperationsSelector = ({ onOperationSelect }) => {
         setSelectedOption(null);  // Clear the selection on component load
         fetchData('OPERACIONES_DISPONIBLES', '')
             .then(jsonData => {
-                setOperations(jsonData.map(item => new Operation(item.Id, item.Cod_IOE, item.Nombre, item.Codigo, item.Url)));
+                setOperations(jsonData.map(item => OperationInfo.fromJson(item)));
             })
             .catch(error => {
                 setError(error);

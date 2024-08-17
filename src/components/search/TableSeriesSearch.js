@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { fetchData } from '../../services/ineApi';
-import { TableGroup, TableGroupValue } from "../../classes/TableGroup";
+import {TableVariableInfo} from "../../classes/info/TableVariableInfo";
+import {VariableInfo} from "../../classes/info/VariableInfo";
 import Select from "react-select";
-import {SeriesInfo} from "../../classes/SeriesInfo";
+import {SeriesInfo} from "../../classes/info/SeriesInfo";
 import {Box, Button, Card, Chip, Divider, LinearProgress, Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import Grid from "@mui/material/Unstable_Grid2";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import {Grid3x3} from "@mui/icons-material";
 
 const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     const [tableGroups, setTableGroups] = useState([]);
@@ -31,19 +30,15 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
         // Fetch the main table groups first
         fetchData('GRUPOS_TABLA', tableId, {}, abortController.signal)
             .then(jsonData => {
-
-                const groups = jsonData.map(item => new TableGroup(item.Id, item.Nombre)); //Deserialize TableGroup Data
+                const groups = jsonData.map(item => TableVariableInfo.fromJson(item)); // Deserialize TableGroup Data
                 setTableGroups(groups);
 
                 // After setting groups, fetch values for each group
                 return Promise.all(groups.map(group => {
-
                     const inputPath = `${tableId}/${group.id}`;
                     return fetchData('VALORES_GRUPOSTABLA', inputPath, {}, abortController.signal)
                         .then(valuesData => {
-                            const values = valuesData.map(val =>
-                                new TableGroupValue(val.Id, val.Nombre, val.Codigo, val.FK_Variable) //Deserialize Variable Data
-                            );
+                            const values = valuesData.map(val => VariableInfo.fromJson(val)); // Deserialize Variable Data
                             return {
                                 ...group,
                                 options: values.map(value => ({
@@ -55,7 +50,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                         })
                         .catch(error => {
                             console.error(`Failed to fetch values for group ${group.id}:`, error);
-                            return group;
+                            return group; // Return the group without options in case of error
                         });
                 }));
             })
@@ -95,7 +90,8 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     const handleSelectChange = (selectedOption, group) => {
         setSelectedValues(prev => ({
             ...prev,
-            [group.id]: selectedOption}));
+            [group.id]: selectedOption
+        }));
     };
 
     const handleSelectAll = (group) => {
@@ -123,7 +119,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
             .then(jsonData => {
                 // Assuming jsonData is an array of series objects
                 jsonData.forEach(item =>
-                    resultingSeries[item.COD] = new SeriesInfo(item.COD, item.Decimales, item.FK_Clasificacion, item.FK_Escala, item.FK_Operacion, item.FK_Periodicidad, item.FK_Publicacion, item.FK_Unidad, item.Id, item.Nombre)
+                    resultingSeries[item.COD] = SeriesInfo.fromJson(item) // Deserialize Series Data
                 );
                 console.log("Search results:", jsonData); //TODO: Remove
             })
@@ -190,7 +186,6 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                 </Grid2>
             }
         </Grid2>
-
     );
 };
 

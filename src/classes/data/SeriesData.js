@@ -23,8 +23,6 @@ export class DataPoint {
 
 export class Record {
     constructor(cod, nombre, fkUnidad, fkEscala, data) {
-        this.op = null;
-        this.tabla = null;
         this.cod = cod; // This is the main Record identifier
         this.nombre = nombre;
         this.fkUnidad = fkUnidad;

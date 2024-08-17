@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
-import {Table} from "../../classes/Table";
+import {TableInfo} from "../../classes/info/TableInfo";
 import {LinearProgress, Typography} from "@mui/material";
 
 const TablesSelector = ({ operationId, onTableSelect }) => {
@@ -19,7 +19,7 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
             setSelectedOption(null);  // Clear the selection when operation changes
             fetchData('TABLAS_OPERACION', operationId)
                 .then(jsonData => {
-                    setTables(jsonData.map(item => new Table(item.Id, item.Nombre, item.Codigo, item.FK_Periodicidad, item.FK_Publicacion, item.FK_Periodo_ini, item.Anyo_Periodo_ini, item.FechaRef_fin, item.Ultima_Modificacion)));
+                    setTables(jsonData.map(item => TableInfo.fromJson(item)));
                 })
                 .catch(error => {
                     setError(error);

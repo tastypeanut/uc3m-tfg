@@ -1,5 +1,5 @@
 import { fetchData } from "./ineApi";
-import { Record } from "../classes/TableData";
+import { Record } from "../classes/data/SeriesData";
 
 export async function fetchSeriesData(seriesMap) {
     const fetchPromises = [];
@@ -10,7 +10,7 @@ export async function fetchSeriesData(seriesMap) {
 
         // Create a promise for each fetchData call and push it into the fetchPromises array
         const fetchPromise = fetchData('DATOS_SERIE', searchString).then(item => {
-            const seriesRecords = new Record(item.COD, item.Nombre, item.FK_Unidad, item.FK_Escala, item.Data);
+            const seriesRecords = Record.fromJson(item);
             console.log(`Fetched data for series ${key}:`, seriesRecords);
             return seriesRecords; // We return seriesRecords from the then callback to use later
         }).catch(error => {

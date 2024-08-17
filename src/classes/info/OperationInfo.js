@@ -7,7 +7,7 @@ export class OperationInfo {
         this.url = url;
     }
 
-    // Static method to create an OperationInfo instance from raw data
+    // Static method to create an OperationInfo instance from raw data (JSON)
     static fromJson(data) {
         return new OperationInfo(
             data.Id,
