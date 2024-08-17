@@ -67,13 +67,27 @@ const StatisticsToolPage = () => {
                 console.log(normalizedData),
                 <>
                     <Grid2 item xs={12}>
+                        <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1401877082227954"
+                                crossOrigin="anonymous"></script>
+                        <ins class="adsbygoogle"
+                             style={{ display: 'block' }}
+                             data-ad-client="ca-pub-1401877082227954"
+                             data-ad-slot="3430706715"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </Grid2>
+                    <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
                     <Grid2 item xs={12}>
                         <DataExport normalizedData={normalizedData}/>
                     </Grid2>
                     <Grid2 item xs={12}>
-                        <TableDisplay normalizedData={normalizedData} />
+                        <TableDisplay normalizedData={normalizedData}/>
                     </Grid2>
                 </>
             ) : (
