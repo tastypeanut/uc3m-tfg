@@ -53,6 +53,20 @@ const StatisticsToolPage = () => {
             <Grid2 item xs={12}>
                 <Typography variant="h3">INE Data Viewer</Typography>
             </Grid2>
+            <Grid2 item xs={12}>
+                <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1401877082227954"
+                        crossOrigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style={{ display: 'block' }}
+                     data-ad-client="ca-pub-1401877082227954"
+                     data-ad-slot="3430706715"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </Grid2>
             {dataLookups.map((lookup, index) => (
                 <Grid2 item xs={12} key={lookup.id}>
                     <DataLookup onDataLookup={(data) => handleDataLookup(index, data)} />
@@ -66,20 +80,6 @@ const StatisticsToolPage = () => {
             {dataIsAvailable ? (
                 console.log(normalizedData),
                 <>
-                    <Grid2 item xs={12}>
-                        <script async
-                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1401877082227954"
-                                crossOrigin="anonymous"></script>
-                        <ins class="adsbygoogle"
-                             style={{ display: 'block' }}
-                             data-ad-client="ca-pub-1401877082227954"
-                             data-ad-slot="3430706715"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </Grid2>
                     <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
