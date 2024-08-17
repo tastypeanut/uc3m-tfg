@@ -53,7 +53,7 @@ const StatisticsToolPage = () => {
             <Grid2 item xs={12}>
                 <Typography variant="h3">INE Data Viewer</Typography>
             </Grid2>
-            <Grid2 item xs={12}>
+            <Grid2 container xs={12}>
                 <script async
                         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1401877082227954"
                         crossOrigin="anonymous"></script>
