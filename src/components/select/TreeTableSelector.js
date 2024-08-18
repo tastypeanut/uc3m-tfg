@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import { fetchData } from '../../services/ineApi';
 import { TableInfo } from "../../classes/info/TableInfo";
-import { LinearProgress, Paper } from "@mui/material";
+import {FormControlLabel, LinearProgress, Paper} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 
 // Custom hook for fetching and loading data
@@ -102,11 +102,15 @@ const LazyTreeItem = React.memo(({ itemId, label, selectedTable, onTableSelect }
         return tables.map((table) => (
             <TreeItem key={table.id} itemId={`table-${table.id}`} label={
                 <Box display="flex" alignItems="center">
-                    <Checkbox
-                        checked={selectedTable?.id === table.id}
-                        onChange={() => onTableSelect(table)}
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={selectedTable?.id === table.id}
+                                onChange={() => onTableSelect(table)}
+                            />
+                        }
+                        label={`${table.nombre} → ID: ${table.id}`}
                     />
-                    {`${table.nombre} → ID: ${table.id}`}
                 </Box>
             } />
         ));
