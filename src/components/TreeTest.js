@@ -7,6 +7,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import { fetchData } from '../services/ineApi';
 import { TableInfo } from "../classes/info/TableInfo";
+import {Paper} from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 // Custom hook for fetching and loading data
 const useFetchData = (type, itemId) => {
@@ -117,19 +119,21 @@ const TreeTest = ({ operationId, onTableSelect }) => {
     }
 
     return (
-        <Box>
-            <SimpleTreeView>
-                {rootNodes.map((node) => (
-                    <LazyTreeItem
-                        key={node.Id}
-                        itemId={node.Id}
-                        label={node.Nombre}
-                        selectedTable={selectedTable}
-                        onTableSelect={handleTableSelect}
-                    />
-                ))}
-            </SimpleTreeView>
-        </Box>
+        <Paper variant="outlined">
+            <Grid2 item>
+                <SimpleTreeView>
+                    {rootNodes.map((node) => (
+                        <LazyTreeItem
+                            key={node.Id}
+                            itemId={node.Id}
+                            label={node.Nombre}
+                            selectedTable={selectedTable}
+                            onTableSelect={handleTableSelect}
+                        />
+                    ))}
+                </SimpleTreeView>
+            </Grid2>
+        </Paper>
     );
 };
 

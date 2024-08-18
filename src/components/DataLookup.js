@@ -4,8 +4,9 @@ import OperationsSelector from "./select/OperationsSelector";
 import TablesSelector from "./select/TablesSelector";
 import TableSeriesSearch from "./search/TableSeriesSearch";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Typography } from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Breadcrumbs, Chip, Typography} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import TreeTest from "./TreeTest";
 
 const DataLookup = ({ onDataLookup }) => {
@@ -41,15 +42,39 @@ const DataLookup = ({ onDataLookup }) => {
         <Accordion defaultExpanded sx={{ width: '100%', px: 3, py: 2 }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header">
                 <Grid2 container spacing={4}>
-                    <Grid2 item xs={12} display="flex" justifyContent="right" alignItems="center">
-                        <Chip
-                            label={selectedOperation ? `Operación: ${selectedOperation.nombre}` : "Operación: No seleccionada"}
-                            variant="outlined"
-                        />
-                        <Chip
-                            label={selectedTable ? `Tabla: ${selectedTable.nombre}` : "Tabla: No seleccionada"}
-                            variant="outlined"
-                        />
+                    <Grid2 item xs={12} display="flex" alignItems="flex-start" flexWrap="wrap">
+                        <Breadcrumbs
+                            separator={<NavigateNextIcon fontSize="small" />}
+                            aria-label="breadcrumb"
+                        >
+                                <Chip
+                                    sx={{
+                                        height: 'auto',
+                                        padding: '0.5rem',
+                                        my: '0.5rem',
+                                        '& .MuiChip-label': {
+                                            display: 'block',
+                                            whiteSpace: 'normal',
+                                        },
+                                    }}
+                                    label={selectedOperation ? `Operación: ${selectedOperation.nombre}` : "Operación: No seleccionada"}
+                                    variant="filled"
+                                />
+                            {selectedTable &&
+                                <Chip
+                                    sx={{
+                                        height: 'auto',
+                                        padding: '0.5rem',
+                                        '& .MuiChip-label': {
+                                            display: 'block',
+                                            whiteSpace: 'normal',
+                                        },
+                                    }}
+                                    label={selectedTable ? `Tabla: ${selectedTable.nombre}` : "Tabla: No seleccionada"}
+                                    variant="filled"
+                                />
+                            }
+                        </Breadcrumbs>
                     </Grid2>
                 </Grid2>
             </AccordionSummary>
