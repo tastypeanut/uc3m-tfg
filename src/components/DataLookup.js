@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchSeriesData } from "../services/seriesDataFetch";
-import OperationsSelector from "./select/OperationsSelector";
-import TablesSelector from "./select/TablesSelector";
 import TableSeriesSearch from "./search/TableSeriesSearch";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Accordion, AccordionDetails, AccordionSummary, Breadcrumbs, Chip, Typography} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import TreeTest from "./TreeTest";
+import TreeTableSelector from "./select/TreeTableSelector";
+import ListOperationSelector from "./select/ListOperationSelector";
 
 const DataLookup = ({ onDataLookup }) => {
 
@@ -57,7 +56,7 @@ const DataLookup = ({ onDataLookup }) => {
                                             whiteSpace: 'normal',
                                         },
                                     }}
-                                    label={selectedOperation ? `Operación: ${selectedOperation.nombre}` : "Operación: No seleccionada"}
+                                    label={selectedOperation ? `Operación: ${selectedOperation.nombre}  → ID: ${selectedOperation.id}` : "Operación: No seleccionada"}
                                     variant="filled"
                                 />
                             {selectedTable &&
@@ -70,7 +69,7 @@ const DataLookup = ({ onDataLookup }) => {
                                             whiteSpace: 'normal',
                                         },
                                     }}
-                                    label={selectedTable ? `Tabla: ${selectedTable.nombre}` : "Tabla: No seleccionada"}
+                                    label={selectedTable ? `Tabla: ${selectedTable.nombre}  → ID: ${selectedTable.id}` : "Tabla: No seleccionada"}
                                     variant="filled"
                                 />
                             }
@@ -85,7 +84,7 @@ const DataLookup = ({ onDataLookup }) => {
                             <Typography variant="h5">Selecciona una operación:</Typography>
                         </Grid2>
                         <Grid2 item xs={12}>
-                            <OperationsSelector onOperationSelect={setSelectedOperation} />
+                            <ListOperationSelector onOperationSelect={setSelectedOperation} />
                         </Grid2>
                     </Grid2>
                     {selectedOperation &&
@@ -94,7 +93,7 @@ const DataLookup = ({ onDataLookup }) => {
                                 <Typography variant="h5">Selecciona una tabla:</Typography>
                             </Grid2>
                             <Grid2 item xs={12}>
-                                <TreeTest
+                                <TreeTableSelector
                                     operationId={selectedOperation.id}
                                     onTableSelect={setSelectedTable}
                                 />

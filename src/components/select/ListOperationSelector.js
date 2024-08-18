@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
 import { OperationInfo } from "../../classes/info/OperationInfo";
-import { LinearProgress, Typography } from "@mui/material";
+import {Button, LinearProgress, Typography} from "@mui/material";
 
 const ListOperationSelector = ({ onOperationSelect }) => {
     const [options, setOptions] = useState([]); // Operations options for the Select component
@@ -13,44 +13,32 @@ const ListOperationSelector = ({ onOperationSelect }) => {
 
     // On component load, fetch available operations
     useEffect(() => {
-        const abortController = new AbortController();
-
         const loadOperations = async () => {
             setLoading(true);
             setSelectedOption(null);  // Clear the selection on component load
             try {
-                const jsonData = await fetchData('OPERACIONES_DISPONIBLES', '', {}, abortController.signal);
+                const jsonData = await fetchData('OPERACIONES_DISPONIBLES', '', {});
                 const operations = jsonData.map(item => {
                     const operation = OperationInfo.fromJson(item);
                     return {
                         value: operation, // Set the entire operation object as the value
-                        label: `${operation.nombre} -> ID: ${operation.id}`
+                        label: `${operation.nombre} → ID: ${operation.id}`
                     };
                 });
 
                 // Sort the operations by the label property
                 operations.sort((a, b) => a.label.localeCompare(b.label));
 
-                if (!abortController.signal.aborted) {
-                    setOptions(operations);
-                }
+                setOptions(operations);
             } catch (error) {
-                if (!abortController.signal.aborted) {
-                    setError(error);
-                    console.error("Failed to fetch operations:", error);
-                }
+                setError(error);
+                console.error("Failed to fetch operations:", error);
             } finally {
-                if (!abortController.signal.aborted) {
-                    setLoading(false);
-                }
+                setLoading(false);
             }
         };
 
         loadOperations();
-
-        return () => {
-            abortController.abort(); // Cleanup: abort any ongoing fetch request
-        };
     }, []);
 
     const handleSelectChange = (selectedOption) => {

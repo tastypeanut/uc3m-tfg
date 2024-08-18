@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { fetchData } from '../../services/ineApi';
-import {TableVariableGroupInfo} from "../../classes/info/TableVariableGroupInfo";
-import {VariableInfo} from "../../classes/info/VariableInfo";
+import { TableVariableGroupInfo } from "../../classes/info/TableVariableGroupInfo";
+import { VariableInfo } from "../../classes/info/VariableInfo";
 import Select from "react-select";
-import {SeriesInfo} from "../../classes/info/SeriesInfo";
-import {Box, Button, Card, Chip, Divider, LinearProgress, Stack, Typography} from "@mui/material";
+import { SeriesInfo } from "../../classes/info/SeriesInfo";
+import { Box, Button, Card, Chip, Divider, LinearProgress, Stack, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
@@ -17,18 +17,14 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-
         if (!tableId) return;
 
         setLoading(true);
-
-        const abortController = new AbortController(); // For aborting fetch requests on cleanup
-
         setTableGroups([]); // Clear groups on table change
         setSelectedValues({}); // Clear selected values on table change
 
         // Fetch the main table groups first
-        fetchData('GRUPOS_TABLA', tableId, {}, abortController.signal)
+        fetchData('GRUPOS_TABLA', tableId, {})
             .then(jsonData => {
                 const groups = jsonData.map(item => TableVariableGroupInfo.fromJson(item)); // Deserialize TableGroup Data
                 console.log("Table Variable Groups:", groups); //TODO: Remove
@@ -37,7 +33,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                 // After setting groups, fetch values for each group
                 return Promise.all(groups.map(group => {
                     const inputPath = `${tableId}/${group.id}`;
-                    return fetchData('VALORES_GRUPOSTABLA', inputPath, {}, abortController.signal)
+                    return fetchData('VALORES_GRUPOSTABLA', inputPath, {})
                         .then(valuesData => {
                             const values = valuesData.map(val => VariableInfo.fromJson(val)); // Deserialize Variable Data
                             console.log(`Values for group ${group.id}:`, values); //TODO: Remove
@@ -66,10 +62,6 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
             .finally(() => {
                 setLoading(false);
             });
-
-        return () => {
-            abortController.abort(); // Cleanup function to abort fetches on component unmount or dependency change
-        };
 
     }, [tableId]); // Trigger only when tableId changes
 
@@ -140,7 +132,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
     if (loading) return (
         <>
             <Typography variant="body1">Cargando información de la tabla...</Typography>
-            <LinearProgress/>
+            <LinearProgress />
         </>
     );
 
@@ -180,12 +172,12 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                 </Grid2>
             ))}
             <Grid2 xs={12} item display="flex" justifyContent="center" alignItems="center">
-                <Button variant="contained" size="large" startIcon={<QueryStatsIcon/>} onClick={() => handleSeriesSearch()}>Obtener datos</Button>
+                <Button variant="contained" size="large" startIcon={<QueryStatsIcon />} onClick={() => handleSeriesSearch()}>Obtener datos</Button>
             </Grid2>
             {loadingData &&
                 <Grid2 xs={12} item>
                     <Typography variant="body1">Cargando datos de la tabla...</Typography>
-                    <LinearProgress/>
+                    <LinearProgress />
                 </Grid2>
             }
         </Grid2>

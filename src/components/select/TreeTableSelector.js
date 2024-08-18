@@ -16,31 +16,19 @@ const useFetchData = (type, itemId) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const abortController = new AbortController();
-
         const fetchDataAsync = async () => {
             try {
-                const result = await fetchData(type, itemId, {}, abortController.signal);
-                if (!abortController.signal.aborted) {
-                    setData(result);
-                }
+                const result = await fetchData(type, itemId, {});
+                setData(result);
             } catch (error) {
-                if (!abortController.signal.aborted) {
-                    console.error(`Failed to fetch ${type}:`, error);
-                    setError(error);
-                }
+                console.error(`Failed to fetch ${type}:`, error);
+                setError(error);
             } finally {
-                if (!abortController.signal.aborted) {
-                    setLoading(false);
-                }
+                setLoading(false);
             }
         };
 
         fetchDataAsync();
-
-        return () => {
-            abortController.abort(); // Cleanup: abort any ongoing fetch request
-        };
     }, [type, itemId]);
 
     return { data, loading, error };
@@ -54,40 +42,28 @@ const useLazyLoad = (itemId) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const abortController = new AbortController();
-
         const loadChildren = async () => {
             if (children.length === 0 && tables.length === 0) {
                 setLoading(true);
                 try {
-                    const childData = await fetchData('CAPITULOS', itemId, {}, abortController.signal);
-                    if (!abortController.signal.aborted) {
-                        if (childData.length > 0) {
-                            setChildren(childData);
-                        } else {
-                            const tableData = await fetchData('TABLAS_CAPITULO', itemId, {}, abortController.signal);
-                            const tableInfos = tableData.map(table => TableInfo.fromJson(table));
-                            setTables(tableInfos);
-                        }
+                    const childData = await fetchData('CAPITULOS', itemId, {});
+                    if (childData.length > 0) {
+                        setChildren(childData);
+                    } else {
+                        const tableData = await fetchData('TABLAS_CAPITULO', itemId, {});
+                        const tableInfos = tableData.map(table => TableInfo.fromJson(table));
+                        setTables(tableInfos);
                     }
                 } catch (error) {
-                    if (!abortController.signal.aborted) {
-                        console.error("Failed to load data:", error);
-                        setError(error);
-                    }
+                    console.error("Failed to load data:", error);
+                    setError(error);
                 } finally {
-                    if (!abortController.signal.aborted) {
-                        setLoading(false);
-                    }
+                    setLoading(false);
                 }
             }
         };
 
         loadChildren();
-
-        return () => {
-            abortController.abort(); // Cleanup: abort any ongoing fetch request
-        };
     }, [itemId]);
 
     return { children, tables, loading, error };
@@ -130,7 +106,7 @@ const LazyTreeItem = React.memo(({ itemId, label, selectedTable, onTableSelect }
                         checked={selectedTable?.id === table.id}
                         onChange={() => onTableSelect(table)}
                     />
-                    {`${table.nombre}`}
+                    {`${table.nombre} → ID: ${table.id}`}
                 </Box>
             } />
         ));

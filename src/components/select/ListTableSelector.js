@@ -21,7 +21,7 @@ const ListTableSelector = ({ operationId, onTableSelect }) => {
                         const table = TableInfo.fromJson(item);
                         return {
                             value: table, // Set the entire table object as the value
-                            label: `${table.nombre} -> ID: ${table.id}`
+                            label: `${table.nombre} → ID: ${table.id}`
                         };
                     });
 
