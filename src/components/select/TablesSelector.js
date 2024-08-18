@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
-import {TableInfo} from "../../classes/info/TableInfo";
-import {LinearProgress, Typography} from "@mui/material";
+import { TableInfo } from "../../classes/info/TableInfo";
+import { LinearProgress, Typography } from "@mui/material";
 
 const TablesSelector = ({ operationId, onTableSelect }) => {
-    const [tables, setTables] = useState([]); //Array of Table objects
-    const [options, setOptions] = useState([]); //Map of operations to be used in the Select component
-    const [selectedOption, setSelectedOption] = useState(null); //Selected operation in the Select component
+    const [options, setOptions] = useState([]); // Tables options for the Select component
+    const [selectedOption, setSelectedOption] = useState(null); // Selected table in the Select component
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
 
     useEffect(() => {
         if (operationId) {
@@ -19,37 +17,39 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
             setSelectedOption(null);  // Clear the selection when operation changes
             fetchData('TABLAS_OPERACION', operationId)
                 .then(jsonData => {
-                    setTables(jsonData.map(item => TableInfo.fromJson(item)));
+                    const tables = jsonData.map(item => {
+                        const table = TableInfo.fromJson(item);
+                        return {
+                            value: table, // Set the entire table object as the value
+                            label: `${table.nombre} -> ID: ${table.id}`
+                        };
+                    });
+
+                    // Sort the tables by the label property
+                    tables.sort((a, b) => a.label.localeCompare(b.label));
+
+                    setOptions(tables);
                 })
                 .catch(error => {
                     setError(error);
                     console.error("Failed to fetch tables:", error);
                 })
                 .finally(() => {
-                    setLoading(false)
+                    setLoading(false);
                 });
         }
     }, [operationId]);
 
-    //On tables change, update the options with the new tables
-    useEffect(() => {
-        setOptions(tables.map(table => ({
-            value: table.id,
-            label: `${table.nombre} -> ID: ${table.id}`
-        })))
-        console.log("Available tables: ", tables); //TODO: Remove
-    }, [tables]);
-
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption);
         onTableSelect(selectedOption ? selectedOption.value : null);
-        console.log(selectedOption);
-    }
+        console.log(selectedOption?.value);
+    };
 
     if (loading) return (
         <>
             <Typography variant="body1">Cargando tablas disponibles...</Typography>
-            <LinearProgress/>
+            <LinearProgress />
         </>
     );
 
@@ -60,14 +60,14 @@ const TablesSelector = ({ operationId, onTableSelect }) => {
     );
 
     return (
-            <Select
-                value={selectedOption}
-                onChange={handleSelectChange}
-                options={options}
-                placeholder="Busca y selecciona una tabla..."
-                isClearable={true}
-                isSearchable={true}
-            />
+        <Select
+            value={selectedOption}
+            onChange={handleSelectChange}
+            options={options}
+            placeholder="Busca y selecciona una tabla..."
+            isClearable={true}
+            isSearchable={true}
+        />
     );
 };
 

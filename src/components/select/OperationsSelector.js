@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
-import {OperationInfo} from "../../classes/info/OperationInfo";
-import {Box, CircularProgress, LinearProgress, Skeleton, Typography} from "@mui/material";
+import { OperationInfo } from "../../classes/info/OperationInfo";
+import { LinearProgress, Typography } from "@mui/material";
 
 const OperationsSelector = ({ onOperationSelect }) => {
-    const [operations, setOperations] = useState([]); //Array of Operation objects
-    const [options, setOptions] = useState([]); //Map of operations to be used in the Select component
-    const [selectedOption, setSelectedOption] = useState(null); //Selected operation in the Select component
+    const [options, setOptions] = useState([]); // Operations options for the Select component
+    const [selectedOption, setSelectedOption] = useState(null); // Selected operation in the Select component
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
 
     // On component load, fetch available operations
     useEffect(() => {
@@ -19,36 +17,38 @@ const OperationsSelector = ({ onOperationSelect }) => {
         setSelectedOption(null);  // Clear the selection on component load
         fetchData('OPERACIONES_DISPONIBLES', '')
             .then(jsonData => {
-                setOperations(jsonData.map(item => OperationInfo.fromJson(item)));
+                const operations = jsonData.map(item => {
+                    const operation = OperationInfo.fromJson(item);
+                    return {
+                        value: operation, // Set the entire operation object as the value
+                        label: `${operation.nombre} -> ID: ${operation.id}`
+                    };
+                });
+
+                // Sort the operations by the label property
+                operations.sort((a, b) => a.label.localeCompare(b.label));
+
+                setOptions(operations);
             })
             .catch(error => {
                 setError(error);
                 console.error("Failed to fetch operations:", error);
             })
             .finally(() => {
-                setLoading(false)
+                setLoading(false);
             });
     }, []);
-
-    //On operations change, update the options with the new operations
-    useEffect(() => {
-        setOptions(operations.map(operation => ({
-            value: operation.id,
-            label: `${operation.nombre} -> ID: ${operation.id}`
-        })))
-        console.log("Available operations: ", operations); //TODO: Remove
-    }, [operations]);
 
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption);
         onOperationSelect(selectedOption ? selectedOption.value : null);
-        console.log(selectedOption);
-    }
+        console.log(selectedOption?.value);
+    };
 
     if (loading) return (
         <>
             <Typography variant="body1">Cargando operaciones disponibles...</Typography>
-            <LinearProgress/>
+            <LinearProgress />
         </>
     );
 
@@ -59,14 +59,14 @@ const OperationsSelector = ({ onOperationSelect }) => {
     );
 
     return (
-            <Select
-                value={selectedOption}
-                onChange={handleSelectChange}
-                options={options}
-                placeholder="Busca y selecciona una operación..."
-                isClearable={true}
-                isSearchable={true}
-            />
+        <Select
+            value={selectedOption}
+            onChange={handleSelectChange}
+            options={options}
+            placeholder="Busca y selecciona una operación..."
+            isClearable={true}
+            isSearchable={true}
+        />
     );
 };
 

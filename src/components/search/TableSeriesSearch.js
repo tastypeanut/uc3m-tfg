@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchData } from '../../services/ineApi';
-import {TableVariableInfo} from "../../classes/info/TableVariableInfo";
+import {TableVariableGroupInfo} from "../../classes/info/TableVariableGroupInfo";
 import {VariableInfo} from "../../classes/info/VariableInfo";
 import Select from "react-select";
 import {SeriesInfo} from "../../classes/info/SeriesInfo";
@@ -30,7 +30,8 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
         // Fetch the main table groups first
         fetchData('GRUPOS_TABLA', tableId, {}, abortController.signal)
             .then(jsonData => {
-                const groups = jsonData.map(item => TableVariableInfo.fromJson(item)); // Deserialize TableGroup Data
+                const groups = jsonData.map(item => TableVariableGroupInfo.fromJson(item)); // Deserialize TableGroup Data
+                console.log("Table Variable Groups:", groups); //TODO: Remove
                 setTableGroups(groups);
 
                 // After setting groups, fetch values for each group
@@ -39,6 +40,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                     return fetchData('VALORES_GRUPOSTABLA', inputPath, {}, abortController.signal)
                         .then(valuesData => {
                             const values = valuesData.map(val => VariableInfo.fromJson(val)); // Deserialize Variable Data
+                            console.log(`Values for group ${group.id}:`, values); //TODO: Remove
                             return {
                                 ...group,
                                 options: values.map(value => ({
@@ -172,6 +174,7 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
                             placeholder="Busca y selecciona una variable..."
                             isClearable={true}
                             isSearchable={true}
+                            disabled={loadingData}
                         />
                     </Grid2>
                 </Grid2>
