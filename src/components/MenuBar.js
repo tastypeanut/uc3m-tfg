@@ -44,7 +44,9 @@ const MenuBar = ({ onMenuSelect }) => {
                                 size="large"
                                 onClick={toggleDrawer}
                                 color="inherit"
-                            >
+                                sx={{
+                                    px: { xs: 2, sm: 3, md: 4 }
+                            }}>
                                 <MenuIcon />
                             </IconButton>
                         </Box>
@@ -70,6 +72,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                     verticalAlign: 'middle', // Align the icon vertically
                                     marginRight: 1, // Adjust spacing between icon and text
                                 }}
+                                color="inherit"
                             />
                             INESTAT.com
                         </Typography>
@@ -106,6 +109,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                         verticalAlign: 'middle', // Align the icon vertically
                                         marginRight: 1 // Adjust spacing between icon and text
                                     }}
+                                    color="inherit"
                                 />
                                 INESTAT.com
                             </Typography>
