@@ -23,7 +23,7 @@ function App() {
         <>
             <style>
                 {`
-          body * {
+          bod * {
             border: 1px solid red; /* Adjust the color and thickness as needed */
           }
         `}
