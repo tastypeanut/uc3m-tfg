@@ -78,7 +78,7 @@ const StatisticsToolPage = () => {
             </Grid2>
             {dataIsAvailable ? (
                 console.log(normalizedData),
-                <>
+                <Grid2 container spacing={4}>
                     <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
@@ -88,7 +88,7 @@ const StatisticsToolPage = () => {
                     <Grid2 item xs={12}>
                         <TableDisplay normalizedData={normalizedData}/>
                     </Grid2>
-                </>
+                </Grid2>
             ) : (
                 <NoDataLanding />
             )}

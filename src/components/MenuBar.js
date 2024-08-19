@@ -18,6 +18,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import EmailIcon from '@mui/icons-material/Email';
 import CopyrightTwoToneIcon from '@mui/icons-material/CopyrightTwoTone';
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 const MenuBar = ({ onMenuSelect }) => {
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -36,26 +37,7 @@ const MenuBar = ({ onMenuSelect }) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            href="" //TODO: Add a proper href
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                //letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            INESTAT.com
-                        </Typography>
-
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
                                 size="large"
@@ -65,7 +47,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                 <MenuIcon />
                             </IconButton>
                         </Box>
-                        <Typography
+                        <Typography //Mobile
                             variant="h5"
                             noWrap
                             component="a"
@@ -83,21 +65,48 @@ const MenuBar = ({ onMenuSelect }) => {
                         >
                             INESTAT.com
                         </Typography>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page.name}
-                                    onClick={() => onMenuSelect(page.name)}
-                                    sx={{ p: 2, color: 'white'}}
-                                    startIcon={page.icon}
-                                    variant="outlined"
-                                >
-                                    {page.name}
-                                </Button>
-                            ))}
-                        </Box>
+
+                        <Grid2 //Desktop
+                            container
+                            xs={12}
+                            sx={{
+                                display: { xs: 'none', md: 'flex' },
+                                justifyContent: 'flex-start',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                href="" // TODO: Add a proper href
+                                sx={{
+                                    mx: 5,
+                                    display: { xs: 'none', md: 'flex' },
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                    flexGrow: 1
+                                }}
+                            >
+                                INESTAT.com
+                            </Typography>
+                            <Box sx={{ display: 'flex'/*, flexGrow: 1 */}}>
+                                {pages.map((page) => (
+                                    <Button
+                                        key={page.name}
+                                        onClick={() => onMenuSelect(page.name)}
+                                        sx={{ px: 2, color: 'white', textTransform: 'none' }} // `textTransform: 'none'` preserves original text case
+                                        startIcon={page.icon}
+                                        size={'large'}
+                                    >
+                                        {page.name}
+                                    </Button>
+                                ))}
+                            </Box>
+                        </Grid2>
                     </Toolbar>
-                </Container>
             </AppBar>
             {openDrawer && (
                 <Box>

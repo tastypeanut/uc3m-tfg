@@ -245,56 +245,53 @@ const TimeSeriesChart = ({ normalizedData }) => {
     }, [normalizedData, showTrendLine, showMovingAverage, calculateLinearTrendLine, calculateMovingAverage, parseDate, containerWidth, activeDatasets]);
 
     return (
-        <Paper>
-            <Grid2 spacing={4}>
+        <Paper sx={{px: 4}}>
+            <Grid2>
                 <Grid2 xs={12}>
                     <Paper variant="outlined">
-                        <Grid2 ref={chartRef} item/>
+                        <Grid2 container ref={chartRef} sx={{m: 0, p: 2}}/>
                     </Paper>
                 </Grid2>
-                <Grid2 container xs={12}>
+                <Grid2 container xs={12} spacing={4}>
                     <Grid2 container xs={12} md={3} spacing={2} display="block">
                         <Grid2 xs={12} item>
                             <Typography variant="h6">Ajustes de gráfica:</Typography>
                         </Grid2>
                         <Grid2 xs={12} item>
-                            <Paper variant="outlined">
-                                <Grid2 xs={12} item justifyContent="left" alignItems="center">
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={showTrendLine}
-                                            onChange={() => setShowTrendLine(!showTrendLine)}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Mostrar línea de tendencia"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={showMovingAverage}
-                                            onChange={() => setShowMovingAverage(!showMovingAverage)}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Mostrar media móvil (n=3)"
-                                />
-                            </Grid2>
+                            <Paper variant="outlined" sx={{p: 2}}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={showTrendLine}
+                                                onChange={() => setShowTrendLine(!showTrendLine)}
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Mostrar línea de tendencia"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={showMovingAverage}
+                                                onChange={() => setShowMovingAverage(!showMovingAverage)}
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Mostrar media móvil (n=3)"
+                                    />
                             </Paper>
                         </Grid2>
                         <Grid2 xs={12} item display="flex" justifyContent="center" alignItems="center">
                             <Button variant="outlined" size="small" startIcon={<DownloadIcon/>} onClick={downloadAsSVG}>Descargar SVG</Button>
                         </Grid2>
                     </Grid2>
-                    <Grid2 container xs={12} md={9}  spacing={2} display="block">
+                    <Grid2 container xs={12} md={9} spacing={2}>
                         <Grid2 item xs={12}>
                             <Typography variant="h6">Series mostradas:</Typography>
                         </Grid2>
                         <Grid2 item xs={12}>
-                            <Paper variant="outlined">
+                            <Paper variant="outlined" sx={{px: 2}}>
                                 <Grid2
-                                    item
                                     xs={12}
                                     display="grid"
                                     sx={{
