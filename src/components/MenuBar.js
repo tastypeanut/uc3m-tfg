@@ -38,95 +38,136 @@ const MenuBar = ({ onMenuSelect }) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                    <Toolbar disableGutters>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                onClick={toggleDrawer}
-                                color="inherit"
-                                sx={{
-                                    px: { xs: 2, sm: 3, md: 4 }
-                            }}>
-                                <MenuIcon />
-                            </IconButton>
-                        </Box>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="" // TODO: Add a proper href
+                    <Toolbar disableGutters sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+                        <Grid2 // Desktop
+                            container
+                            xs={12}
                             sx={{
-                                mr: 4.5,
                                 display: { xs: 'flex', md: 'none' },
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                color: 'inherit',
-                                textDecoration: 'none',
-                                alignItems: 'center', // Align items vertically
+                                justifyContent: 'space-between', // Distribute space between the two items
+                                alignItems: 'center',
                             }}
                         >
-                            <InsightsIcon
-                                fontSize="large"
+                            <Grid2
+                                item
+                                xs="auto"
                                 sx={{
-                                    verticalAlign: 'middle', // Align the icon vertically
-                                    marginRight: 1, // Adjust spacing between icon and text
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
+                                    mr: 'auto', // Ensures the rest of the content centers by pushing it to the right
                                 }}
-                                color="inherit"
-                            />
-                            INESTAT.com
-                        </Typography>
-
-
-                        <Grid2 //Desktop
+                            >
+                                <IconButton
+                                    size="large"
+                                    onClick={toggleDrawer}
+                                    color="inherit">
+                                    <MenuIcon />
+                                </IconButton>
+                            </Grid2>
+                            <Grid2
+                                item
+                                xs="auto"
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexGrow: 1,
+                                }}
+                            >
+                                <Typography
+                                    variant="h5"
+                                    noWrap
+                                    component="a"
+                                    href="" // TODO: Add a proper href
+                                    sx={{
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        color: 'inherit',
+                                        textDecoration: 'none',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <InsightsIcon
+                                        fontSize="large"
+                                        sx={{
+                                            verticalAlign: 'middle', // Align the icon vertically (might not be necessary)
+                                            marginRight: 1,          // Adjust spacing between icon and text
+                                        }}
+                                        color="inherit"
+                                    />
+                                    INESTAT.com
+                                </Typography>
+                            </Grid2>
+                        </Grid2>
+                        <Grid2 // Desktop
                             container
                             xs={12}
                             sx={{
                                 display: { xs: 'none', md: 'flex' },
-                                justifyContent: 'flex-start',
-                                alignItems: 'center'
+                                justifyContent: 'space-between', // Distribute space between the two items
+                                alignItems: 'center',
                             }}
                         >
-                            <Typography
-                                variant="h5"
-                                noWrap
-                                component="a"
-                                href="" // TODO: Add a proper href
+                            <Grid2
+                                item
+                                xs="auto"
                                 sx={{
-                                    mx: 5,
-                                    display: { xs: 'none', md: 'flex' },
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    color: 'inherit',
-                                    textDecoration: 'none',
-                                    flexGrow: 1,
-                                    alignItems: 'center', // Align items vertically
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
                                 }}
                             >
-                                <InsightsIcon
-                                    fontSize="large"
+                                <Typography
+                                    variant="h5"
+                                    noWrap
+                                    component="a"
+                                    href="" // TODO: Add a proper href
                                     sx={{
-                                        verticalAlign: 'middle', // Align the icon vertically
-                                        marginRight: 1 // Adjust spacing between icon and text
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        color: 'inherit',
+                                        textDecoration: 'none',
+                                        display: 'flex',
+                                        alignItems: 'center',
                                     }}
-                                    color="inherit"
-                                />
-                                INESTAT.com
-                            </Typography>
+                                >
+                                    <InsightsIcon
+                                        fontSize="large"
+                                        sx={{
+                                            verticalAlign: 'middle', // Align the icon vertically
+                                            marginRight: 1, // Adjust spacing between icon and text
+                                        }}
+                                        color="inherit"
+                                    />
+                                    INESTAT.com
+                                </Typography>
+                            </Grid2>
 
-                            <Box sx={{ display: 'flex'/*, flexGrow: 1 */}}>
-                                {pages.map((page) => (
-                                    <Button
-                                        key={page.name}
-                                        onClick={() => onMenuSelect(page.name)}
-                                        sx={{ px: 2, color: 'white', textTransform: 'none' }} // `textTransform: 'none'` preserves original text case
-                                        startIcon={page.icon}
-                                        size={'large'}
-                                    >
-                                        {page.name}
-                                    </Button>
-                                ))}
-                            </Box>
+                            <Grid2
+                                item
+                                xs="auto"
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Box sx={{ display: 'flex' }}>
+                                    {pages.map((page) => (
+                                        <Button
+                                            key={page.name}
+                                            onClick={() => onMenuSelect(page.name)}
+                                            sx={{ px: 2, color: 'white', textTransform: 'none' }} // `textTransform: 'none'` preserves original text case
+                                            startIcon={page.icon}
+                                            size={'large'}
+                                        >
+                                            {page.name}
+                                        </Button>
+                                    ))}
+                                </Box>
+                            </Grid2>
                         </Grid2>
                     </Toolbar>
             </AppBar>
