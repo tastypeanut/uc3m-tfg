@@ -49,16 +49,15 @@ const StatisticsToolPage = () => {
     const dataIsAvailable = useMemo(() => normalizedData.length > 0, [normalizedData]);
 
     return (
-        <Grid2 container spacing={4} sx={{pt:2}}>
+        <Grid2 container xs={12} rowSpacing={4} sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 3, sm: 4 }}}>
             <Grid2 item xs={12}>
                 <Typography variant="h3">INE Data Viewer</Typography>
             </Grid2>
-            <Grid2 container xs={12}>
+            <Grid2 container xs={12} height='100%' width='100%'>
                 <script async
                         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1401877082227954"
                         crossOrigin="anonymous"></script>
                 <ins class="adsbygoogle"
-                     style={{ display: 'block' }}
                      data-ad-client="ca-pub-1401877082227954"
                      data-ad-slot="3430706715"
                      data-ad-format="auto"

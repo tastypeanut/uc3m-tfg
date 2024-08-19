@@ -4,51 +4,33 @@ import { Box } from "@mui/material";
 import MenuBar from "./components/MenuBar";
 import StatisticsToolPage from "./components/StatisticsToolPage";
 import Footer from "./components/Footer";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 function App() {
-    const [currentPage, setCurrentPage] = useState('Statistics');
 
-    const renderPageContent = () => {
-        switch (currentPage) {
-            case 'About':
-                return <AboutPage />;
-            case 'Contact':
-                return <ContactPage />;
-            case 'Legal':
-                return <LegalPage />;
-            default:
-                return null; // Return null for default case since the StatisticsToolPage will always be rendered
-        }
+    //Setting the default page as statistics
+    const [currentPage, setCurrentPage] = useState('Estadísticas');
+
+    // Map each page to its corresponding component
+    const pages = {
+        'Estadísticas': <StatisticsToolPage/>,
+        'Acerca De': <AboutPage />,
+        'Contacto': <ContactPage />,
+        'Aviso Legal': <LegalPage />,
     };
 
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    minHeight: '100vh',
-                }}
-            >
-                <MenuBar onMenuSelect={setCurrentPage} />
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                        py: 2,
-                        px: { xs: 2, sm: 4 }, // No padding on xs, 3 units of padding on sm and above
-                    }}
-                >
-                    {/* Always render the StatisticsToolPage and control its visibility */}
-                    <div style={{ display: currentPage === 'Statistics' ? 'block' : 'none' }}>
-                        <StatisticsToolPage />
-                    </div>
-                    {renderPageContent()}
-                </Box>
-                <Footer />
-            </Box>
-        </React.Fragment>
+        <>
+            <style>
+                {`
+          bod * {
+            border: 1px solid red; /* Adjust the color and thickness as needed */
+          }
+        `}
+            </style>
+            <MenuBar onMenuSelect={setCurrentPage}/>
+            {pages[currentPage]}
+        </>
     );
 }
 

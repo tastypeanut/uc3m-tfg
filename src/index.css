@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* In index.css or any global CSS file */
+body * {
+  border: 1px solid red; /* Adjust the color and thickness as needed */
+}

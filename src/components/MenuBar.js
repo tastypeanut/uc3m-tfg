@@ -1,74 +1,144 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Button, useMediaQuery } from '@mui/material';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useTheme } from '@mui/material/styles';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import EmailIcon from '@mui/icons-material/Email';
+import CopyrightTwoToneIcon from '@mui/icons-material/CopyrightTwoTone';
 
 const MenuBar = ({ onMenuSelect }) => {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const [openDrawer, setOpenDrawer] = useState(false);
 
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+    const toggleDrawer = () => {
+        setOpenDrawer(!openDrawer);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handlePageChange = (newPage) => {
-        onMenuSelect(newPage);
-        handleMenuClose();
-    };
+    const pages = [
+        { name: 'Estadísticas', icon: <AssessmentIcon /> },
+        { name: 'Acerca De', icon: <HelpCenterIcon /> },
+        { name: 'Contacto', icon: <EmailIcon /> },
+        { name: 'Aviso Legal', icon: <CopyrightTwoToneIcon /> },
+    ];
 
     return (
-        <AppBar position="static">
-            <Toolbar>
-                {isSmallScreen ? (
-                    <React.Fragment>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            onClick={handleMenuOpen}
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="" //TODO: Add a proper href
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                //letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
                         >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
+                            INESTAT.com
+                        </Typography>
+
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={toggleDrawer}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </Box>
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="" //TODO: Add a proper href
+                            sx={{
+                                mr: 4.5,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                //letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
                         >
-                            <MenuItem onClick={() => handlePageChange('Statistics')}>Estadísticas</MenuItem>
-                            <MenuItem onClick={() => handlePageChange('About')}>Acerca de</MenuItem>
-                            <MenuItem onClick={() => handlePageChange('Contact')}>Contacto</MenuItem>
-                            <MenuItem onClick={() => handlePageChange('Legal')}>Aviso Legal</MenuItem>
-                        </Menu>
-                        <Typography variant="h6" style={{ flexGrow: 1 }}>
-                            Mi Aplicación
+                            INESTAT.com
                         </Typography>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <Typography variant="h6" style={{ flexGrow: 1 }}>
-                            Mi Aplicación
-                        </Typography>
-                        <Button color="inherit" onClick={() => handlePageChange('Statistics')}>
-                            Estadísticas
-                        </Button>
-                        <Button color="inherit" onClick={() => handlePageChange('About')}>
-                            Acerca de
-                        </Button>
-                        <Button color="inherit" onClick={() => handlePageChange('Contact')}>
-                            Contacto
-                        </Button>
-                        <Button color="inherit" onClick={() => handlePageChange('Legal')}>
-                            Aviso Legal
-                        </Button>
-                    </React.Fragment>
-                )}
-            </Toolbar>
-        </AppBar>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            {pages.map((page) => (
+                                <Button
+                                    key={page.name}
+                                    onClick={() => onMenuSelect(page.name)}
+                                    sx={{ p: 2, color: 'white'}}
+                                    startIcon={page.icon}
+                                    variant="outlined"
+                                >
+                                    {page.name}
+                                </Button>
+                            ))}
+                        </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            {openDrawer && (
+                <Box>
+                    <Drawer
+                        variant="temporary"
+                        anchor="top"
+                        open={openDrawer}
+                        onClose={toggleDrawer}
+                        sx={{
+                            '& .MuiDrawer-paper': {
+                                position: 'fixed',
+                                xs: { paddingTop: '48px' }, //DO NOT CHANGE, workaround to fit the app bar on top.
+                                sm: { paddingTop: '64px' }, //DO NOT CHANGE, workaround to fit the app bar on top.
+                            },
+                        }}
+                    >
+                        <List sx={{ width: '100%' }}>
+                            {pages.map((page, index) => (
+                                <React.Fragment key={page.name}>
+                                    <ListItem>
+                                        <ListItemButton onClick={() => {
+                                            toggleDrawer();
+                                            onMenuSelect(page.name);
+                                        }}>
+                                        <ListItemIcon>
+                                                {page.icon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={page.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                    {index < pages.length - 1 && <Divider />}
+                                </React.Fragment>
+                            ))}
+                        </List>
+                    </Drawer>
+                </Box>
+            )}
+        </Box>
     );
 };
 
