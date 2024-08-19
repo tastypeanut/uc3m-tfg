@@ -249,7 +249,7 @@ const TimeSeriesChart = ({ normalizedData }) => {
             <Grid2>
                 <Grid2 xs={12}>
                     <Paper variant="outlined">
-                        <Grid2 container ref={chartRef} sx={{m: 0, p: 2}}/>
+                        <Grid2 ref={chartRef} sx={{m: 0, p: 2}}/>
                     </Paper>
                 </Grid2>
                 <Grid2 container xs={12} spacing={4}>
