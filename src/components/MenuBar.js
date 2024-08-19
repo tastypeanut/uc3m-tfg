@@ -19,6 +19,7 @@ import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import EmailIcon from '@mui/icons-material/Email';
 import CopyrightTwoToneIcon from '@mui/icons-material/CopyrightTwoTone';
 import Grid2 from "@mui/material/Unstable_Grid2";
+import InsightsIcon from '@mui/icons-material/Insights';
 
 const MenuBar = ({ onMenuSelect }) => {
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -47,24 +48,32 @@ const MenuBar = ({ onMenuSelect }) => {
                                 <MenuIcon />
                             </IconButton>
                         </Box>
-                        <Typography //Mobile
+                        <Typography
                             variant="h5"
                             noWrap
                             component="a"
-                            href="" //TODO: Add a proper href
+                            href="" // TODO: Add a proper href
                             sx={{
                                 mr: 4.5,
                                 display: { xs: 'flex', md: 'none' },
                                 flexGrow: 1,
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
-                                //letterSpacing: '.3rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
+                                alignItems: 'center', // Align items vertically
                             }}
                         >
+                            <InsightsIcon
+                                fontSize="large"
+                                sx={{
+                                    verticalAlign: 'middle', // Align the icon vertically
+                                    marginRight: 1, // Adjust spacing between icon and text
+                                }}
+                            />
                             INESTAT.com
                         </Typography>
+
 
                         <Grid2 //Desktop
                             container
@@ -87,11 +96,20 @@ const MenuBar = ({ onMenuSelect }) => {
                                     fontWeight: 700,
                                     color: 'inherit',
                                     textDecoration: 'none',
-                                    flexGrow: 1
+                                    flexGrow: 1,
+                                    alignItems: 'center', // Align items vertically
                                 }}
                             >
+                                <InsightsIcon
+                                    fontSize="large"
+                                    sx={{
+                                        verticalAlign: 'middle', // Align the icon vertically
+                                        marginRight: 1 // Adjust spacing between icon and text
+                                    }}
+                                />
                                 INESTAT.com
                             </Typography>
+
                             <Box sx={{ display: 'flex'/*, flexGrow: 1 */}}>
                                 {pages.map((page) => (
                                     <Button
