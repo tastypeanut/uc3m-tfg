@@ -3,7 +3,7 @@ import DataLookup from "./DataLookup";
 import TableDisplay from "./display/TableDisplay";
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { Button, Typography } from "@mui/material";
+import {Button, Divider, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoDataLanding from "./display/NoDataLanding";
 import DataExport from "./DataExport";
@@ -51,7 +51,9 @@ const StatisticsToolPage = () => {
     return (
         <Grid2 container xs={12} rowSpacing={4} sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 3, sm: 4 }}}>
             <Grid2 item xs={12}>
-                <Typography variant="h3">INE Data Viewer</Typography>
+                <Typography variant="h4" py={1}>Bienvenid@</Typography>
+                <Typography variant="h5" py={1}>INESTAT es una herramienta de consulta de datos estadísticos del INE</Typography>
+                <Divider variant="left" pt={4}/>
             </Grid2>
             <Grid2 container xs={12} height='100%' width='100%'>
                 <script async

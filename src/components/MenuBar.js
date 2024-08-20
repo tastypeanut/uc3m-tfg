@@ -38,13 +38,13 @@ const MenuBar = ({ onMenuSelect }) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                    <Toolbar disableGutters sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
-                        <Grid2 // Desktop
+                    <Toolbar disableGutters sx={{ px: {sm: 2, md: 4 } }}>
+                        <Grid2 // Extra Small Mobile
                             container
                             xs={12}
                             sx={{
-                                display: { xs: 'flex', md: 'none' },
-                                justifyContent: 'space-between', // Distribute space between the two items
+                                display: { xs: 'none', sm: 'none' }, //This is disabling this grid component, I'm leaving it here just in case I need it later.
+                                justifyContent: 'flex-start',
                                 alignItems: 'center',
                             }}
                         >
@@ -55,13 +55,78 @@ const MenuBar = ({ onMenuSelect }) => {
                                     display: 'flex',
                                     justifyContent: 'flex-start',
                                     alignItems: 'center',
-                                    mr: 'auto', // Ensures the rest of the content centers by pushing it to the right
+                                    mx: 1, // Ensures the rest of the content centers by pushing it to the right
                                 }}
                             >
                                 <IconButton
                                     size="large"
                                     onClick={toggleDrawer}
                                     color="inherit">
+                                    <MenuIcon/>
+                                </IconButton>
+                            </Grid2>
+                            <Grid2
+                                item
+                                xs="auto"
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
+                                    flexGrow: 1,
+                                }}
+                            >
+                                <Typography
+                                    variant="h5"
+                                    noWrap
+                                    component="a"
+                                    href="" // TODO: Add a proper href
+                                    sx={{
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        color: 'inherit',
+                                        textDecoration: 'none',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <InsightsIcon
+                                        fontSize="large"
+                                        sx={{
+                                            verticalAlign: 'middle', // Align the icon vertically (might not be necessary)
+                                            marginRight: 1,          // Adjust spacing between icon and text
+                                        }}
+                                        color="inherit"
+                                    />
+                                    INESTAT.com
+                                </Typography>
+                            </Grid2>
+                        </Grid2>
+                        <Grid2
+                            container
+                            xs={12}
+                            sx={{
+                                display: { xs: 'flex', sm: 'flex', md: 'none' },
+                                justifyContent: 'center', // Center the content horizontally
+                                alignItems: 'center',
+                                position: 'relative', // Allows for absolute positioning
+                            }}
+                        >
+                            <Grid2
+                                item
+                                xs="auto"
+                                sx={{
+                                    position: 'absolute', // Position the menu button absolutely
+                                    left: 0, // Align it to the left side
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <IconButton
+                                    size="large"
+                                    onClick={toggleDrawer}
+                                    color="inherit"
+                                >
                                     <MenuIcon />
                                 </IconButton>
                             </Grid2>
@@ -72,7 +137,6 @@ const MenuBar = ({ onMenuSelect }) => {
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    flexGrow: 1,
                                 }}
                             >
                                 <Typography
@@ -200,7 +264,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                             <ListItemText primary={page.name} />
                                         </ListItemButton>
                                     </ListItem>
-                                    {index < pages.length - 1 && <Divider />}
+                                    {index < pages.length - 1 && <Divider variant="middle"/>}
                                 </React.Fragment>
                             ))}
                         </List>

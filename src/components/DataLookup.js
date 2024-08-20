@@ -81,7 +81,7 @@ const DataLookup = ({ onDataLookup }) => {
                 <Grid2 container spacing={4}>
                     <Grid2 xs={12} container spacing={4}>
                         <Grid2 item xs={12}>
-                            <Typography variant="h5">Selecciona una operación:</Typography>
+                            <Typography variant="h5">Selecciona una operación estadística:</Typography>
                         </Grid2>
                         <Grid2 item xs={12}>
                             <ListOperationSelector onOperationSelect={setSelectedOperation} />
