@@ -1,38 +1,42 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-
-// Helper function to convert Unix timestamp to a readable date
-const formatDate = (unixTimestamp) => {
-    return new Date(unixTimestamp).toLocaleDateString("es-ES");
-};
 
 // Helper function to compare dates for sorting
 const compareDates = (date1, date2) => {
-    return new Date(date1) - new Date(date2);
+    return date1 - date2;
 };
 
 const DataTable = ({ normalizedData }) => {
+
+    const parseDataDate = useCallback(data => {
+        const year = data.anyo;
+        const month = parseInt(data.periodo.mesInicio, 10);
+        const day = parseInt(data.periodo.diaInicio, 10);
+        // Subtract 1 from month because JavaScript months are zero-indexed
+        return new Date(year, month - 1, day);
+    }, []);
+
     const dates = useMemo(() => {
         const dateSet = new Set();
         normalizedData.forEach(record => {
             record.data.forEach(dp => {
-                dateSet.add(formatDate(dp.fecha));
+                dateSet.add(parseDataDate(dp).toLocaleDateString("es-ES"));
             });
         });
-        return Array.from(dateSet).sort(compareDates);
-    }, [normalizedData]);
+        return Array.from(dateSet).sort((a, b) => compareDates(new Date(a), new Date(b)));
+    }, [normalizedData, parseDataDate]);
 
     const dataMap = useMemo(() => {
         const map = new Map();
         normalizedData.forEach(record => {
             let innerMap = map.get(record.nombre) || new Map();
             record.data.forEach(dp => {
-                innerMap.set(formatDate(dp.fecha), dp.valor);
+                innerMap.set(parseDataDate(dp).toLocaleDateString("es-ES"), dp.valor);
             });
             map.set(record.nombre, innerMap);
         });
         return map;
-    }, [normalizedData]);
+    }, [normalizedData, parseDataDate]);
 
     const renderTableHeader = useMemo(() => (
         <>
@@ -53,7 +57,7 @@ const DataTable = ({ normalizedData }) => {
             <TableRow key={nombre}>
                 <TableCell>{nombre}</TableCell>
                 {dates.map(date => (
-                    <TableCell key={`${nombre}-${date}`}>{yearMap.get(date) || '-'}</TableCell>
+                    <TableCell key={`${nombre}-${date}`}>{yearMap.get(date)}</TableCell>
                 ))}
             </TableRow>
         ))
