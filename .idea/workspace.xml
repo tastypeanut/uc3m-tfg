@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/display/GraphicalStatisticalFunctions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/display/NumericalStatisticalCalculations.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MenuBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MenuBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/data/SeriesData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/data/SeriesData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/display/TimeSeriesChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/display/TimeSeriesChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/seriesDataFetch.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/seriesDataFetch.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +124,7 @@
       <workItem from="1723291085424" duration="19888000" />
       <workItem from="1723903241685" duration="1346000" />
       <workItem from="1723927744570" duration="21761000" />
-      <workItem from="1724123058454" duration="2896000" />
+      <workItem from="1724123058454" duration="14608000" />
     </task>
     <servers />
   </component>

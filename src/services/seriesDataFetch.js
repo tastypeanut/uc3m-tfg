@@ -6,7 +6,7 @@ export async function fetchSeriesData(seriesMap) {
 
     for (const [key, value] of Object.entries(seriesMap)) {
 
-        const searchString = key + "?nult=100000";
+        const searchString = key + "?nult=100000&det=2";
 
         // Create a promise for each fetchData call and push it into the fetchPromises array
         const fetchPromise = fetchData('DATOS_SERIE', searchString).then(item => {

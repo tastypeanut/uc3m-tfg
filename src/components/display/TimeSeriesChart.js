@@ -19,6 +19,17 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DownloadIcon from "@mui/icons-material/Download";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+    calculateBollingerBands,
+    calculateExponentialMovingAverage,
+    calculateLinearTrendLine,
+    calculateMovingAverage, calculateWeightedMovingAverage, detectPeaks
+} from "./GraphicalStatisticalFunctions";
+import {
+    calculateCumulativeSum,
+    calculateExponentialSmoothing,
+    calculateStandardDeviation
+} from "./NumericalStatisticalCalculations";
 
 const TimeSeriesChart = ({ normalizedData }) => {
     const chartRef = useRef();
@@ -26,6 +37,16 @@ const TimeSeriesChart = ({ normalizedData }) => {
     const [showTrendLine, setShowTrendLine] = useState(false);
     const [showMovingAverage, setShowMovingAverage] = useState(false);
     const [activeDatasets, setActiveDatasets] = useState([]);
+
+    const [showEMA, setShowEMA] = useState(false);
+    const [showWMA, setShowWMA] = useState(false);
+    const [showStdDev, setShowStdDev] = useState(false);
+    const [showBollingerBands, setShowBollingerBands] = useState(false);
+    const [showAutocorrelation, setShowAutocorrelation] = useState(false);
+    const [showCUSUM, setShowCUSUM] = useState(false);
+    const [showExponentialSmoothing, setShowExponentialSmoothing] = useState(false);
+    const [showCrossCorrelation, setShowCrossCorrelation] = useState(false);
+    const [showPeaks, setShowPeaks] = useState(false);
 
     useResizeObserver(chartRef, entry => setContainerWidth(entry.contentRect.width));
 
@@ -39,33 +60,12 @@ const TimeSeriesChart = ({ normalizedData }) => {
         svgLink.click();
     };
 
-    const parseDate = useCallback(d => {
-        return d3.timeParse("%Y-%m-%d")(d) || new Date(+d);
-    }, []);
-
-    const calculateLinearTrendLine = useCallback((data) => {
-        const n = data.length;
-        const xSum = d3.sum(data, d => parseDate(d.fecha).getTime());
-        const ySum = d3.sum(data, d => d.valor);
-        const xySum = d3.sum(data, d => parseDate(d.fecha).getTime() * d.valor);
-        const xSquaredSum = d3.sum(data, d => Math.pow(parseDate(d.fecha).getTime(), 2));
-
-        const slope = (n * xySum - xSum * ySum) / (n * xSquaredSum - Math.pow(xSum, 2));
-        const intercept = (ySum - slope * xSum) / n;
-
-        return data.map(d => ({
-            fecha: d.fecha,
-            valor: slope * parseDate(d.fecha).getTime() + intercept,
-        }));
-    }, [parseDate]);
-
-    const calculateMovingAverage = useCallback((data, windowSize) => {
-        return data.map((val, idx, arr) => {
-            if (idx < windowSize - 1) return null;
-            const windowSlice = arr.slice(idx - windowSize + 1, idx + 1);
-            const avg = d3.mean(windowSlice, d => d.valor);
-            return { fecha: val.fecha, valor: avg };
-        }).filter(d => d !== null);
+    const parseDataDate = useCallback(data => {
+        const year = data.anyo;
+        const month = parseInt(data.periodo.mesInicio, 10);
+        const day = parseInt(data.periodo.diaInicio, 10);
+        // Subtract 1 from month because JavaScript months are zero-indexed
+        return new Date(year, month - 1, day);
     }, []);
 
     const toggleDatasetVisibility = cod => {
@@ -124,7 +124,7 @@ const TimeSeriesChart = ({ normalizedData }) => {
             .domain(normalizedData.map(dataset => dataset.cod));
 
         const allDates = filteredData.flatMap(d =>
-            d.data.map(point => parseDate(point.fecha))
+            d.data.map(point => parseDataDate(point))
         );
         const allValues = filteredData.flatMap(d => d.data.map(point => point.valor));
 
@@ -165,12 +165,12 @@ const TimeSeriesChart = ({ normalizedData }) => {
         yAxisGroup.call(yAxis);
 
         const line = d3.line()
-            .x(d => xScale(parseDate(d.fecha)))
+            .x(d => xScale(parseDataDate(d)))
             .y(d => yScale(d.valor))
             .curve(d3.curveMonotoneX);
 
         filteredData.forEach((dataset) => {
-            const originalStrokeColor = showTrendLine || showMovingAverage ? "#ccc" : colorScale(dataset.cod);
+            const originalStrokeColor = showTrendLine || showMovingAverage ||  showEMA || showWMA ? "#ccc" : colorScale(dataset.cod);
 
             svg.append("path")
                 .datum(dataset.data)
@@ -184,7 +184,7 @@ const TimeSeriesChart = ({ normalizedData }) => {
                 .enter()
                 .append("circle")
                 .attr("class", `dot-${dataset.cod}`)
-                .attr("cx", d => xScale(parseDate(d.fecha)))
+                .attr("cx", d => xScale(parseDataDate(d)))
                 .attr("cy", d => yScale(d.valor))
                 .attr("r", 4)
                 .attr("fill", originalStrokeColor);
@@ -202,7 +202,7 @@ const TimeSeriesChart = ({ normalizedData }) => {
             dots.on("mouseover", function (event, d) {
                 tooltip
                     .style("visibility", "visible")
-                    .html(`Código: ${dataset.cod}<br/>Nombre: ${dataset.nombre}<br/>Fecha: ${d3.timeFormat("%d/%m/%Y")(parseDate(d.fecha))}<br/>Valor: ${d.valor}`);
+                    .html(`Código: ${dataset.cod}<br/>Nombre: ${dataset.nombre}<br/>Fecha: ${d3.timeFormat("%d/%m/%Y")(parseDataDate(d))}<br/>Valor: ${d.valor}<br/>Unidad: ${dataset.unidad.nombre}`);
                 d3.select(this).attr("r", 6);
             })
                 .on("mousemove", function (event) {
@@ -216,8 +216,23 @@ const TimeSeriesChart = ({ normalizedData }) => {
                 });
         });
 
-        filteredData.forEach((dataset) => {
-            if (showMovingAverage) {
+        // Añadir línea de tendencia si está habilitada
+        if (showTrendLine) {
+            filteredData.forEach((dataset) => {
+                const trendData = calculateLinearTrendLine(dataset.data);
+                svg.append("path")
+                    .datum(trendData)
+                    .attr("fill", "none")
+                    .attr("stroke", colorScale(dataset.cod))
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-dasharray", "5,5")
+                    .attr("d", line);
+            });
+        }
+
+        // Añadir media móvil si está habilitada
+        if (showMovingAverage) {
+            filteredData.forEach((dataset) => {
                 const movingAverageData = calculateMovingAverage(dataset.data, 3);
                 svg.append("path")
                     .datum(movingAverageData)
@@ -226,23 +241,142 @@ const TimeSeriesChart = ({ normalizedData }) => {
                     .attr("stroke-width", 2)
                     .attr("stroke-dasharray", "2,2")
                     .attr("d", line);
-            }
-        });
+            });
+        }
 
-        filteredData.forEach((dataset) => {
-            if (showTrendLine) {
-                const trendLineData = calculateLinearTrendLine(dataset.data);
+        /*
+        // Añadir Exponential Moving Average (EMA) si está habilitada
+        if (showEMA) {
+            filteredData.forEach((dataset) => {
+                const emaData = calculateExponentialMovingAverage(dataset.data, 3); // Cambia 3 por el valor de "n" que necesites
                 svg.append("path")
-                    .datum(trendLineData)
+                    .datum(emaData)
                     .attr("fill", "none")
                     .attr("stroke", colorScale(dataset.cod))
-                    .attr("stroke-width", 1.5)
-                    .attr("stroke-dasharray", "5,5")
+                    .attr("stroke-width", 2)
                     .attr("d", line);
-            }
-        });
+            });
+        }
 
-    }, [normalizedData, showTrendLine, showMovingAverage, calculateLinearTrendLine, calculateMovingAverage, parseDate, containerWidth, activeDatasets]);
+        // Añadir Bandas de Bollinger si está habilitada
+        if (showBollingerBands) {
+            filteredData.forEach((dataset) => {
+                const bollingerData = calculateBollingerBands(dataset.data, 20); // Cambia 20 por el valor de "n" que necesites
+
+                // Dibujar la media móvil (que es parte de las Bandas de Bollinger)
+                const movingAverageData = bollingerData.map(d => ({...d, valor: d.valor}));
+                svg.append("path")
+                    .datum(movingAverageData)
+                    .attr("fill", "none")
+                    .attr("stroke", "blue")
+                    .attr("stroke-width", 2)
+                    .attr("d", line);
+
+                // Dibujar la banda superior
+                const upperBandData = bollingerData.map(d => ({...d, valor: d.upperBand}));
+                svg.append("path")
+                    .datum(upperBandData)
+                    .attr("fill", "none")
+                    .attr("stroke", "green")
+                    .attr("stroke-dasharray", "5,5")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", line);
+
+                // Dibujar la banda inferior
+                const lowerBandData = bollingerData.map(d => ({...d, valor: d.lowerBand}));
+                svg.append("path")
+                    .datum(lowerBandData)
+                    .attr("fill", "none")
+                    .attr("stroke", "red")
+                    .attr("stroke-dasharray", "5,5")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", line);
+            });
+        }
+
+        // Añadir Desviación Estándar si está habilitada
+        if (showStdDev) {
+            filteredData.forEach((dataset) => {
+                const stdDev = calculateStandardDeviation(dataset.data);
+                const mean = d3.mean(dataset.data, d => d.valor);
+
+                // Representar la desviación estándar como una región sombreada
+                svg.append("rect")
+                    .attr("x", 0)
+                    .attr("y", yScale(mean + stdDev))
+                    .attr("width", width)
+                    .attr("height", yScale(mean - stdDev) - yScale(mean + stdDev))
+                    .attr("fill", "lightgrey")
+                    .attr("opacity", 0.5);
+
+                // Opcional: dibujar líneas para la media más/menos desviación estándar
+                svg.append("line")
+                    .attr("x1", 0)
+                    .attr("x2", width)
+                    .attr("y1", yScale(mean + stdDev))
+                    .attr("y2", yScale(mean + stdDev))
+                    .attr("stroke", "grey")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-dasharray", "3,3");
+
+                svg.append("line")
+                    .attr("x1", 0)
+                    .attr("x2", width)
+                    .attr("y1", yScale(mean - stdDev))
+                    .attr("y2", yScale(mean - stdDev))
+                    .attr("stroke", "grey")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-dasharray", "3,3");
+            });
+        }
+
+        // Añadir Suma Acumulativa (CUSUM) si está habilitada
+        if (showCUSUM) {
+            filteredData.forEach((dataset) => {
+                const cusumData = calculateCumulativeSum(dataset.data);
+                svg.append("path")
+                    .datum(cusumData)
+                    .attr("fill", "none")
+                    .attr("stroke", "purple")
+                    .attr("stroke-width", 2)
+                    .attr("d", line);
+            });
+        }
+
+        // Añadir Suavizado Exponencial si está habilitado
+        if (showExponentialSmoothing) {
+            filteredData.forEach((dataset) => {
+                const exponentialSmoothingData = calculateExponentialSmoothing(dataset.data, 0.3); // Cambia 0.3 por el valor de alpha que necesites
+                svg.append("path")
+                    .datum(exponentialSmoothingData)
+                    .attr("fill", "none")
+                    .attr("stroke", "brown")
+                    .attr("stroke-width", 2)
+                    .attr("d", line);
+            });
+        }
+
+        // Añadir Picos (Peaks) si está habilitada
+        if (showPeaks) {
+            filteredData.forEach((dataset) => {
+                // Asumiendo que tienes una función detectPeaks implementada
+                const peaksData = detectPeaks(dataset.data);
+
+                svg.selectAll(`.peak-dot-${dataset.cod}`)
+                    .data(peaksData)
+                    .enter()
+                    .append("circle")
+                    .attr("class", `peak-dot-${dataset.cod}`)
+                    .attr("cx", d => xScale(parseDataDate(d)))
+                    .attr("cy", d => yScale(d.valor))
+                    .attr("r", 5)
+                    .attr("fill", "red")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 1.5);
+            });
+        }
+         */
+    }, [normalizedData, showTrendLine, showMovingAverage, calculateLinearTrendLine, calculateMovingAverage, showEMA, showWMA, showStdDev, showBollingerBands, showCUSUM, showExponentialSmoothing, showCrossCorrelation, showPeaks, parseDataDate, containerWidth, activeDatasets]);
 
     return (
         <Paper sx={{px: 4}}>
@@ -259,26 +393,26 @@ const TimeSeriesChart = ({ normalizedData }) => {
                         </Grid2>
                         <Grid2 xs={12} item>
                             <Paper variant="outlined" sx={{p: 2}}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={showTrendLine}
-                                                onChange={() => setShowTrendLine(!showTrendLine)}
-                                                color="primary"
-                                            />
-                                        }
-                                        label="Mostrar línea de tendencia"
-                                    />
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={showMovingAverage}
-                                                onChange={() => setShowMovingAverage(!showMovingAverage)}
-                                                color="primary"
-                                            />
-                                        }
-                                        label="Mostrar media móvil (n=3)"
-                                    />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={showTrendLine}
+                                            onChange={() => setShowTrendLine(!showTrendLine)}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Mostrar línea de tendencia"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={showMovingAverage}
+                                            onChange={() => setShowMovingAverage(!showMovingAverage)}
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Mostrar media móvil (n=3)"
+                                />
                             </Paper>
                         </Grid2>
                         <Grid2 xs={12} item display="flex" justifyContent="center" alignItems="center">
@@ -334,6 +468,80 @@ const TimeSeriesChart = ({ normalizedData }) => {
                         </Grid2>
                     </Grid2>
                 </Grid2>
+                {/*<Grid2 container xs={12} spacing={4}>
+                    <Paper variant="outlined" sx={{ p: 2 }}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showEMA}
+                                    onChange={() => setShowEMA(!showEMA)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar EMA (Exponential Moving Average)"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showWMA}
+                                    onChange={() => setShowWMA(!showWMA)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar WMA (Weighted Moving Average)"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showStdDev}
+                                    onChange={() => setShowStdDev(!showStdDev)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar Desviación Estándar (Volatilidad)"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showBollingerBands}
+                                    onChange={() => setShowBollingerBands(!showBollingerBands)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar Bandas de Bollinger"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showCUSUM}
+                                    onChange={() => setShowCUSUM(!showCUSUM)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar CUSUM (Cumulative Sum)"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showExponentialSmoothing}
+                                    onChange={() => setShowExponentialSmoothing(!showExponentialSmoothing)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar Suavizado Exponencial"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showPeaks}
+                                    onChange={() => setShowPeaks(!showPeaks)}
+                                    color="primary"
+                                />
+                            }
+                            label="Mostrar Picos"
+                        />
+                    </Paper>
+                </Grid2>*/}
             </Grid2>
         </Paper>
     );
