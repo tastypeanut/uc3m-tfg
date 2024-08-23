@@ -5,6 +5,7 @@ import MenuBar from "./components/MenuBar";
 import StatisticsToolPage from "./components/StatisticsToolPage";
 import Footer from "./components/Footer";
 import Grid2 from "@mui/material/Unstable_Grid2";
+import {Outlet} from "react-router-dom";
 
 function App() {
 
@@ -28,8 +29,12 @@ function App() {
           }
         `}
             </style>
-            <MenuBar onMenuSelect={setCurrentPage}/>
-            {pages[currentPage]}
+            {/*
+                <MenuBar onMenuSelect={setCurrentPage}/>
+                {pages[currentPage]}
+            */}
+            <MenuBar/>
+            <Outlet/>
         </>
     );
 }

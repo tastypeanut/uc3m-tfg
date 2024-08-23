@@ -20,6 +20,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import CopyrightTwoToneIcon from '@mui/icons-material/CopyrightTwoTone';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import InsightsIcon from '@mui/icons-material/Insights';
+import { Link } from 'react-router-dom';
 
 const MenuBar = ({ onMenuSelect }) => {
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -29,10 +30,10 @@ const MenuBar = ({ onMenuSelect }) => {
     };
 
     const pages = [
-        { name: 'Estadísticas', icon: <AssessmentIcon /> },
-        { name: 'Acerca De', icon: <HelpCenterIcon /> },
-        { name: 'Contacto', icon: <EmailIcon /> },
-        { name: 'Aviso Legal', icon: <CopyrightTwoToneIcon /> },
+        { name: 'Estadísticas', link: '/search', icon: <AssessmentIcon /> },
+        { name: 'Acerca De', link: '/about', icon: <HelpCenterIcon /> },
+        { name: 'Contacto', link: '/contact', icon: <EmailIcon /> },
+        { name: 'Aviso Legal', link: '/legal', icon: <CopyrightTwoToneIcon /> },
     ];
 
     return (
@@ -79,7 +80,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                     variant="h5"
                                     noWrap
                                     component="a"
-                                    href="" // TODO: Add a proper href
+                                    href="/" // TODO: Add a proper href
                                     sx={{
                                         fontFamily: 'monospace',
                                         fontWeight: 700,
@@ -143,7 +144,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                     variant="h5"
                                     noWrap
                                     component="a"
-                                    href="" // TODO: Add a proper href
+                                    href="/" // TODO: Add a proper href
                                     sx={{
                                         fontFamily: 'monospace',
                                         fontWeight: 700,
@@ -187,7 +188,7 @@ const MenuBar = ({ onMenuSelect }) => {
                                     variant="h5"
                                     noWrap
                                     component="a"
-                                    href="" // TODO: Add a proper href
+                                    href="/" // TODO: Add a proper href
                                     sx={{
                                         fontFamily: 'monospace',
                                         fontWeight: 700,
@@ -220,15 +221,16 @@ const MenuBar = ({ onMenuSelect }) => {
                             >
                                 <Box sx={{ display: 'flex' }}>
                                     {pages.map((page) => (
-                                        <Button
-                                            key={page.name}
-                                            onClick={() => onMenuSelect(page.name)}
-                                            sx={{ px: 2, color: 'white', textTransform: 'none' }} // `textTransform: 'none'` preserves original text case
-                                            startIcon={page.icon}
-                                            size={'large'}
-                                        >
-                                            {page.name}
-                                        </Button>
+                                            <Button
+                                                component={ Link }
+                                                to={page.link}
+                                                key={page.name}
+                                                sx={{ px: 2, color: 'white', textTransform: 'none' }} // `textTransform: 'none'` preserves original text case
+                                                startIcon={page.icon}
+                                                size={'large'}
+                                            >
+                                                {page.name}
+                                            </Button>
                                     ))}
                                 </Box>
                             </Grid2>
@@ -254,11 +256,12 @@ const MenuBar = ({ onMenuSelect }) => {
                             {pages.map((page, index) => (
                                 <React.Fragment key={page.name}>
                                     <ListItem>
-                                        <ListItemButton onClick={() => {
-                                            toggleDrawer();
-                                            onMenuSelect(page.name);
-                                        }}>
-                                        <ListItemIcon>
+                                        <ListItemButton
+                                            component={ Link }
+                                            to={page.link}
+                                            onClick={toggleDrawer}
+                                        >
+                                            <ListItemIcon>
                                                 {page.icon}
                                             </ListItemIcon>
                                             <ListItemText primary={page.name} />

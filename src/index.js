@@ -4,6 +4,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material";
+import {
+    createBrowserRouter, redirect,
+    RouterProvider,
+} from "react-router-dom";
+import ErrorPage from "./ErrorPage";
+import MenuBar from "./components/MenuBar";
+import StatisticsToolPage from "./components/StatisticsToolPage";
 
 const theme = createTheme({
     palette: {
@@ -19,11 +26,42 @@ const theme = createTheme({
     },
 });
 
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App/>,  // Your main app layout component
+        errorElement: <ErrorPage/>,
+        children: [
+            {
+                // This will redirect from "/" to "/search"
+                index: true,  // Indicates that this is the default child route when path is "/"
+                loader: () => redirect('/search'), // Redirects to /search
+            },
+            {
+                path: "search",
+                element: <StatisticsToolPage />,  // Replace with <Search /> or any relevant component
+            },
+            {
+                path: "about",
+                element: <StatisticsToolPage />,
+            },
+            {
+                path: "contact",
+                element: <StatisticsToolPage />,
+            },
+            {
+                path: "legal",
+                element: <StatisticsToolPage />,
+            },
+        ],
+    },
+]);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <App/>
+        <RouterProvider router={router}/>
     </ThemeProvider>
 );
 

@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MenuBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MenuBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +22,7 @@
       <list>
         <option value="TypeScript JSX File" />
         <option value="JavaScript File" />
+        <option value="JSX File" />
       </list>
     </option>
   </component>
@@ -122,7 +127,7 @@
       <workItem from="1723927744570" duration="21761000" />
       <workItem from="1724123058454" duration="15883000" />
       <workItem from="1724275076141" duration="130000" />
-      <workItem from="1724419265646" duration="258000" />
+      <workItem from="1724419265646" duration="3523000" />
     </task>
     <servers />
   </component>
