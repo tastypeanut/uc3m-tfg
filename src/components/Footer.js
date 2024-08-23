@@ -21,6 +21,9 @@ const Footer = () => {
                 {new Date().getFullYear()}
                 {'. Derechos blabla.'}
             </Typography>
+            <Typography variant="body2" color="text.secondary" align="center">
+                nani gigantum humeris insidentes
+            </Typography>
         </Box>
     );
 };
