@@ -4,12 +4,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material";
-import {
-    createBrowserRouter, redirect,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
 import ErrorPage from "./ErrorPage";
-import MenuBar from "./components/MenuBar";
 import StatisticsToolPage from "./components/StatisticsToolPage";
 
 const theme = createTheme({
@@ -29,7 +25,7 @@ const theme = createTheme({
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>,  // Your main app layout component
+        element: <App/>,
         errorElement: <ErrorPage/>,
         children: [
             {
@@ -39,7 +35,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "search",
-                element: <StatisticsToolPage />,  // Replace with <Search /> or any relevant component
+                element: <StatisticsToolPage />,
             },
             {
                 path: "about",

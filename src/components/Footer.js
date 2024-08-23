@@ -9,19 +9,16 @@ const Footer = () => {
                 py: 2,
                 px: 2,
                 mt: 'auto',
-                backgroundColor: (theme) =>
-                    theme.palette.mode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
             }}
         >
             <Typography variant="body2" color="text.secondary" align="center">
-                {'© '}
-                <Link color="inherit" href="">
-                    Mi Aplicación
-                </Link>{' '}
+                <Link color="inherit" href="/">
+                    inestat.com
+                </Link>{' © '}
                 {new Date().getFullYear()}
-                {'. Derechos blabla.'}
+                {' - Todos los derechos reservados.'}
             </Typography>
-            <Typography variant="body2" color="text.secondary" align="center">
+            <Typography variant="body2" color="text.secondary" align="center" fontStyle="italic">
                 nani gigantum humeris insidentes
             </Typography>
         </Box>
