@@ -55,19 +55,6 @@ const StatisticsToolPage = () => {
                 <Typography variant="h5" py={1}>INESTAT es una herramienta de consulta de datos estadísticos del INE</Typography>
                 <Divider variant="left" pt={4}/>
             </Grid2>
-            <Grid2 container xs={12} height='100%' width='100%'>
-                <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1401877082227954"
-                        crossOrigin="anonymous"></script>
-                <ins class="adsbygoogle"
-                     data-ad-client="ca-pub-1401877082227954"
-                     data-ad-slot="3430706715"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </Grid2>
             {dataLookups.map((lookup, index) => (
                 <Grid2 item xs={12} key={lookup.id}>
                     <DataLookup onDataLookup={(data) => handleDataLookup(index, data)} />
