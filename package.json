@@ -7,6 +7,9 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.16",
     "@mui/material": "^5.15.16",
+    "@mui/x-charts": "^7.14.0",
+    "@mui/x-data-grid": "^7.14.0",
+    "@mui/x-data-grid-pro": "^7.14.0",
     "@mui/x-tree-view": "^7.13.0",
     "@react-hook/resize-observer": "^2.0.2",
     "@testing-library/jest-dom": "^5.17.0",
@@ -28,6 +31,7 @@
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
+    "react-window": "^1.8.10",
     "resize-observer": "^1.0.4",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"

@@ -1,80 +1,186 @@
-import React, { useMemo, useCallback } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, {useState, useMemo, useRef, useEffect} from 'react';
+import {
+    DataGrid,
+    GridToolbar,
+    GRID_STRING_COL_DEF,
+    DEFAULT_GRID_AUTOSIZE_OPTIONS, useGridApiContext, useGridApiRef
+} from '@mui/x-data-grid';
+import {esES} from "@mui/x-data-grid/locales";
+import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import {Box, Button} from "@mui/material";
 
-// Helper function to compare dates for sorting
-const compareDates = (date1, date2) => {
-    return date1 - date2;
-};
-
-const DataTable = ({ normalizedData }) => {
-
-    const parseDataDate = useCallback(data => {
-        const year = data.anyo;
-        const month = parseInt(data.periodo.mesInicio, 10);
-        const day = parseInt(data.periodo.diaInicio, 10);
-        // Subtract 1 from month because JavaScript months are zero-indexed
-        return new Date(year, month - 1, day);
-    }, []);
-
-    const dates = useMemo(() => {
-        const dateSet = new Set();
-        normalizedData.forEach(record => {
-            record.data.forEach(dp => {
-                dateSet.add(parseDataDate(dp).toLocaleDateString("es-ES"));
-            });
-        });
-        return Array.from(dateSet).sort((a, b) => compareDates(new Date(a), new Date(b)));
-    }, [normalizedData, parseDataDate]);
-
-    const dataMap = useMemo(() => {
-        const map = new Map();
-        normalizedData.forEach(record => {
-            let innerMap = map.get(record.nombre) || new Map();
-            record.data.forEach(dp => {
-                innerMap.set(parseDataDate(dp).toLocaleDateString("es-ES"), dp.valor);
-            });
-            map.set(record.nombre, innerMap);
-        });
-        return map;
-    }, [normalizedData, parseDataDate]);
-
-    const renderTableHeader = useMemo(() => (
-        <>
-            <TableRow>
-                <TableCell rowSpan={2}>Nombre de Serie &darr;</TableCell>
-                <TableCell colSpan={dates.length} align="center">Fecha</TableCell>
-            </TableRow>
-            <TableRow>
-                {dates.map(date => (
-                    <TableCell key={date}>{date}</TableCell>
-                ))}
-            </TableRow>
-        </>
-    ), [dates]);
-
-    const renderTableData = useMemo(() => (
-        Array.from(dataMap, ([nombre, yearMap]) => (
-            <TableRow key={nombre}>
-                <TableCell>{nombre}</TableCell>
-                {dates.map(date => (
-                    <TableCell key={`${nombre}-${date}`}>{yearMap.get(date)}</TableCell>
-                ))}
-            </TableRow>
-        ))
-    ), [dataMap, dates]);
+function GridSparklineCell(props) {
+    if (props.value == null) {
+        return null;
+    }
 
     return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    {renderTableHeader}
-                </TableHead>
-                <TableBody>
-                    {renderTableData}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <SparkLineChart
+            data={props.value}
+            width={props.colDef.computedWidth}
+            plotType={props.plotType}
+        />
     );
+}
+
+const sparklineColumnType = {
+    ...GRID_STRING_COL_DEF,
+    type: 'custom',
+    resizable: false,
+    filterable: false,
+    sortable: false,
+    editable: false,
+    groupable: false,
+    display: 'flex',
+    renderCell: (params) => <GridSparklineCell {...params} />,
 };
 
-export default DataTable;
+const emptyColumnType = {
+    ...GRID_STRING_COL_DEF,
+    type: 'custom',
+    resizable: false,
+    filterable: false,
+    sortable: false,
+    editable: false,
+    groupable: false,
+    columnMenuColumnsItem: null,
+    disableColumnMenu: true,
+};
+
+function useData(normalizedData) {
+
+    const [columns, setColumns] = useState([]);
+    const [rows, setRows] = useState([]);
+    const datesRef = useRef(new Set());
+
+    const parseDataDate = (data) => {
+        const year = data.anyo;
+        const month = parseInt(data.periodo.mesInicio, 10) - 1; // Adjust for zero-indexed months
+        const day = parseInt(data.periodo.diaInicio, 10);
+        return new Date(year, month, day).toLocaleDateString("es-ES");
+    };
+
+    const addDateColumn = (date) => {
+        setColumns((prevColumns) => {
+            if (!datesRef.current.has(date)) {
+                datesRef.current.add(date);
+                const newColumns = [
+                    ...prevColumns,
+                    {
+                        field: date,
+                        headerName: date,
+                        flex: 0.5,
+                        minWidth: 135,
+                        textAlign: 'center',
+                        columnType: 'number',
+                        headerClassName: 'table-display-header',
+                    }
+                ];
+
+                // Sort columns: the first column is 'nombre', followed by date columns in chronological order from newest to oldest
+                return newColumns.sort((a, b) => {
+                    if (a.field === 'nombre') return -1;
+                    if (b.field === 'nombre') return 1;
+                    return new Date(b.field) - new Date(a.field); // Change sorting order: newest to oldest
+                });
+            }
+            return prevColumns;
+        });
+    };
+
+    useEffect(() => {
+        // Reset datesRef and columns for a fresh calculation
+        datesRef.current.clear();
+        setColumns([
+            {
+                field: 'nombre',
+                headerName: 'Nombre de Serie',
+                flex: 2,
+                minWidth: 250,
+                headerClassName: 'table-display-header',
+            },
+            {
+                field: 'sparkline',
+                ...sparklineColumnType,
+                headerName: 'Tendencia',
+                flex: 1,
+                minWidth: 150,
+                headerClassName: 'table-display-header',
+            },
+        ]);
+
+        const newRows = normalizedData.map((record, index) => {
+            const rowData = { id: index, nombre: record.nombre, sparkline: [] };
+
+            record.data.forEach(dp => {
+                const date = parseDataDate(dp);
+                addDateColumn(date);
+
+                if (dp.valor === null || dp.valor === undefined) {
+                    rowData[date] = 'N/D';
+                } else {
+                    rowData[date] = String(dp.valor);
+                    rowData.sparkline.push(dp.valor);
+                }
+            });
+
+            return rowData;
+        });
+
+        setRows(newRows);
+
+    }, [normalizedData]); // Only recalculate when normalizedData changes
+
+    return { columns, rows };
+}
+
+
+export default function ColumnVirtualizationGrid({ normalizedData }) {
+
+    const data = useData(normalizedData);
+
+    return (
+        <Box
+            sx={{
+                width: '100%',
+                margin: '0',
+                '& .table-display-header': {
+                    backgroundColor: 'white',
+                },
+            }}
+        >
+            <DataGrid
+                autoHeight
+                {...data}
+                initialState={{
+                    pagination: {
+                        paginationModel: {
+                            pageSize: 10,
+                        },
+                    },
+                }}
+                pageSizeOptions={[5, 10, 20, 50, 100]}
+                sx={{
+                    backgroundColor: 'white',
+                }}
+                slots={{
+                    toolbar: GridToolbar,
+                }}
+                slotProps={{
+                    toolbar: {
+                        sx: {
+                            backgroundColor: 'white',
+                            pt: 2,
+                            px: 2,
+                        },
+                        showQuickFilter: true,
+                        csvOptions: { disableToolbarButton: true },
+                        printOptions: { disableToolbarButton: true }
+                    }
+                }}
+                disableRowSelectionOnClick
+                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            />
+        </Box>
+    );
+}

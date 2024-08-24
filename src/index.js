@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Profiler} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import CssBaseline from "@mui/material/CssBaseline";
@@ -7,6 +7,7 @@ import { createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import StatisticsToolPage from "./pages/StatisticsToolPage";
 import './index.css';
+import {esES} from "@mui/material/locale";
 
 
 const theme = createTheme({
@@ -21,6 +22,7 @@ const theme = createTheme({
             default: '#f0f0f0', // Customize default background color
         },
     },
+    esES, //THIS SETS MUI COMPONENT LANGUAGE TO SPANISH
 });
 
 const router = createBrowserRouter([
@@ -58,6 +60,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <RouterProvider router={router}/>
+        <Profiler>
+            <RouterProvider router={router}/>
+        </Profiler>
     </ThemeProvider>
 );

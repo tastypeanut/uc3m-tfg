@@ -387,7 +387,7 @@ const TimeSeriesChart = ({ normalizedData }) => {
                     </Paper>
                 </Grid2>
                 <Grid2 container xs={12} spacing={4}>
-                    <Grid2 container xs={12} md={3} spacing={2} display="block">
+                    <Grid2 container xs={12} md={3} display="block">
                         <Grid2 xs={12} item>
                             <Typography variant="h6">Ajustes de gráfica:</Typography>
                         </Grid2>

@@ -17,26 +17,27 @@ const useDataManagement = () => {
     const [retrievedData, setRetrievedData] = useState([]);
     const [normalizedData, setNormalizedData] = useState([]);
 
+    // Memoize normalization to avoid recalculating unless retrievedData changes
+    const normalizeData = useCallback((data) => {
+        return data.reduce((acc, curr) => [...acc, ...(Array.isArray(curr) ? curr : [curr])], []);
+    }, []);
+
     const handleDataLookup = useCallback((index, newData) => {
-        const updatedData = [...retrievedData];
-        updatedData[index] = newData;
-        setRetrievedData(updatedData);
-        normalizeData(updatedData);
-    }, [retrievedData]);
+        setRetrievedData((prevData) => {
+            const updatedData = [...prevData];
+            updatedData[index] = newData;
+
+            // Normalize data immediately and set it in one go
+            const normalized = normalizeData(updatedData);
+            setNormalizedData(normalized);
+
+            return updatedData;
+        });
+    }, [normalizeData]);
 
     const addDataLookup = useCallback(() => {
-        const newId = dataLookups.length;
-        setDataLookups([...dataLookups, { id: newId }]);
-        setRetrievedData([...retrievedData, null]);
-    }, [dataLookups, retrievedData]);
-
-    const normalizeData = useCallback((data) => {
-        try {
-            const flatData = data.reduce((acc, curr) => [...acc, ...(Array.isArray(curr) ? curr : [curr])], []);
-            setNormalizedData(flatData);
-        } catch (error) {
-            console.error("Error normalizing data:", error);
-        }
+        setDataLookups((prevLookups) => [...prevLookups, { id: prevLookups.length }]);
+        setRetrievedData((prevData) => [...prevData, null]);
     }, []);
 
     return { dataLookups, normalizedData, handleDataLookup, addDataLookup };
@@ -66,8 +67,7 @@ const StatisticsToolPage = () => {
                 </Button>
             </Grid2>
             {dataIsAvailable ? (
-                console.log(normalizedData),
-                <Grid2 container spacing={4}>
+                <>
                     <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
@@ -77,10 +77,12 @@ const StatisticsToolPage = () => {
                     <Grid2 item xs={12}>
                         <TableDisplay normalizedData={normalizedData}/>
                     </Grid2>
-                </Grid2>
+                </>
+
             ) : (
                 <NoDataLanding/>
             )}
+
         </Grid2>
     );
 };
