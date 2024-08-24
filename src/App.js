@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import MenuBar from "./components/MenuBar";
-import Footer from "./components/Footer";
+import MenuBar from "./components/general-ui/MenuBar";
+import Footer from "./components/general-ui/Footer";
 import { Outlet } from "react-router-dom";
 
 function App() {

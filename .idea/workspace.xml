@@ -6,7 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/public/robots.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ErrorPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ErrorPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/general-ui/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MenuBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/general-ui/MenuBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/StatisticsToolPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StatisticsToolPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/ineApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ineApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/seriesDataFetch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/setupTests.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,11 +100,14 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages" />
+      <recent name="$PROJECT_DIR$/src/components/general-ui" />
+      <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/src/classes" />
-      <recent name="$PROJECT_DIR$/src/components/display" />
-      <recent name="$PROJECT_DIR$/functions/api" />
-      <recent name="$PROJECT_DIR$/functions" />
+    </key>
+    <key name="es6.move.members.recent.items">
+      <recent name="$PROJECT_DIR$/src/services/ineApi.js" />
     </key>
   </component>
   <component name="RunManager">
@@ -125,7 +141,7 @@
       <workItem from="1724275076141" duration="130000" />
       <workItem from="1724419265646" duration="3523000" />
       <workItem from="1724425092576" duration="130000" />
-      <workItem from="1724493276097" duration="83000" />
+      <workItem from="1724493276097" duration="2544000" />
     </task>
     <servers />
   </component>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { fetchSeriesData } from "../services/seriesDataFetch";
 import TableSeriesSearch from "./search/TableSeriesSearch";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Accordion, AccordionDetails, AccordionSummary, Breadcrumbs, Chip, Typography} from "@mui/material";
@@ -7,6 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import TreeTableSelector from "./select/TreeTableSelector";
 import ListOperationSelector from "./select/ListOperationSelector";
+import {fetchSeriesData} from "../services/ineApi";
 
 const DataLookup = ({ onDataLookup }) => {
 

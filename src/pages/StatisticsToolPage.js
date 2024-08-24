@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useMemo } from "react";
-import DataLookup from "./DataLookup";
-import TableDisplay from "./display/TableDisplay";
+import DataLookup from "../components/DataLookup";
+import TableDisplay from "../components/display/TableDisplay";
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Button, Divider, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import NoDataLanding from "./display/NoDataLanding";
-import DataExport from "./DataExport";
-import Heatmap from "./display/Heatmap";
-import RadarChart from "./display/RadarChart";
-import TimeSeriesChart from "./display/TimeSeriesChart";
+import NoDataLanding from "../components/display/NoDataLanding";
+import DataExport from "../components/DataExport";
+import Heatmap from "../components/display/Heatmap";
+import RadarChart from "../components/display/RadarChart";
+import TimeSeriesChart from "../components/display/TimeSeriesChart";
 
 // Custom Hook for Data Management
 const useDataManagement = () => {

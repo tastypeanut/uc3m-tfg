@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
-import ErrorPage from "./ErrorPage";
-import StatisticsToolPage from "./components/StatisticsToolPage";
+import ErrorPage from "./pages/ErrorPage";
+import StatisticsToolPage from "./pages/StatisticsToolPage";
+import './index.css';
+
 
 const theme = createTheme({
     palette: {
@@ -60,8 +61,3 @@ root.render(
         <RouterProvider router={router}/>
     </ThemeProvider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-//reportWebVitals();
