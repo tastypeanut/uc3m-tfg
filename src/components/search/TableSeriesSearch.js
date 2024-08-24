@@ -104,6 +104,8 @@ const TableSeriesSearch = ({ tableId, onSeriesSelect }) => {
 
     const handleSeriesSearch = () => { //TODO: Move this to a helper function
 
+        console.log("Selected values:", selectedValues); //TODO: Remove
+
         let searchQuery = tableId + generateTableQueryString();
         let resultingSeries = {};
 

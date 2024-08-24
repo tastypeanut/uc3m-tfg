@@ -26,7 +26,12 @@ const DataLookup = ({ onDataLookup }) => {
     }, [selectedTable]);
 
     useEffect(() => {
-        console.log("Selected series: ", selectedSeries);
+        if (Object.keys(selectedSeries).length > 100) {
+            const userConfirmed = window.confirm("Has seleccionado muchas variables, lo que podría afectar el rendimiento. ¿Quieres continuar?");
+            if (!userConfirmed) {
+                return;
+            }
+        }
         if (Object.keys(selectedSeries).length !== 0) {
             fetchSeriesData(selectedSeries)
                 .then(data => {
