@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-class-properties": "^7.25.4",
     "wrangler": "^3.53.1"
   }
 }

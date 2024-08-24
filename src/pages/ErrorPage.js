@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router-dom";
 import MenuBar from "../components/general-ui/MenuBar";
 import Footer from "../components/general-ui/Footer";
 import { Box, Typography, Container } from "@mui/material";
