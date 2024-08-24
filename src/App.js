@@ -11,10 +11,15 @@ function App() {
                 display: 'grid',
                 gridTemplateRows: 'auto 1fr auto',
                 minHeight: '100vh',
+                maxWidth: '100vw',
             }}
         >
             <MenuBar/>
-            <Box>
+            <Box
+                sx={{
+                    maxWidth: '100vw',
+                }}
+            >
                 <Outlet/>
             </Box>
             <Footer/>

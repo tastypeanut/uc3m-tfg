@@ -9,28 +9,31 @@ export default function ErrorPage() {
     return (
         <Box
             sx={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: 'grid',
+                gridTemplateRows: 'auto 1fr auto',
                 minHeight: '100vh',
+                maxWidth: '100vw',
             }}
         >
-            <MenuBar/>
+            <MenuBar />
             <Container
-                component="main"
                 sx={{
-                    flexGrow: 1,
+                    maxWidth: '100vw',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     textAlign: 'center',
                 }}
             >
-                <Box>
+                <Box sx={{
+                    textAlign: 'center',
+                    maxWidth: '100vw'
+                }}>
                     <Typography variant="h2" component="h1" gutterBottom>
                         ¡Vaya!
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Ha ocurrido un error.
+                        Ha ocurrido un error
                     </Typography>
                     {error.status && (
                         <Typography variant="h4" gutterBottom>

@@ -79,7 +79,7 @@ const StatisticsToolPage = () => {
                     </Grid2>
                 </Grid2>
             ) : (
-                <NoDataLanding />
+                <NoDataLanding/>
             )}
         </Grid2>
     );
