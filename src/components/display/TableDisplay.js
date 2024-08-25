@@ -119,7 +119,7 @@ function useData(normalizedData) {
                 if (dp.valor === null || dp.valor === undefined) {
                     rowData[date] = 'N/D';
                 } else {
-                    rowData[date] = String(dp.valor);
+                    rowData[date] = dp.valor;
                     rowData.sparkline.push(dp.valor);
                 }
             });
