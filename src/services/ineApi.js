@@ -1,8 +1,8 @@
 import {Record} from "../classes/data/SeriesData";
 
 //const BASE_URL = 'https://inestat.com/api/ES';
-//const BASE_URL = 'https://servicios.ine.es/wstempus/js/ES/'; //Original INE API URL, compatible with implementation done. If worker fails, emergency switch to this.
-const BASE_URL = 'https://api.inestat.com/wstempus/js/ES/';
+//const BASE_URL = 'https://servicios.ine.es/wstempus/js/ES'; //Original INE API URL, compatible with implementation done. If worker fails, emergency switch to this.
+const BASE_URL = 'https://api.inestat.com/wstempus/js/ES';
 
 const cache = {};
 
