@@ -8,6 +8,7 @@ import {
 import {esES} from "@mui/x-data-grid/locales";
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import {Box, Button} from "@mui/material";
+import { v4 as uuidv4 } from 'uuid';
 
 function GridSparklineCell(props) {
     if (props.value == null) {
@@ -35,19 +36,7 @@ const sparklineColumnType = {
     renderCell: (params) => <GridSparklineCell {...params} />,
 };
 
-const emptyColumnType = {
-    ...GRID_STRING_COL_DEF,
-    type: 'custom',
-    resizable: false,
-    filterable: false,
-    sortable: false,
-    editable: false,
-    groupable: false,
-    columnMenuColumnsItem: null,
-    disableColumnMenu: true,
-};
-
-function useData(normalizedData) {
+function useData(flatData) {
 
     const [columns, setColumns] = useState([]);
     const [rows, setRows] = useState([]);
@@ -93,7 +82,21 @@ function useData(normalizedData) {
         datesRef.current.clear();
         setColumns([
             {
-                field: 'nombre',
+                field: 'nombreOperacion',
+                headerName: 'Nombre de Operación',
+                flex: 1,
+                minWidth: 150,
+                headerClassName: 'table-display-header',
+            },
+            {
+                field: 'nombreTabla',
+                headerName: 'Nombre de Tabla',
+                flex: 1,
+                minWidth: 150,
+                headerClassName: 'table-display-header',
+            },
+            {
+                field: 'nombreSerie',
                 headerName: 'Nombre de Serie',
                 flex: 2,
                 minWidth: 250,
@@ -109,35 +112,63 @@ function useData(normalizedData) {
             },
         ]);
 
-        const newRows = normalizedData.map((record, index) => {
-            const rowData = { id: index, nombre: record.nombre, sparkline: [] };
+        const newRows = [];
 
-            record.data.forEach(dp => {
-                const date = parseDataDate(dp);
-                addDateColumn(date);
+        const isEmptyObject = (array) => {
+            // Check if the array contains a single element that is also an empty array
+            return Array.isArray(array) && array.length === 1 && Array.isArray(array[0]) && array[0].length === 0;
+        };
 
-                if (dp.valor === null || dp.valor === undefined) {
-                    rowData[date] = 'N/D';
-                } else {
-                    rowData[date] = dp.valor;
-                    rowData.sparkline.push(dp.valor);
-                }
+        if (isEmptyObject(flatData)) {
+            setRows(newRows);
+            return;
+        }
+
+        flatData.forEach((record, index) => {
+            console.log("Record: ", record);
+
+            record.seriesWithDataArray.forEach((series, index2) => {
+                // Initialize rowData for this series
+                const rowData = {
+                    id: uuidv4(), // Unique ID for each row
+                    nombreOperacion: record.operationInfo.nombre, // Operation name
+                    nombreTabla: record.tableInfo.nombre, // Table name
+                    nombreSerie: series.nombre, // Series name
+                    sparkline: [] // Initialize sparkline array
+                };
+
+                // Process each data point in the series to populate the row
+                series.data.forEach(dataPoint => {
+                    const date = parseDataDate(dataPoint); // Convert dataPoint to date string
+                    addDateColumn(date); // Ensure this date column exists
+
+                    if (dataPoint.valor === null || dataPoint.valor === undefined) {
+                        rowData[date] = 'N/D'; // No data available
+                    } else {
+                        rowData[date] = dataPoint.valor; // Assign the value to the date column
+                        rowData.sparkline.push(dataPoint.valor); // Add value to sparkline
+                    }
+                });
+
+                // After processing all data points for this series, push the rowData into newRows
+                newRows.push(rowData);
             });
-
-            return rowData;
         });
 
+        // Finally, set the rows
         setRows(newRows);
 
-    }, [normalizedData]); // Only recalculate when normalizedData changes
+    }, [flatData]); // Only recalculate when flatData changes
 
     return { columns, rows };
 }
 
 
-export default function ColumnVirtualizationGrid({ normalizedData }) {
+export default function TableDisplay({ flatData }) {
 
-    const data = useData(normalizedData);
+    const data = useData(flatData);
+
+    console.log("Data: ", data);
 
     return (
         <Box

@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6ab7694d-e2dd-491d-a7da-1be7bdb6135c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/select/ListOperationSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/select/ListOperationSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/display/TableDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/display/TableDisplay.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/StatisticsToolPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StatisticsToolPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +135,7 @@
       <workItem from="1724493276097" duration="3297000" />
       <workItem from="1724544020375" duration="189000" />
       <workItem from="1724786430494" duration="127000" />
-      <workItem from="1724860496755" duration="12200000" />
+      <workItem from="1724860496755" duration="18081000" />
     </task>
     <servers />
   </component>

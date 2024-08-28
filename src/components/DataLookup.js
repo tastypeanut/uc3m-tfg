@@ -45,7 +45,7 @@ const DataLookup = ({ operationId, onDataLookup }) => {
             fetchSeriesData(selectedSeries)
                 .then(data => {
                     console.log("Data fetched: ", data);
-                    onDataLookup({ operationInfo: selectedOperation, tableInfo: selectedTable, seriesDataArray: data });
+                    onDataLookup({ operationInfo: selectedOperation, tableInfo: selectedTable, seriesWithDataArray: data });
                 })
                 .catch(error => console.error("Error fetching series data:", error));
         }

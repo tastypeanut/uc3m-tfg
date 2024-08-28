@@ -62,24 +62,25 @@ const StatisticsToolPage = () => {
                     Añadir consulta
                 </Button>
             </Grid2>
-            {/*}
+
             {dataIsAvailable ? (
                 <>
+                    {/*
                     <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
                     <Grid2 item xs={12}>
                         <DataExport normalizedData={normalizedData}/>
                     </Grid2>
+            */}
                     <Grid2 item xs={12}>
-                        <TableDisplay normalizedData={normalizedData}/>
+                        <TableDisplay flatData={retrievedData}/>
                     </Grid2>
                 </>
 
             ) : (
                 <NoDataLanding/>
             )}
-            })*/}
         </Grid2>
     );
 };
