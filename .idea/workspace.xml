@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DataLookup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DataLookup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/display/TableDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/display/TableDisplay.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/StatisticsToolPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StatisticsToolPage.js" afterDir="false" />
     </list>
@@ -21,8 +20,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
-        <option value="JavaScript File" />
         <option value="JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -135,7 +134,8 @@
       <workItem from="1724493276097" duration="3297000" />
       <workItem from="1724544020375" duration="189000" />
       <workItem from="1724786430494" duration="127000" />
-      <workItem from="1724860496755" duration="18081000" />
+      <workItem from="1724860496755" duration="21785000" />
+      <workItem from="1724896032904" duration="1831000" />
     </task>
     <servers />
   </component>

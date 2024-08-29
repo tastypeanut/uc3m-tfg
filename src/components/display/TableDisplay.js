@@ -7,7 +7,7 @@ import {
 } from '@mui/x-data-grid';
 import {esES} from "@mui/x-data-grid/locales";
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
-import {Box, Button} from "@mui/material";
+import {Box, Button, styled} from "@mui/material";
 import { v4 as uuidv4 } from 'uuid';
 
 function GridSparklineCell(props) {
@@ -103,6 +103,13 @@ function useData(flatData) {
                 headerClassName: 'table-display-header',
             },
             {
+                field: 'unidad',
+                headerName: 'Unidad',
+                flex: 2,
+                minWidth: 250,
+                headerClassName: 'table-display-header',
+            },
+            {
                 field: 'sparkline',
                 ...sparklineColumnType,
                 headerName: 'Tendencia',
@@ -134,7 +141,8 @@ function useData(flatData) {
                     nombreOperacion: record.operationInfo.nombre, // Operation name
                     nombreTabla: record.tableInfo.nombre, // Table name
                     nombreSerie: series.nombre, // Series name
-                    sparkline: [] // Initialize sparkline array
+                    sparkline: [], // Initialize sparkline array
+                    unidad: series.unidad.nombre,
                 };
 
                 // Process each data point in the series to populate the row
@@ -175,7 +183,10 @@ export default function TableDisplay({ flatData }) {
             sx={{
                 width: '100%',
                 margin: '0',
-                '& .table-display-header': {
+                '& .table-display-header ': {
+                    backgroundColor: 'white',
+                },
+                '& .MuiDataGrid-columnHeaderCheckbox': {
                     backgroundColor: 'white',
                 },
             }}
@@ -187,6 +198,11 @@ export default function TableDisplay({ flatData }) {
                     pagination: {
                         paginationModel: {
                             pageSize: 10,
+                        },
+                    },
+                    columns: {
+                        columnVisibilityModel: {
+                            unidad: false,
                         },
                     },
                 }}
@@ -209,7 +225,14 @@ export default function TableDisplay({ flatData }) {
                         printOptions: { disableToolbarButton: true }
                     }
                 }}
-                disableRowSelectionOnClick
+                checkboxSelection
+                onRowSelectionModelChange={(ids) => {
+                    const selectedIDs = new Set(ids);
+                    const selectedRowData = data.rows.filter((row) =>
+                        selectedIDs.has(row.id.toString())
+                    );
+                    console.log("Selected Row Data: ", selectedRowData);
+                }}
                 localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             />
         </Box>

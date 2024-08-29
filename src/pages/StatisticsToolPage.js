@@ -6,10 +6,6 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Button, Divider, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoDataLanding from "../components/display/NoDataLanding";
-import DataExport from "../components/DataExport";
-import Heatmap from "../components/display/Heatmap";
-import RadarChart from "../components/display/RadarChart";
-import TimeSeriesChart from "../components/display/TimeSeriesChart";
 
 const useDataManagement = () => {
     const [dataLookups, setDataLookups] = useState([{ id: 0 }]);
