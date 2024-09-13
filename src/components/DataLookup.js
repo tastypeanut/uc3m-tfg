@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TableSeriesSearch from "./search/TableSeriesSearch";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {Accordion, AccordionDetails, AccordionSummary, Breadcrumbs, Chip, Typography} from "@mui/material";
@@ -8,35 +8,44 @@ import TreeTableSelector from "./select/TreeTableSelector";
 import ListOperationSelector from "./select/ListOperationSelector";
 import {fetchSeriesData} from "../services/ineApi";
 
-const DataLookup = ({ onDataLookup }) => {
+const DataLookup = ({ operationId, onDataLookup }) => {
 
     const [selectedOperation, setSelectedOperation] = useState(null);
     const [selectedTable, setSelectedTable] = useState(null);
     const [selectedSeries, setSelectedSeries] = useState({});
 
+    // Effect to reset table and series when operation changes
     useEffect(() => {
+        console.log("Operation changed, resetting table, series, and data");
         setSelectedTable(null);
         setSelectedSeries({});
         onDataLookup([]);
     }, [selectedOperation]);
 
+    // Effect to reset series when table changes
     useEffect(() => {
+        console.log("Table changed, resetting series and data.");
         setSelectedSeries({});
         onDataLookup([]);
     }, [selectedTable]);
 
+    // Effect to fetch series data when series selection changes
     useEffect(() => {
-        if (Object.keys(selectedSeries).length > 100) {
-            const userConfirmed = window.confirm("Has seleccionado muchas variables, lo que podría afectar el rendimiento. ¿Quieres continuar?");
-            if (!userConfirmed) {
-                return;
-            }
-        }
         if (Object.keys(selectedSeries).length !== 0) {
+
+            console.log("Series selection changed, fetching data.");
+
+            if (Object.keys(selectedSeries).length > 100) {
+                const userConfirmed = window.confirm("Has seleccionado muchas variables, lo que podría afectar el rendimiento. ¿Quieres continuar?");
+                if (!userConfirmed) {
+                    return;
+                }
+            }
+
             fetchSeriesData(selectedSeries)
                 .then(data => {
                     console.log("Data fetched: ", data);
-                    onDataLookup(data);
+                    onDataLookup({ operationInfo: selectedOperation, tableInfo: selectedTable, seriesWithDataArray: data });
                 })
                 .catch(error => console.error("Error fetching series data:", error));
         }
@@ -51,19 +60,19 @@ const DataLookup = ({ onDataLookup }) => {
                             separator={<NavigateNextIcon fontSize="small" />}
                             aria-label="breadcrumb"
                         >
-                                <Chip
-                                    sx={{
-                                        height: 'auto',
-                                        padding: '0.5rem',
-                                        my: '0.5rem',
-                                        '& .MuiChip-label': {
-                                            display: 'block',
-                                            whiteSpace: 'normal',
-                                        },
-                                    }}
-                                    label={selectedOperation ? `Operación: ${selectedOperation.nombre}  → ID: ${selectedOperation.id}` : "Operación: No seleccionada"}
-                                    variant="filled"
-                                />
+                            <Chip
+                                sx={{
+                                    height: 'auto',
+                                    padding: '0.5rem',
+                                    my: '0.5rem',
+                                    '& .MuiChip-label': {
+                                        display: 'block',
+                                        whiteSpace: 'normal',
+                                    },
+                                }}
+                                label={selectedOperation ? `Operación: ${selectedOperation.nombre}  → ID: ${selectedOperation.id}` : "Operación: No seleccionada"}
+                                variant="filled"
+                            />
                             {selectedTable &&
                                 <Chip
                                     sx={{
@@ -89,7 +98,10 @@ const DataLookup = ({ onDataLookup }) => {
                             <Typography variant="h5">Selecciona una operación estadística:</Typography>
                         </Grid2>
                         <Grid2 item xs={12}>
-                            <ListOperationSelector onOperationSelect={setSelectedOperation} />
+                            <ListOperationSelector
+                                operationId={operationId}
+                                onOperationSelect={setSelectedOperation}
+                            />
                         </Grid2>
                     </Grid2>
                     {selectedOperation &&

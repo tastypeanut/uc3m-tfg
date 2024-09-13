@@ -2,20 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { fetchData } from '../../services/ineApi';
 import { OperationInfo } from "../../classes/info/OperationInfo";
-import {Button, LinearProgress, Typography} from "@mui/material";
+import { Button, LinearProgress, Typography } from "@mui/material";
 
-const ListOperationSelector = ({ onOperationSelect }) => {
+const ListOperationSelector = ({ operationId, onOperationSelect }) => {
     const [options, setOptions] = useState([]); // Operations options for the Select component
     const [selectedOption, setSelectedOption] = useState(null); // Selected operation in the Select component
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // On component load, fetch available operations
     useEffect(() => {
         const loadOperations = async () => {
             setLoading(true);
-            setSelectedOption(null);  // Clear the selection on component load
             try {
                 const jsonData = await fetchData('OPERACIONES_DISPONIBLES', '', {});
                 const operations = jsonData.map(item => {
@@ -30,6 +28,14 @@ const ListOperationSelector = ({ onOperationSelect }) => {
                 operations.sort((a, b) => a.label.localeCompare(b.label));
 
                 setOptions(operations);
+
+                // If operationId is passed, set the initial selected option
+                const initialSelected = operations.find(op => op.value.id === operationId);
+                if (initialSelected) {
+                    setSelectedOption(initialSelected);
+                    onOperationSelect(initialSelected.value);
+                }
+
             } catch (error) {
                 setError(error);
                 console.error("Failed to fetch operations:", error);
@@ -38,8 +44,19 @@ const ListOperationSelector = ({ onOperationSelect }) => {
             }
         };
 
-        loadOperations();
-    }, []);
+        loadOperations(); // Only execute once on component mount
+
+    }, []); // Empty dependency array ensures this runs only once
+
+    useEffect(() => {
+        if (operationId) {
+            const initialSelected = options.find(op => op.value.id === operationId);
+            if (initialSelected) {
+                setSelectedOption(initialSelected);
+                onOperationSelect(initialSelected.value);
+            }
+        }
+    }, [operationId]);
 
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption);
