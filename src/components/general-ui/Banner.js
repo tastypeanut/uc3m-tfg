@@ -26,7 +26,7 @@ const Banner = () => {
                 fontWeight: 'medium',
                 margin: '10px',
             }}>
-                Explora tendencias y realiza consultas personalizadas con datos en tiempo real.
+                Explora tendencias y realiza consultas personalizadas con datos en tiempo real
             </Typography>
 
             {/*
