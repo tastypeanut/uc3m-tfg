@@ -6,6 +6,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Button, Divider, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoDataLanding from "../components/display/NoDataLanding";
+import Banner from "../components/general-ui/Banner";
 
 const useDataManagement = () => {
     const [dataLookups, setDataLookups] = useState([{ id: 0 }]);
@@ -24,7 +25,7 @@ const useDataManagement = () => {
             ...prevLookups,
             { id: prevLookups.length },
         ]);
-        setRetrievedData((prevData) => [...prevData, null]);
+        setRetrievedData((prevData) => [...prevData, []]);
     }, []);
 
     // Log retrievedData whenever it changes
@@ -44,9 +45,12 @@ const StatisticsToolPage = () => {
     return (
         <Grid2 container xs={12} rowSpacing={4} sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 3, sm: 4 }}}>
             <Grid2 item xs={12}>
+                {/*
                 <Typography variant="h4" py={1}>Bienvenid@</Typography>
                 <Typography variant="h5" py={1}>INESTAT es una herramienta de consulta de datos estadísticos del INE</Typography>
                 <Divider variant="left" pt={4}/>
+                */}
+                <Banner/>
             </Grid2>
             {dataLookups.map((lookup, index) => (
                 <Grid2 item xs={12} key={lookup.id}>

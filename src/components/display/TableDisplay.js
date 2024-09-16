@@ -134,6 +134,10 @@ function useData(flatData) {
         flatData.forEach((record, index) => {
             console.log("Record: ", record);
 
+            if (record.length == 0){
+                return;
+            }
+
             record.seriesWithDataArray.forEach((series, index2) => {
                 // Initialize rowData for this series
                 const rowData = {
