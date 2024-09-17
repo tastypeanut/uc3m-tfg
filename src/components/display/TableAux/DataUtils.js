@@ -7,12 +7,12 @@ export function parseDataDate(data) {
     return new Date(year, month, day).toLocaleDateString("es-ES");
 }
 
-export function processData(flatData) {
+export function processData(unflattenedData) {
     const seriesInfo = [];
     const seriesData = [];
     const dates = new Set();
 
-    flatData.forEach((record) => {
+    unflattenedData.forEach((record) => {
         if (record.length === 0) {
             return;
         }

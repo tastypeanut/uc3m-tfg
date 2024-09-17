@@ -51,21 +51,21 @@ export function useData(flatData) {
         const newColumns = [
             {
                 field: 'nombreOperacion',
-                headerName: 'Nombre de Operación',
+                headerName: 'Operación',
                 flex: 1,
                 minWidth: 150,
                 headerClassName: 'table-display-header',
             },
             {
                 field: 'nombreTabla',
-                headerName: 'Nombre de Tabla',
+                headerName: 'Tabla',
                 flex: 1,
                 minWidth: 150,
                 headerClassName: 'table-display-header',
             },
             {
                 field: 'nombreSerie',
-                headerName: 'Nombre de Serie',
+                headerName: 'Serie',
                 flex: 2,
                 minWidth: 250,
                 headerClassName: 'table-display-header',

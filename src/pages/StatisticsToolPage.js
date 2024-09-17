@@ -7,6 +7,7 @@ import {Button, Divider, Typography} from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoDataLanding from "../components/display/NoDataLanding";
 import Banner from "../components/general-ui/Banner";
+import {processData} from "../components/display/TableAux/DataUtils";
 
 const useDataManagement = () => {
     const [dataLookups, setDataLookups] = useState([{ id: 0 }]);
@@ -63,16 +64,22 @@ const StatisticsToolPage = () => {
                 </Button>
             </Grid2>
 
+            <Grid2 item xs={12}>
+                <TableDisplay flatData={retrievedData}/>
+            </Grid2>
+
+            {/*
+
             {dataIsAvailable ? (
                 <>
-                    {/*
+                    {
                     <Grid2 item xs={12}>
                         <TimeSeriesChart normalizedData={normalizedData}/>
                     </Grid2>
                     <Grid2 item xs={12}>
                         <DataExport normalizedData={normalizedData}/>
                     </Grid2>
-            */}
+            }
                     <Grid2 item xs={12}>
                         <TableDisplay flatData={retrievedData}/>
                     </Grid2>
@@ -81,6 +88,7 @@ const StatisticsToolPage = () => {
             ) : (
                 <NoDataLanding/>
             )}
+            */}
         </Grid2>
     );
 };
