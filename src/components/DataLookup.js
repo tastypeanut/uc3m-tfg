@@ -7,6 +7,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import TreeTableSelector from "./select/TreeTableSelector";
 import ListOperationSelector from "./select/ListOperationSelector";
 import {fetchSeriesData} from "../services/ineApi";
+import { v4 as uuidv4 } from 'uuid';
 
 const DataLookup = ({ operationId, onDataLookup }) => {
 
@@ -45,7 +46,7 @@ const DataLookup = ({ operationId, onDataLookup }) => {
             fetchSeriesData(selectedSeries)
                 .then(data => {
                     console.log("Data fetched: ", data);
-                    onDataLookup({ operationInfo: selectedOperation, tableInfo: selectedTable, seriesWithDataArray: data });
+                    onDataLookup({ queryId: uuidv4(), operationInfo: selectedOperation, tableInfo: selectedTable, seriesWithDataArray: data });
                 })
                 .catch(error => console.error("Error fetching series data:", error));
         }

@@ -57,11 +57,10 @@ const router = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <Profiler>
-            <RouterProvider router={router}/>
-        </Profiler>
+        <RouterProvider router={router}/>
     </ThemeProvider>
 );
