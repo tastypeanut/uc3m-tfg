@@ -11,9 +11,8 @@ function NoDataLanding() {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            style={{ height: '100%', textAlign: 'center', padding: theme.spacing(2) }}
         >
-            <img src={NoDataImage} alt="No data" loading="lazy" style={{ width: '50%', opacity: 0.5, marginBottom: theme.spacing(2) }} />
+            <img src={NoDataImage} alt="No data" loading="lazy" style={{ width: '50vh', opacity: 0.5, marginBottom: theme.spacing(2) }} />
             <Typography variant="h6" color="textSecondary">
                 ¡Vaya! Parece que todavía no hay datos...
             </Typography>

@@ -37,7 +37,7 @@ const MenuBar = ({ onMenuSelect }) => {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+            <AppBar position="static" elevation={0} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Toolbar disableGutters sx={{ px: {sm: 2, md: 4 } }}>
                         <Grid2 // Extra Small Mobile
                             container

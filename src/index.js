@@ -8,6 +8,7 @@ import ErrorPage from "./pages/ErrorPage";
 import StatisticsToolPage from "./pages/StatisticsToolPage";
 import './index.css';
 import {esES} from "@mui/material/locale";
+import Banner from './components/general-ui/Banner';
 
 
 const theme = createTheme({
@@ -38,19 +39,31 @@ const router = createBrowserRouter([
             },
             {
                 path: "search",
-                element: <StatisticsToolPage />,
+                element: <>
+                <Banner/>
+                <StatisticsToolPage />
+                </>,
             },
             {
                 path: "about",
-                element: <StatisticsToolPage />,
+                element: <>
+                <Banner/>
+                <StatisticsToolPage />
+                </>,
             },
             {
                 path: "contact",
-                element: <StatisticsToolPage />,
+                element: <>
+                <Banner/>
+                <StatisticsToolPage />
+                </>,
             },
             {
                 path: "legal",
-                element: <StatisticsToolPage />,
+                element: <>
+                <Banner/>
+                <StatisticsToolPage />
+                </>,
             },
         ],
     },
