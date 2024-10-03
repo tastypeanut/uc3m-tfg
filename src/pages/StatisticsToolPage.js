@@ -45,14 +45,6 @@ const StatisticsToolPage = () => {
 
     return (
         <Grid2 container xs={12} rowSpacing={4} sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 3, sm: 4 }}}>
-            <Grid2 item xs={12}>
-                {/*
-                <Typography variant="h4" py={1}>Bienvenid@</Typography>
-                <Typography variant="h5" py={1}>INESTAT es una herramienta de consulta de datos estadísticos del INE</Typography>
-                <Divider variant="left" pt={4}/>
-                */}
-                <Banner/>
-            </Grid2>
             {dataLookups.map((lookup, index) => (
                 <Grid2 item xs={12} key={lookup.id}>
                     <DataLookup onDataLookup={(data) => handleDataLookup(index, data)} />
